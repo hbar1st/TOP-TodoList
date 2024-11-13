@@ -1,4 +1,4 @@
-export { createTask };
+export { createTask , reviveTask};
 
 //use composition for this since it may get more features in the future
 export const priorityStrings = { 0: "low", 1: "medium", 2: "high" };
@@ -12,10 +12,7 @@ export const priorityStrings = { 0: "low", 1: "medium", 2: "high" };
  * @param {*} priority an index number 0 for low, 1 for medium and 2 for high
  * @returns 
  */
-function createTask(name, color, description, dueDate, priority) {
-
-    const completed = false;
-    const id = Date.now();
+function createTask(name, color, description, dueDate, priority, completed = false, id = Date.now()) {
 
     const markDone = () => {
         completed = true;
@@ -26,4 +23,11 @@ function createTask(name, color, description, dueDate, priority) {
     }
 
     return { name, color, description, dueDate, priority, completed, id, markDone };
+}
+
+function reviveTask(taskObj) {
+    // TODO revive due date
+    const task = createTask(taskObj.name, taskObj.color, taskObj.description, taskObj.dueDate, taskObj.priority, taskObj.completed, taskObj.id);
+    console.log("reviving task: ", task);
+    return task;
 }

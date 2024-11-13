@@ -1,3 +1,4 @@
+import { createTask, reviveTask } from "./task";
 
 export { createProject, reviveProject, getDefaultProject };
 
@@ -18,16 +19,14 @@ function createProject(name, color, id = Date.now(), subTasks = []) {
         subTasks = subTasks.filter((el) => el.id !== taskObj.id);
     }
 
-    /*const subTasks = tasks ?? [];
-    const id = idVal ?? Date.now();*/
     return { name, color, id, subTasks, getTasks, addTask, delTask };
 }
 
 function reviveProject(projObj) {
     // I don't need to revive the id because a string is fine for now
-    const proj = createProject(projObj.name, projObj.color, projObj.id, projObj.tasks);
+    const tasks = projObj.subTasks.map(el => reviveTask(el));
+    const proj = createProject(projObj.name, projObj.color, projObj.id, tasks);
     console.log("reviving: ", proj);
-    //TODO revive the tasks
     return proj;
 }
 

@@ -11,10 +11,10 @@ const todoList = function (w) {
     console.log({ nameVal });
 
     function setDefaults() {
+        //create the default project that no one can erase. 
         const defaultProj = getDefaultProject();
         defaultProj.addTask(createTask("Add tasks", "pink", "Add all your tasks", new Date(), priorityStrings["2"]));
         projects.push(defaultProj);
-        //create the default project that no one can erase. It extends the createProject object somehow??
         storage.setItem("projects", projects);
     }
 
