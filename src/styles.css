@@ -1,4 +1,4 @@
-@import 'node_modules/modern-normalize/modern-normalize.css';
+@import '../node_modules/modern-normalize/modern-normalize.css';
 
 :root {
     line-height: 1.5;
@@ -28,4 +28,43 @@ h5 {
 img {
     display: block;
     max-inline-size: 100%;
+}
+
+body {
+    /*wow this conic background is gorgeous!!! (try to use it more!)*/
+    background: repeating-conic-gradient(rgb(231, 90, 124) 0%,
+            rgb(214, 219, 210) 15%,
+            rgb(231, 90, 124) 33%);
+    max-width: 100vw;
+    min-width: 100vw;
+    max-height: 100vh;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main {
+    width: calc(100vw - 60px);
+    height: calc(100vh - 60px);
+    padding: 30px;
+    /*whitish color: rgb(242, 245, 234); */
+    /* accent color greenish rgb(187, 199, 164);*/
+    background-color: rgb(255 246 243);
+    color: rgb(44, 54, 63);
+    display: grid;
+    grid-template-columns: fit-content(25%) fit-content(75%);
+    grid-template-rows: 1fr;
+
+    grid-template-areas:
+        "nav content";
+
+
+    >nav {
+        grid-area: nav;
+    }
+
+    >section {
+        grid-area: content;
+    }
 }

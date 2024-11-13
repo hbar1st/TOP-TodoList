@@ -1,17 +1,36 @@
-import {createUser} from "./user.js";
+import "./styles.css";
+import { createUser } from "./user.js";
+import { WebStorage } from "./storage.js";
 
-console.log("gotta start somewhere");
+const todoList = function (w) {
+    const storage = new WebStorage(w);
+    let nameVal = storage.getItem("name");
+    console.log({ name });
+
+    if (nameVal === null) {
+        // Greet new user!
+        nameVal = w.prompt("Hey there stranger! You've reached Hana's To Do List App and to get started, I'll need to know what to call you:", "stranger");
+        if (!nameVal) { //user clicked cancel
+            return;
+        }
+        // save this person's profile and display the app?
+        let userObj = createUser(nameVal);
+        storage.setItem("name", userObj);
+    } else {
+        // load existing user's todo lists
+
+    }
+}
+
+todoList(window); //let's go
 
 
-
-//how do I know if someone is new or not?
-//check localStorage?
-
-//if no name stored there, then assume this is a new person and present a splash screen?
+// what kind of data set will i create for a new user?
+// todoist uses some initial todos set to a project called My Project and the first to do is 'add all my tasks' or something of that nature
 
 //what kind of data will local storage have?
 
-//my name
+//my name (in future my account avatar)
 
 //a list of my projects that I created (projects are lists of todo items)
 
