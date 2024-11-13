@@ -1,11 +1,22 @@
 import "./styles.css";
 import { createUser } from "./user.js";
 import { WebStorage } from "./storage.js";
+import { createProject, getDefaultProject, reviveProject } from "./project.js";
+import { createTask, priorityStrings } from "./task.js";
 
 const todoList = function (w) {
     const storage = new WebStorage(w);
     let nameVal = storage.getItem("name");
-    console.log({ name });
+    let projects = [];
+    console.log({ nameVal });
+
+    function setDefaults() {
+        const defaultProj = getDefaultProject();
+        defaultProj.addTask(createTask("Add tasks", "pink", "Add all your tasks", new Date(), priorityStrings["2"]));
+        projects.push(defaultProj);
+        //create the default project that no one can erase. It extends the createProject object somehow??
+        storage.setItem("projects", projects);
+    }
 
     if (nameVal === null) {
         // Greet new user!
@@ -16,10 +27,21 @@ const todoList = function (w) {
         // save this person's profile and display the app?
         let userObj = createUser(nameVal);
         storage.setItem("name", userObj);
-    } else {
-        // load existing user's todo lists
-
+        setDefaults();
     }
+
+    // load existing user's todo lists
+    if (projects.length === 0) {
+        projects = storage.getItem("projects");
+        if (projects) {
+            projects = projects.map(el => reviveProject(el));
+        } else {
+            setDefaults();
+        }
+    }
+    console.log(projects);
+
+    // now we have to set into motion some display updates
 }
 
 todoList(window); //let's go
