@@ -70,10 +70,49 @@ main {
 
     >section#content-panel {
         grid-area: content;
+
+        padding: 15px;
+
+
         /* greenn color  background-color: rgb(187, 199, 164); */
 
         display: grid;
-        grid-template-columns: 45px auto 1fr;
+        grid-template-columns: 45px 1fr;
+        grid-template-rows: 45px auto 1fr;
+        row-gap: 30px;
+
+        >header {
+            grid-column: 1 / -1;
+            grid-row: 1;
+            align-self: center;
+            font-size: .9rem;
+        }
+
+        >h1 {
+            grid-row: 2;
+            grid-column: 2 / -1;
+            font-size: 1.4rem;
+            row-gap: 30px;
+        }
+
+        >ul {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            grid-row: 3;
+            grid-column: 2 / -1;
+
+            >li {
+                border-top: .8px solid rgb(187, 199, 164);
+                display: flex;
+                gap: 10px;
+                padding-top: 10px;
+
+                >img {
+                    width: 28px;
+                }
+            }
+        }
     }
 }
 

@@ -12,6 +12,7 @@ export class ContentPanel {
 
     displayTasks() {
         // should accept some kind of date like whatever today is and get the tasks that are due on that date!??!!
+        // <li><span class="unchecked"><img src="./assets/task.svg" alt=""></span>First Task</li>
     }
 
     displayProject(id) {
