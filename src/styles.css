@@ -41,8 +41,8 @@ body {
 main {
     width: calc(100vw - 60px);
     height: calc(100vh - 60px);
-    /*whitish color: rgb(242, 245, 234); */
-    /* accent color greenish rgb(187, 199, 164);*/
+    /* green color: rgb(242, 245, 234); */
+    /* accent color whitish rgb(187, 199, 164);*/
     background-color: rgb(255 246 243);
     color: rgb(44, 54, 63);
     display: grid;
@@ -64,7 +64,7 @@ main {
 
     >section {
         grid-area: content;
-        background-color: rgb(255 246 243 / 95%);
+        background-color: rgb(187, 199, 164);
     }
 }
 

@@ -1,5 +1,6 @@
 import { ContentPanel } from "./content.js";
 import userImage from "./assets/person-icon.svg";
+import addImage from "./assets/add-circle.svg";
 
 export class NavPanel {
 
