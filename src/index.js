@@ -36,6 +36,7 @@ const todoList = function (w) {
         if (projects) {
             projects = projects.map(el => reviveProject(el));
         } else {
+            projects = [];
             setDefaults();
         }
     }

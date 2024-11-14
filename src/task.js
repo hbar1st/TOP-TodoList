@@ -1,4 +1,4 @@
-export { createTask , reviveTask};
+export { createTask, reviveTask };
 
 //use composition for this since it may get more features in the future
 export const priorityStrings = { 0: "low", 1: "medium", 2: "high" };
@@ -26,8 +26,7 @@ function createTask(name, color, description, dueDate, priority, completed = fal
 }
 
 function reviveTask(taskObj) {
-    // TODO revive due date
-    const task = createTask(taskObj.name, taskObj.color, taskObj.description, taskObj.dueDate, taskObj.priority, taskObj.completed, taskObj.id);
+    const task = createTask(taskObj.name, taskObj.color, taskObj.description, new Date(taskObj.dueDate), taskObj.priority, taskObj.completed, taskObj.id);
     console.log("reviving task: ", task);
     return task;
 }
