@@ -25,7 +25,7 @@ function createProject(name, color, id = Date.now(), subTasks = []) {
 function reviveProject(projObj) {
     // I don't need to revive the id because a string is fine for now
     const tasks = projObj.subTasks.map(el => reviveTask(el));
-    const proj = createProject(projObj.name, projObj.color, projObj.id, tasks);
+    const proj = createProject(projObj.name, projObj.color, Number(projObj.id), tasks);
     console.log("reviving: ", proj);
     return proj;
 }

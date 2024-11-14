@@ -1,8 +1,9 @@
 import { ContentPanel } from "./content.js";
 import userImage from "./assets/person-icon.svg";
 import addImage from "./assets/add-circle.svg";
+export { NavPanel }
 
-export class NavPanel {
+class NavPanel {
 
     /**
      * 
@@ -37,10 +38,14 @@ export class NavPanel {
             projName.textContent = el.name;
             this.projectsListEl.appendChild(projName);
         });
+
+        this.contentPanel.displayProject(0); // the default project is id 0;
     }
 
-    dispatchDisplay(e) {
+    dispatchDisplay = (e) => {
         //figure out which project was clicked if any and dispatch to the contentPanel display function
-        this.contentPanel.displayProject(e.target.id);
+        console.log(e.target);
+        console.log(this.contentPanel);
+        this.contentPanel.displayProject(e.target.getAttribute("id"));
     }
 }
