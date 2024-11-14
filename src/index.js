@@ -1,14 +1,14 @@
 import "./styles.css";
 import { createUser } from "./user.js";
 import { WebStorage } from "./storage.js";
-import { createProject, getDefaultProject, reviveProject } from "./project.js";
+import { getDefaultProject, reviveProject } from "./project.js";
 import { createTask, priorityStrings } from "./task.js";
+import { NavPanel } from "./nav.js";
 
 const todoList = function (w) {
     const storage = new WebStorage(w);
-    let nameVal = storage.getItem("name");
+    let userObj = storage.getItem("name");
     let projects = [];
-    console.log({ nameVal });
 
     function setDefaults() {
         //create the default project that no one can erase. 
@@ -18,14 +18,14 @@ const todoList = function (w) {
         storage.setItem("projects", projects);
     }
 
-    if (nameVal === null) {
+    if (userObj === null) {
         // Greet new user!
-        nameVal = w.prompt("Hey there stranger! You've reached Hana's To Do List App and to get started, I'll need to know what to call you:", "stranger");
-        if (!nameVal) { //user clicked cancel
+        const name = w.prompt("Hey there stranger! You've reached Hana's To Do List App and to get started, I'll need to know what to call you:", "stranger");
+        if (!name) { //user clicked cancel
             return;
         }
         // save this person's profile and display the app?
-        let userObj = createUser(nameVal);
+        userObj = createUser(name);
         storage.setItem("name", userObj);
         setDefaults();
     }
@@ -43,6 +43,8 @@ const todoList = function (w) {
     console.log(projects);
 
     // now we have to set into motion some display updates
+    const navPanel = new NavPanel(userObj, projects, document);
+    navPanel.initDisplay();
 }
 
 todoList(window); //let's go
