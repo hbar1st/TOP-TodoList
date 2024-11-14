@@ -2,7 +2,7 @@ import "./styles.css";
 import { createUser } from "./user.js";
 import { WebStorage } from "./storage.js";
 import { getDefaultProject, reviveProject } from "./project.js";
-import { createTask, priorityStrings } from "./task.js";
+import { getDefaultTask, priorityStrings } from "./task.js";
 import { NavPanel } from "./nav.js";
 
 const todoList = function (w) {
@@ -13,7 +13,7 @@ const todoList = function (w) {
     function setDefaults() {
         //create the default project that no one can erase. 
         const defaultProj = getDefaultProject();
-        defaultProj.addTask(createTask("Add tasks", "pink", "Add all your tasks", new Date(), priorityStrings["2"]));
+        defaultProj.addTask(getDefaultTask());
         projects.push(defaultProj);
         storage.setItem("projects", projects);
     }

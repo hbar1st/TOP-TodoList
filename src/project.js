@@ -31,5 +31,5 @@ function reviveProject(projObj) {
 }
 
 function getDefaultProject() {
-    return createProject("defaultProject", "white");
+    return createProject("My Tasks", "white", 0); // special id 0 means it cannot be edited or removed
 }

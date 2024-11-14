@@ -4,6 +4,12 @@
     line-height: 1.5;
 }
 
+@counter-style diamonds {
+    system: cyclic;
+    symbols: ◆ ◇;
+    suffix: " ";
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -46,7 +52,7 @@ main {
     background-color: rgb(255 246 243);
     color: rgb(44, 54, 63);
     display: grid;
-    grid-template-columns: fit-content(25%) fit-content(75%);
+    grid-template-columns: 250px calc(100% - 250px);
     grid-template-rows: 1fr;
 
     grid-template-areas:
@@ -62,18 +68,72 @@ main {
         gap: 30px;
     }
 
-    >section {
+    >section#content-panel {
         grid-area: content;
-        background-color: rgb(187, 199, 164);
+        /* greenn color  background-color: rgb(187, 199, 164); */
+
+        display: grid;
+        grid-template-columns: 45px auto 1fr;
     }
 }
 
-.user-name {
+.projects {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: 10px;
+
+    >header {
+        display: flex;
+        gap: 5px;
+        font-weight: 500;
+        text-wrap: nowrap;
+
+        >img {
+            border: 2px groove rgb(214, 219, 210);
+            border-radius: 25%;
+            background-color: rgb(187, 199, 164);
+        }
+
+        >h3 {
+            flex: 1 1 auto;
+        }
+
+        >img:last-child {
+
+            background: none;
+            border: none;
+            aspect-ratio: 1;
+            font-size: 1rem;
+            height: 24px;
+
+            &:hover {
+                background-color: rgba(187, 199, 164, .5);
+                /*background: #ddb1b6; reddish highlight doesn't work */
+            }
+        }
+    }
+
+    ul {
+        list-style: diamonds;
+    }
+
+    li {
+        font-size: .9rem;
+        position: relative;
+        left: 1.7rem;
+        padding-right: 5px;
+        max-width: calc(100% - 3rem);
+        width: auto;
+    }
+}
+
+.user-name,
+.projects>ul {
+    display: flex;
     gap: 5px;
     letter-spacing: .5px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1rem;
 
     >img {
         border: 2px groove rgb(214, 219, 210);
@@ -81,6 +141,42 @@ main {
     }
 }
 
-li {
+nav li:not(.projects li) {
     list-style-type: none;
+}
+
+nav ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#add-task button {
+    color: #e75a7c;
+}
+
+nav button {
+    display: flex;
+    gap: 10px;
+    border: none;
+    font-size: .9rem;
+    justify-content: center;
+    align-items: center;
+    font-weight: 500;
+    text-wrap: nowrap;
+    border-radius: 3px;
+    padding: 2px 8px 2px 5px;
+
+}
+
+nav button:hover,
+body>main>nav>section>ul>li:hover {
+    font-weight: 600;
+    color: rgb(44, 54, 63);
+    background: linear-gradient(-45deg, #ddb1b6, #fcf6f3);
+
+    &:is(button) {
+        position: relative;
+        left: 5px;
+    }
 }
