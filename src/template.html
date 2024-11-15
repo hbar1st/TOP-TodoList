@@ -57,24 +57,27 @@
         <h1>Add Task</h1>
         <form action="" method="dialog">
             <div>
-                <label for="task-name">Name</label><input required autofocus type="text" name="task-name"
-                    id="proj-name">
-                <label for="task-desc">Description</label><input type="textarea" name="task-desc" id="task-desc"
-                    value="#ffffff">
-                <label for="task-priorty">Priority</label>
-                <select name="task-priority" id="task-priority">
-                    <option selected value="0">Low</option>
-                    <option value="1">Medium</option>
-                    <option value="2">High</option>
-                </select>
-                <label for="task-due">Due-Date</label><input type="date" name="task-due" id="task-due" value="#ffffff">
-                <label for="task-color">Color</label><input type="color" name="task-color" id="task-color"
-                    value="#ffffff">
+                <input required placeholder="Task name" autofocus type="text" name="task-name" id="proj-name">
+                <textarea rows="2" placeholder="Description" name="task-desc" id="task-desc"></textarea>
+                <div class="fit-row">
+                    <select name="task-priority" id="task-priority">
+                        <option selected disabled>Priority</option>
+                        <option value="0">Low</option>
+                        <option value="1">Medium</option>
+                        <option value="2">High</option>
+                    </select>
+                    <label for="task-due">Due-Date</label><input type="date" name="task-due" id="task-due">
+
+                    <label for="task-color">Color</label><input type="color" name="task-color" id="task-color"
+                        value="#ffffff">
+                </div>
+                <span class="fit-row">◆
+                    <select name="projects-list" id="project-list">
+                        <option selected id="0" disabled>My Project (Hard-coded)</option>
+                    </select></span>
+
             </div>
             <div class="button-panel">
-                <select name="projects-list" id="project-list">
-                    <option selected id="0">My Project (Hard-coded)</option>
-                </select>
                 <button class="cancel" type="button">Cancel</button>
                 <button class="add" type="submit">Add</button>
             </div>

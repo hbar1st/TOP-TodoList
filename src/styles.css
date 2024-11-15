@@ -226,11 +226,28 @@ body>main>nav>section>ul>li:hover,
 }
 
 dialog#add-task-modal {
-    --width-val: 426px;
+    --width-val: 489px;
+
+    form {
+
+        textarea {
+            border: none;
+        }
+
+        div:nth-child(1) {
+            gap: 10px;
+
+            select {
+                border: none;
+                width: min-content;
+                font-size: .7rem;
+            }
+        }
+    }
 }
 
 dialog#add-project-modal {
-    --width-val: 320px;
+    --width-val: 223px;
 
     form {
 
@@ -248,9 +265,9 @@ dialog#add-project-modal {
 
 dialog {
     position: absolute;
-    top: 25%;
-    left: calc(50% - var(--width-val) / 2);
-
+    top: 150px;
+    /*left: calc(50% - var(--width-val) / 2);*/
+    left: 300px;
     font-weight: 600;
     border-radius: 10px;
 
@@ -273,10 +290,15 @@ dialog {
         padding: 10px 0px;
         border-top: .7px solid rgb(187, 199, 164);
 
-        input {
-            padding: 0px 3px;
+        input,
+        textarea {
             border-width: 1px;
             outline: none;
+        }
+
+        input:not(input[type="color"]),
+        textarea {
+            padding: 3px 3px;
         }
 
         div {
@@ -289,7 +311,6 @@ dialog {
             display: flex;
             flex-direction: column;
             margin-bottom: 10px;
-            padding-bottom: 30px;
             padding: 0px 10px 30px 10px;
         }
 
@@ -322,6 +343,14 @@ dialog {
                 background-color: #e75a7c;
             }
 
+        }
+
+        div.fit-row {
+            display: flex;
+            font-size: .8rem;
+            gap: 10px;
+            justify-content: space-between;
+            padding: 0;
         }
     }
 }
