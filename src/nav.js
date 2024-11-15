@@ -22,7 +22,7 @@ class NavPanel {
         this.projectsListEl = this.docObj.querySelector(".projects>ul");
 
         this.addTaskBtn.addEventListener("click", this.contentPanel.displayAddTaskDialog);
-        this.todayTaskBtn.addEventListener("click", this.contentPanel.displayTasks);
+        this.todayTaskBtn.addEventListener("click", this.contentPanel.displayTodaysTasks);
         this.projectsListEl.addEventListener("click", this.dispatchDisplay);
     }
 

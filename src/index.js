@@ -1,43 +1,34 @@
 import "./styles.css";
 import { createUser } from "./user.js";
 import { WebStorage } from "./storage.js";
-import { getDefaultProject, reviveProject } from "./project.js";
-import { getDefaultTask, priorityStrings } from "./task.js";
+import { ProjectList } from "./project-list.js";
 import { NavPanel } from "./nav.js";
 
-const todoList = function (w) {
-    const storage = new WebStorage(w);
+const todoList = function (windowObj) {
+    const storage = new WebStorage(windowObj);
     let userObj = storage.getItem("name");
-    let projects = [];
-
-    function setDefaults() {
-        //create the default project that no one can erase. 
-        const defaultProj = getDefaultProject();
-        defaultProj.addTask(getDefaultTask());
-        projects.push(defaultProj);
-        storage.setItem("projects", projects);
-    }
+    let projects = new ProjectList();
 
     if (userObj === null) {
         // Greet new user!
-        const name = w.prompt("Hey there stranger! You've reached Hana's To Do List App and to get started, I'll need to know what to call you:", "stranger");
+        const name = windowObj.prompt("Hey there stranger! You've reached Hana's To Do List App and to get started, I'll need to know what to call you:", "stranger");
         if (!name) { //user clicked cancel
             return;
         }
         // save this person's profile and display the app?
         userObj = createUser(name);
         storage.setItem("name", userObj);
-        setDefaults();
+        storage.setItem("projects", projects);
     }
 
     // load existing user's todo lists
-    if (projects.length === 0) {
+    if (projects.isBlank()) {
         projects = storage.getItem("projects");
         if (projects) {
-            projects = projects.map(el => reviveProject(el));
+            projects = new ProjectList(projects);
         } else {
-            projects = [];
-            setDefaults();
+            projects = new ProjectList();
+            storage.setItem("projects", projects);
         }
     }
     console.log(projects);

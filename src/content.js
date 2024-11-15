@@ -19,9 +19,14 @@ class ContentPanel {
 
     }
 
+    displayTodaysTasks = (e) => {
+        console.log(e.target);
+    }
+
     displayTasks = (projObj) => {
         // should accept some kind of date like whatever today is and get the tasks that are due on that date!??!!
         // <li><span class="unchecked"><img src="./assets/task.svg" alt=""></span>First Task</li>
+        console.log({ projObj });
         const tasks = projObj.getTasks();
         this.taskListEl.innerHTML = "";
         console.log({ tasks });
@@ -60,8 +65,8 @@ class ContentPanel {
     }
 
     displayProject = (id) => {
-        const proj = this.projects[id];
-        console.log({ proj });
+        const proj = this.projects.getProj(id);
+        console.log(proj);
         if (proj) {
             this.currProjEl.innerText = proj.name;
             this.currProjNameEl.innerText = proj.name;
