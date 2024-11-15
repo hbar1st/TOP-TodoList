@@ -7,7 +7,6 @@ import { NavPanel } from "./nav.js";
 const todoList = function (windowObj) {
     const storage = new WebStorage(windowObj);
     let userObj = storage.getItem("name");
-    let projects = new ProjectList();
 
     if (userObj === null) {
         // Greet new user!
@@ -18,39 +17,28 @@ const todoList = function (windowObj) {
         // save this person's profile and display the app?
         userObj = createUser(name);
         storage.setItem("name", userObj);
-        storage.setItem("projects", projects);
     }
 
     // load existing user's todo lists
-    if (projects.isBlank()) {
-        projects = storage.getItem("projects");
-        if (projects) {
-            projects = new ProjectList(projects);
-        } else {
-            projects = new ProjectList();
-            storage.setItem("projects", projects);
-        }
+
+    let projects = storage.getItem("projects");
+
+    if (projects) {
+        projects = new ProjectList(storage, projects);
+    } else {
+        projects = new ProjectList(storage);
     }
+    const navPanel = new NavPanel(userObj, projects, document);
+    navPanel.initDisplay();
     console.log(projects);
 
     // now we have to set into motion some display updates
-    const navPanel = new NavPanel(userObj, projects, document);
-    navPanel.initDisplay();
 }
 
 todoList(window); //let's go
 
 
-// what kind of data set will i create for a new user?
-// todoist uses some initial todos set to a project called My Project and the first to do is 'add all my tasks' or something of that nature
 
-//what kind of data will local storage have?
-
-//my name (in future my account avatar)
-
-//a list of my projects that I created (projects are lists of todo items)
-
-//each project is a list of todo items. It has a name and a color.
 //it can also have its own due date (and if any sub-task has a later todo, we'd need to highlight that somehow)
 
 //each todo item is a grouping/object containing the title of the todo
@@ -88,3 +76,9 @@ todoList(window); //let's go
 //dueDateDisplay for the upcoming tasks and projects
 //tasklist display
 //editing dialogs for projects and tasks
+
+// i need a way to remove all the tasks of a project en masse when the project gets deleted.
+// i need a way to migrate a todo from one project to another
+
+// note you need to update storage any time someone modifies a task or project 
+// even if they are completing it (mark done), or they're editing the due date or priority or color etc.

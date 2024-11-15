@@ -1,6 +1,7 @@
 import { ContentPanel } from "./content.js";
 import userImage from "./assets/person-icon.svg";
 import addImage from "./assets/add-circle.svg";
+import { AddProjectDialog } from "./project-dialogs.js";
 export { NavPanel }
 
 class NavPanel {
@@ -20,8 +21,15 @@ class NavPanel {
         this.addTaskBtn = this.docObj.querySelector("#add-task>button");
         this.todayTaskBtn = this.docObj.querySelector("#today-task>button");
         this.projectsListEl = this.docObj.querySelector(".projects>ul");
-
+        this.addProjectBtn = this.docObj.querySelector("#add-project");
+        this.addProjectDialog = null;
         this.addTaskBtn.addEventListener("click", this.contentPanel.displayAddTaskDialog);
+        this.addProjectBtn.addEventListener("click", () => {
+            if (!this.addProjectDialog) {
+                this.addProjectDialog = new AddProjectDialog(this.docObj, this.projects, this);
+            }
+            this.addProjectDialog.show();
+        });
         this.todayTaskBtn.addEventListener("click", this.contentPanel.displayTodaysTasks);
         this.projectsListEl.addEventListener("click", this.dispatchDisplay);
     }
@@ -33,13 +41,23 @@ class NavPanel {
         this.userEl.appendChild(nameEl);
 
         this.projects.forEach((el) => {
-            const projName = this.docObj.createElement("li");
-            projName.setAttribute("id", el.id);
-            projName.textContent = el.name;
+            const projName = this.createNameEl(el);
             this.projectsListEl.appendChild(projName);
         });
 
         this.contentPanel.displayProject(0); // the default project is id 0;
+    }
+
+    createNameEl(projObj) {
+        const projName = this.docObj.createElement("li");
+        projName.setAttribute("id", projObj.id);
+        projName.textContent = projObj.name;
+        return projName;
+    }
+
+    addProject(projObj) {
+        const projName = this.createNameEl(projObj);
+        this.projectsListEl.appendChild(projName);
     }
 
     dispatchDisplay = (e) => {

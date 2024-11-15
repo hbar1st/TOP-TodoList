@@ -1,4 +1,4 @@
-import { createTask, reviveTask } from "./task";
+import { reviveTask } from "./task";
 
 export { createProject, reviveProject, getDefaultProject };
 
@@ -9,6 +9,10 @@ function createProject(name, color, id = Date.now(), subTasks = {}) {
 
     const getTasks = () => {
         return subTasks;
+    }
+
+    const setTasks = (tasks) => {
+        subTasks = tasks;
     }
 
     const addTask = (taskObj) => {
@@ -25,8 +29,8 @@ function createProject(name, color, id = Date.now(), subTasks = {}) {
 function reviveProject(projObj) {
     // I don't need to revive the id because a string is fine for now
     const tasks = {}; //projObj.getTasks().map(el => reviveTask(el));
-    for ( taskKey in projObj.getTasks() ) {
-        tasks[taskKey] = reviveTask(tasks[taskKey]);
+    for (const taskKey in projObj.subTasks) {
+        tasks[taskKey] = reviveTask(projObj.subTasks[taskKey]);
     }
     const proj = createProject(projObj.name, projObj.color, Number(projObj.id), tasks);
     console.log("reviving: ", proj);
@@ -34,5 +38,5 @@ function reviveProject(projObj) {
 }
 
 function getDefaultProject() {
-    return createProject("My Tasks", "white", 0); // special id 0 means it cannot be edited or removed
+    return createProject("My Tasks", "#ffffff", 0); // special id 0 means it cannot be edited or removed
 }

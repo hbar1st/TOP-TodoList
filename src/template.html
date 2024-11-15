@@ -38,6 +38,21 @@
             </ul>
         </section>
     </main>
+    <dialog id="add-project-modal">
+        <h1>Add Project</h1>
+        <form action="" method="dialog">
+            <div>
+                <label for="proj-name">Name</label><input required autofocus type="text" name="proj-name"
+                    id="proj-name">
+                <label for="proj-color">Color</label><input type="color" name="proj-color" id="proj-color"
+                    value="#ffffff">
+            </div>
+            <div class="button-panel">
+                <button type="button">Cancel</button>
+                <button class="add" type="submit">Add</button>
+            </div>
+        </form>
+    </dialog>
 </body>
 
 </html>

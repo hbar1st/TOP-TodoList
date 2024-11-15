@@ -49,6 +49,7 @@ main {
     height: calc(100vh - 60px);
     /* green color: rgb(242, 245, 234); */
     /* accent color whitish rgb(187, 199, 164);*/
+    border-radius: 10px;
     background-color: rgb(255 246 243);
     color: rgb(44, 54, 63);
     display: grid;
@@ -222,4 +223,105 @@ body>main>nav>section>ul>li:hover,
         position: relative;
         left: 5px;
     }
+}
+
+dialog#add-project-modal {
+    --width-val: 320px;
+
+    form {
+
+        label {
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            font-weight: 400;
+        }
+
+    }
+}
+
+dialog {
+    position: absolute;
+    top: 25%;
+    left: calc(50% - var(--width-val) / 2);
+
+    font-weight: 600;
+    border-radius: 10px;
+
+    h1 {
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+
+
+    & * {
+        border-radius: 3px;
+        color: rgb(44, 54, 63);
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        font-family: Arial, Helvetica, sans-serif;
+
+        padding: 10px 0px;
+        border-top: .7px solid rgb(187, 199, 164);
+
+        input {
+            padding: 0px 3px;
+            border-width: 1px;
+            outline: none;
+        }
+
+        div {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        div:first-child {
+            border-bottom: .7px solid rgb(187, 199, 164);
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+            padding-bottom: 30px;
+            padding: 0px 10px 30px 10px;
+        }
+
+        div:last-child {
+            align-self: end;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+
+            button {
+                padding: 3px 5px;
+                border: 2px solid rgb(240, 240, 240);
+                font-weight: 500;
+            }
+
+            button:hover {
+                border-style: double;
+                font-weight: 600;
+                border-width: 1px;
+            }
+
+            .add {
+                background-color: #e75a7ca6;
+                color: white;
+                border-color: #e75a7c;
+            }
+
+            .add:hover {
+                background-color: #e75a7c;
+            }
+
+        }
+    }
+}
+
+dialog::backdrop {
+    background-color: rgba(187, 199, 164, .7);
 }

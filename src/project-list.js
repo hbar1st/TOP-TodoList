@@ -1,15 +1,19 @@
 import { getDefaultProject } from "./project.js";
-import { getDefaultTask, priorityStrings } from "./task.js";
+import { getDefaultTask } from "./task.js";
+import { reviveProject } from "./project.js";
 
 export { ProjectList };
 
 class ProjectList {
 
-    constructor(projectStrings) {
+    constructor(storage, projectStrings) {
         this.projects = {};
+        this.storage = storage;
         if (projectStrings) {
-            for (projKey in projectStrings) {
-                this.projects[projKey] = reviveProject(this.projects[projKey]);
+            console.log({ projectStrings });
+            for (const projKey in projectStrings) {
+                console.log(projectStrings[projKey]);
+                this.projects[projKey] = reviveProject(projectStrings[projKey]);
             }
         } else {
             const defaultProj = getDefaultProject();
@@ -34,6 +38,7 @@ class ProjectList {
 
     add(projObj) {
         this.projects[projObj.id] = projObj;
+        this.storage.setItem("projects", this.projects);
     }
 
     getProj(id) {
@@ -42,5 +47,6 @@ class ProjectList {
 
     delete(id) {
         delete this.projects[id];
+        this.storage.setItem("projects", this.projects);
     }
 }
