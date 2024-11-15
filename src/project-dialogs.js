@@ -10,12 +10,13 @@ class AddProjectDialog {
         this.projects = projects;
         this.navPanel = navPanel;
         this.addProjectDialog = docObj.querySelector("#add-project-modal");
-        const addBtn = docObj.querySelector(".button-panel>.add");
+        const addBtn = docObj.querySelector("#add-project-modal .button-panel>.add");
         addBtn.addEventListener("click", this.addProject.bind(this));
-        
+
     }
 
     show() {
+        // TODO may need to reset the color field if user clicks more than once to add a project
         this.addProjectDialog.showModal();
     }
 

@@ -225,6 +225,10 @@ body>main>nav>section>ul>li:hover,
     }
 }
 
+dialog#add-task-modal {
+    --width-val: 426px;
+}
+
 dialog#add-project-modal {
     --width-val: 320px;
 

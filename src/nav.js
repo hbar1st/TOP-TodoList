@@ -1,7 +1,8 @@
 import { ContentPanel } from "./content.js";
 import userImage from "./assets/person-icon.svg";
-import addImage from "./assets/add-circle.svg";
 import { AddProjectDialog } from "./project-dialogs.js";
+import { AddTaskDialog } from "./task-dialogs.js";
+
 export { NavPanel }
 
 class NavPanel {
@@ -23,7 +24,13 @@ class NavPanel {
         this.projectsListEl = this.docObj.querySelector(".projects>ul");
         this.addProjectBtn = this.docObj.querySelector("#add-project");
         this.addProjectDialog = null;
-        this.addTaskBtn.addEventListener("click", this.contentPanel.displayAddTaskDialog);
+        this.addTaskDialog = null;
+        this.addTaskBtn.addEventListener("click", () => {
+            if (!this.addTaskDialog) {
+                this.addTaskDialog = new AddTaskDialog(this.docObj, this.projects, this, this.contentPanel);
+            }
+            this.addTaskDialog.show();
+        });
         this.addProjectBtn.addEventListener("click", () => {
             if (!this.addProjectDialog) {
                 this.addProjectDialog = new AddProjectDialog(this.docObj, this.projects, this);
