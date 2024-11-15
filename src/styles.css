@@ -111,6 +111,7 @@ main {
                 >img {
                     width: 28px;
                 }
+
             }
         }
     }
@@ -199,20 +200,23 @@ nav button {
     gap: 10px;
     border: none;
     font-size: .9rem;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     font-weight: 500;
     text-wrap: nowrap;
     border-radius: 3px;
     padding: 2px 8px 2px 5px;
+    width: calc(100% - 30px);
 
 }
 
 nav button:hover,
-body>main>nav>section>ul>li:hover {
+body>main>nav>section>ul>li:hover,
+#content-panel>ul>li:hover {
     font-weight: 600;
     color: rgb(44, 54, 63);
     background: linear-gradient(-45deg, #ddb1b6, #fcf6f3);
+    background-clip: content-box;
 
     &:is(button) {
         position: relative;

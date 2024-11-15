@@ -44,8 +44,6 @@ class NavPanel {
 
     dispatchDisplay = (e) => {
         //figure out which project was clicked if any and dispatch to the contentPanel display function
-        console.log(e.target);
-        console.log(this.contentPanel);
         this.contentPanel.displayProject(e.target.getAttribute("id"));
     }
 }
