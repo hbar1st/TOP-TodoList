@@ -46,6 +46,14 @@ class NavPanel {
         });
 
         this.contentPanel.displayProject(0); // the default project is id 0;
+
+        // one event handler for all cancel events (assumes all cancel buttons are laid out in div inside form inside dialog)
+        const cancelButtons = this.docObj.querySelectorAll(".cancel");
+        cancelButtons.forEach(el => {
+            el.addEventListener("click", (e) => {
+                e.target.parentElement.parentElement.parentElement.close();
+            })
+        });
     }
 
     createNameEl(projObj) {

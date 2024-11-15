@@ -2,6 +2,7 @@ import { ProjectList } from "./project-list.js";
 import { createProject } from "./project.js";
 export { AddProjectDialog }
 
+
 class AddProjectDialog {
 
     constructor(docObj, projects, navPanel) {
@@ -11,6 +12,7 @@ class AddProjectDialog {
         this.addProjectDialog = docObj.querySelector("#add-project-modal");
         const addBtn = docObj.querySelector(".button-panel>.add");
         addBtn.addEventListener("click", this.addProject.bind(this));
+        
     }
 
     show() {
