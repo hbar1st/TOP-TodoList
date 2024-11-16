@@ -231,7 +231,7 @@ dialog#add-task-modal {
     form {
 
         textarea {
-            border: none;
+            border: .7px dashed black;
         }
 
         div:nth-child(1) {
@@ -240,7 +240,7 @@ dialog#add-task-modal {
             select {
                 border: none;
                 width: min-content;
-                font-size: .7rem;
+                font-size: .9rem;
             }
         }
     }

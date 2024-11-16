@@ -48,7 +48,7 @@ class NavPanel {
         this.userEl.appendChild(nameEl);
 
         this.projects.forEach((el) => {
-            const projName = this.createNameEl(el);
+            const projName = this.createNameEl(el, "li");
             this.projectsListEl.appendChild(projName);
         });
 
@@ -63,15 +63,18 @@ class NavPanel {
         });
     }
 
-    createNameEl(projObj) {
-        const projName = this.docObj.createElement("li");
+    createNameEl(projObj, elementType, selectedAttribute) {
+        const projName = this.docObj.createElement(elementType);
         projName.setAttribute("id", projObj.id);
+        if (selectedAttribute) {
+            projName.setAttribute("selected");
+        }
         projName.textContent = projObj.name;
         return projName;
     }
 
     addProject(projObj) {
-        const projName = this.createNameEl(projObj);
+        const projName = this.createNameEl(projObj, "li");
         this.projectsListEl.appendChild(projName);
     }
 

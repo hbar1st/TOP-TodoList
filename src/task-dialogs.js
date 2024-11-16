@@ -8,6 +8,8 @@ class AddTaskDialog {
         this.docObj = docObj;
         this.projects = projects;
         this.navPanel = navPanel;
+        this.contentPanel = contentPanel;
+        this.projectListEl = docObj.querySelector("#add-task-modal>#project-list");
         this.addTaskDialog = docObj.querySelector("#add-task-modal");
         const addBtn = docObj.querySelector("#add-task-modal .button-panel>.add");
         addBtn.addEventListener("click", this.addTask.bind(this));
@@ -16,7 +18,11 @@ class AddTaskDialog {
 
     show() {
         // TODO may need to reset the various fields before showing in case it was used earlier in the session?
-
+        this.projectListEl.innerHTML = ""; //clear out the html list
+        for (const id in this.projects) {
+            const projEl = this.navPanel.createNameEl(this.projects[id]);
+            this.projectListEl.appendChild(projEl);
+        }
         // ask the contentPanel which project is selected and make it the default one shown
         this.addTaskDialog.showModal();
     }
@@ -35,7 +41,7 @@ class AddTaskDialog {
             //   default project id 0 about this task
             // the project object should inform the storage to update itself
             // and the project object should inform the nav to update itself
-            const newTask = createTask(nameEl.value, color);
+            const newTask = createTask(nameEl.value, color, desc, dueDate, priority);
             /**
              * get the project that was selected and add the task to it
              *  .add(newTask);*/
