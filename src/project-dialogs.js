@@ -5,9 +5,9 @@ export { AddProjectDialog }
 
 class AddProjectDialog {
 
-    constructor(docObj, projects, navPanel) {
+    constructor(docObj, projectList, navPanel) {
         this.docObj = docObj;
-        this.projects = projects;
+        this.projectList = projectList;
         this.navPanel = navPanel;
         this.addProjectDialog = docObj.querySelector("#add-project-modal");
         const addBtn = docObj.querySelector("#add-project-modal .button-panel>.add");

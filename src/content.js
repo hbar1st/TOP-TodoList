@@ -5,8 +5,8 @@ export { ContentPanel }
 
 class ContentPanel {
 
-    constructor(projects, docObj) {
-        this.projects = projects;
+    constructor(projectList, docObj) {
+        this.projectList = projectList;
         this.contentEl = docObj.querySelector("#content-panel");
         this.currProjEl = docObj.querySelector("#content-panel>header span");
         this.currProjNameEl = docObj.querySelector("#content-panel>h1");
@@ -65,7 +65,7 @@ class ContentPanel {
     }
 
     displayProject = (id) => {
-        const proj = this.projects.getProj(id);
+        const proj = this.projectList.getProj(id);
         console.log(proj);
         if (proj) {
             this.currProjEl.innerText = proj.name;

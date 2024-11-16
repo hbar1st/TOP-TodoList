@@ -13,11 +13,11 @@ class NavPanel {
      * @param {*} projects an array of project objects
      * @param {*} docObj the document object
      */
-    constructor(user, projects, docObj) {
+    constructor(user, projectList, docObj) {
         this.user = user;
-        this.projects = projects;
+        this.projectList = projectList;
         this.docObj = docObj;
-        this.contentPanel = new ContentPanel(projects, docObj);
+        this.contentPanel = new ContentPanel(projectList, docObj);
         this.userEl = this.docObj.querySelector(".user-name");
         this.addTaskBtn = this.docObj.querySelector("#add-task>button");
         this.todayTaskBtn = this.docObj.querySelector("#today-task>button");
@@ -27,13 +27,13 @@ class NavPanel {
         this.addTaskDialog = null;
         this.addTaskBtn.addEventListener("click", () => {
             if (!this.addTaskDialog) {
-                this.addTaskDialog = new AddTaskDialog(this.docObj, this.projects, this, this.contentPanel);
+                this.addTaskDialog = new AddTaskDialog(this.docObj, this.projectList, this, this.contentPanel);
             }
             this.addTaskDialog.show();
         });
         this.addProjectBtn.addEventListener("click", () => {
             if (!this.addProjectDialog) {
-                this.addProjectDialog = new AddProjectDialog(this.docObj, this.projects, this);
+                this.addProjectDialog = new AddProjectDialog(this.docObj, this.projectList, this);
             }
             this.addProjectDialog.show();
         });
@@ -47,7 +47,7 @@ class NavPanel {
         this.userEl.innerHTML = `<img src=${userImage} alt="account icon">`;
         this.userEl.appendChild(nameEl);
 
-        this.projects.forEach((el) => {
+        this.projectList.forEach((el) => {
             const projName = this.createNameEl(el, "li");
             this.projectsListEl.appendChild(projName);
         });
