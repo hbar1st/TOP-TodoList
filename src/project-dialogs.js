@@ -30,8 +30,9 @@ class AddProjectDialog {
             // take the data and tell the project-list object that a new project got added
             // the project object should inform the storage to update itself
             // and the project object should inform the nav to update itself
+            
             const newProject = createProject(nameEl.value, color);
-            this.projects.add(newProject);
+            this.projectList.add(newProject);
             this.navPanel.addProject(newProject);
         }
     }

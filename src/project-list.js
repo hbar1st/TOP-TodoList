@@ -38,9 +38,12 @@ class ProjectList {
 
     add(projObj) {
         this.projects[projObj.id] = projObj;
-        this.storage.setItem("projects", this.projects);
+        this.updateStorage();
     }
 
+    updateStorage() {
+        this.storage.setItem("projects", this.projects);
+    }
     getProj(id) {
         return this.projects[id];
     }

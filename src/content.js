@@ -13,6 +13,7 @@ class ContentPanel {
         this.taskListEl = docObj.querySelector("#content-panel>ul");
         this.docObj = docObj;
         this.contentEl.addEventListener("click", this.taskClicked);
+        this.currentProject = 0; // zero is the default project id.
     }
 
     refreshDisplay = () => {
@@ -66,16 +67,16 @@ class ContentPanel {
 
     displayProject = (id) => {
         const proj = this.projectList.getProj(id);
-        console.log(proj);
         if (proj) {
             this.currProjEl.innerText = proj.name;
             this.currProjNameEl.innerText = proj.name;
         }
         this.displayTasks(proj);
+        this.currentProject = id;
     }
 
-    displayAddTaskDialog = () => {
-        console.log("yay, we're gonna add a task! Let's do it!")
+    getCurrentProjectId() {
+        return this.currentProject;
     }
 
 }

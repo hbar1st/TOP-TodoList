@@ -67,7 +67,7 @@ class NavPanel {
         const projName = this.docObj.createElement(elementType);
         projName.setAttribute("id", projObj.id);
         if (selectedAttribute) {
-            projName.setAttribute("selected");
+            projName.selected = true;
         }
         projName.textContent = projObj.name;
         return projName;

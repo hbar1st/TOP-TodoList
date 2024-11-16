@@ -20,8 +20,10 @@ class AddTaskDialog {
         // TODO may need to reset the various fields before showing in case it was used earlier in the session?
         this.projectListEl.innerHTML = ""; //clear out the html list
         const projects = this.projectList.getProjects();
+        const currentProject = this.contentPanel.getCurrentProjectId();
         for (const id in projects) {
-            const projEl = this.navPanel.createNameEl(projects[id]);
+            const projEl = this.navPanel.createNameEl(projects[id], currentProject === id);
+
             this.projectListEl.appendChild(projEl);
         }
         // ask the contentPanel which project is selected and make it the default one shown
@@ -43,12 +45,11 @@ class AddTaskDialog {
             // the project object should inform the storage to update itself
             // and the project object should inform the nav to update itself
             const newTask = createTask(nameEl.value, color, desc, dueDate, priority);
-            /**
-             * get the project that was selected and add the task to it
-             *  .add(newTask);*/
-            // refresh the view?? if we are looking at the project in question that got updated?
-
-            // refresh the content panel display if the project selected is the current one in view
+            const currentProjectId = this.currentProject.getCurrentProjectId();
+            const currentProject = this.projectList.getProjects[currentProjectId];
+            currentProject.addTask(newTask);
+            this.contentPanel.displayProject(currentProjectId);
+            this.projectList.updateStorage();
         }
     }
 }
