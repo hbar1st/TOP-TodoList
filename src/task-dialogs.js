@@ -1,4 +1,4 @@
-
+import { createTask } from "./task.js";
 export { AddTaskDialog }
 
 
@@ -22,7 +22,7 @@ class AddTaskDialog {
         const projects = this.projectList.getProjects();
         const currentProject = this.contentPanel.getCurrentProjectId();
         for (const id in projects) {
-            const projEl = this.navPanel.createNameEl(projects[id], currentProject === id);
+            const projEl = this.navPanel.createNameEl(projects[id], "option", currentProject === id);
 
             this.projectListEl.appendChild(projEl);
         }
@@ -45,8 +45,8 @@ class AddTaskDialog {
             // the project object should inform the storage to update itself
             // and the project object should inform the nav to update itself
             const newTask = createTask(nameEl.value, color, desc, dueDate, priority);
-            const currentProjectId = this.currentProject.getCurrentProjectId();
-            const currentProject = this.projectList.getProjects[currentProjectId];
+            const currentProjectId = this.contentPanel.getCurrentProjectId();
+            const currentProject = this.projectList.getProj(currentProjectId);
             currentProject.addTask(newTask);
             this.contentPanel.displayProject(currentProjectId);
             this.projectList.updateStorage();
