@@ -71,6 +71,10 @@ class NavPanel {
             projName.selected = true;
         }
         projName.textContent = projObj.name;
+
+        const spanEl = this.docObj.createElement("span");
+        spanEl.classList.add("color-spacer");
+        projName.appendChild(spanEl);
         return projName;
     }
 

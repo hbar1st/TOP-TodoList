@@ -23,7 +23,11 @@ function createProject(name, color, id = `${Date.now()}`, subTasks = {}) {
         //todo
     }
 
-    return { name, color, id, subTasks, getTasks, addTask, delTask };
+    const toggleDone = (taskId) => {
+        subTasks[taskId].toggleDone();
+    }
+
+    return { name, color, id, subTasks, getTasks, setTasks, addTask, delTask, toggleDone };
 }
 
 function reviveProject(projObj) {

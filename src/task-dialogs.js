@@ -23,7 +23,6 @@ class AddTaskDialog {
         const currentProject = this.contentPanel.getCurrentProjectId();
         for (const id in projects) {
             const projEl = this.navPanel.createNameEl(projects[id], "option", currentProject === id);
-
             this.projectListEl.appendChild(projEl);
         }
         // ask the contentPanel which project is selected and make it the default one shown

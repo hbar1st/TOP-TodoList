@@ -44,6 +44,7 @@ class ProjectList {
     updateStorage() {
         this.storage.setItem("projects", this.projects);
     }
+    
     getProj(id) {
         return this.projects[id];
     }

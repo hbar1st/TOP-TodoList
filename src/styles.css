@@ -4,12 +4,6 @@
     line-height: 1.5;
 }
 
-@counter-style diamonds {
-    system: cyclic;
-    symbols: ◆ ◇;
-    suffix: " ";
-}
-
 * {
     padding: 0;
     margin: 0;
@@ -155,17 +149,22 @@ main {
     }
 
     ul {
-        list-style: diamonds;
+        list-style: url("./assets/diamond.svg") inside;
     }
 
     li {
         font-size: .9rem;
         position: relative;
-        left: 1.7rem;
+        left: .4rem;
         padding-right: 5px;
         max-width: calc(100% - 3rem);
         width: auto;
+
+        ::marker {
+            top: .3rem;
+        }
     }
+
 }
 
 .user-name,
@@ -173,8 +172,9 @@ main {
     display: flex;
     gap: 5px;
     letter-spacing: .5px;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 1rem;
+
 
     >img {
         border: 2px groove rgb(214, 219, 210);

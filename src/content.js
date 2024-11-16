@@ -1,6 +1,3 @@
-import taskImage from "./assets/task.svg";
-import completedTaskImage from "./assets/task-completed.svg";
-
 export { ContentPanel }
 
 class ContentPanel {
@@ -33,15 +30,12 @@ class ContentPanel {
         console.log({ tasks });
         for (const id in tasks) {
             const taskEl = this.docObj.createElement("li");
-            taskEl.setAttribute("id", tasks[id].id);
-            const circleImg = taskImage;
+            const task = tasks[id];
+            taskEl.setAttribute("id", task.id);
+            const circleImg = task.getTaskCircleImg();
             const circleEl = this.docObj.createElement("img");
-
-            if (tasks[id].completed) {
-                circleImg = completedTaskImage;
-            }
+            circleEl.setAttribute("alt", task.getTaskAltText());
             circleEl.setAttribute("src", circleImg);
-            circleEl.setAttribute("alt", "task selector button");
             const spanEl = this.docObj.createElement("span");
             spanEl.classList.add(`${tasks[id].completed}`);
             spanEl.appendChild(circleEl);
@@ -57,8 +51,24 @@ class ContentPanel {
         console.log(e.target);
         if (e.target instanceof HTMLImageElement) {
             console.log('clicked on an image should toggle completeness');
+            const imgParentEl = e.target.parentElement;
+            const taskId = imgParentEl.parentElement.id;
+            const proj = this.projectList.getProj(this.getCurrentProjectId());
+            //proj.toggleDone(taskId);
+            const task = proj.getTasks()[taskId];
+            task.toggleDone();
+            const completedTaskEl = this.docObj.createElement("img");
+            imgParentEl.classList.toggle("false");
+            completedTaskEl.setAttribute("src", task.getTaskCircleImg());
+            completedTaskEl.setAttribute("alt", task.getTaskAltText());
+            imgParentEl.replaceChild(completedTaskEl, e.target);
+
+            //update the storage
+            this.projectList.updateStorage();
         } else if (e.target instanceof HTMLLIElement) {
-            console.log('clicked on an li element, get the id and open up the task view')
+            const taskId = e.target.id;
+            console.log("create a dialog to show this task:", taskId)
+            this.projectList.updateStorage();
         } else {
             console.log("not the image and not the li? ", e.target.parentElement);
         }
