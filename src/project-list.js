@@ -44,12 +44,12 @@ class ProjectList {
     updateStorage() {
         this.storage.setItem("projects", this.projects);
     }
-    
+
     getProj(id) {
         return this.projects[id];
     }
 
-    delete(id) {
+    deleteProject(id) {
         delete this.projects[id];
         this.storage.setItem("projects", this.projects);
     }

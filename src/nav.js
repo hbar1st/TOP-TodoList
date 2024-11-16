@@ -17,7 +17,7 @@ class NavPanel {
         this.user = user;
         this.projectList = projectList;
         this.docObj = docObj;
-        this.contentPanel = new ContentPanel(projectList, docObj);
+        this.contentPanel = new ContentPanel(projectList, docObj, this);
         this.userEl = this.docObj.querySelector(".user-name");
         this.addTaskBtn = this.docObj.querySelector("#add-task>button");
         this.todayTaskBtn = this.docObj.querySelector("#today-task>button");
@@ -63,9 +63,16 @@ class NavPanel {
         });
     }
 
+    refreshProjectsDisplay() {
+        this.projectsListEl.innerHTML = "";
+        this.projectList.forEach((el) => {
+            const projName = this.createNameEl(el, "li");
+            this.projectsListEl.appendChild(projName);
+        });
+    }
     createNameEl(projObj, elementType, selectedAttribute) {
         const projName = this.docObj.createElement(elementType);
-        projName.setAttribute("id", projObj.id);
+        projName.setAttribute("data-id", projObj.id);
         projName.setAttribute("value", projObj.id);
         if (selectedAttribute) {
             projName.selected = true;
@@ -85,6 +92,6 @@ class NavPanel {
 
     dispatchDisplay = (e) => {
         //figure out which project was clicked if any and dispatch to the contentPanel display function
-        this.contentPanel.displayProject(e.target.getAttribute("id"));
+        this.contentPanel.displayProject(e.target.getAttribute("data-id"));
     }
 }

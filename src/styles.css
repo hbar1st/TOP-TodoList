@@ -72,15 +72,24 @@ main {
         /* greenn color  background-color: rgb(187, 199, 164); */
 
         display: grid;
-        grid-template-columns: 45px 1fr;
+        grid-template-columns: 40px 1fr;
         grid-template-rows: 45px auto 1fr;
         row-gap: 30px;
+        column-gap: 4px;
 
         >header {
             grid-column: 1 / -1;
             grid-row: 1;
             align-self: center;
             font-size: .9rem;
+        }
+
+        >img {
+            width: 22px;
+            justify-self: end;
+            align-self: center;
+            display: relative;
+            left: -3px;
         }
 
         >h1 {
