@@ -14,18 +14,10 @@ export const priorityStrings = { 0: "low", 1: "medium", 2: "high" };
  * @param {*} priority an index number 0 for low, 1 for medium and 2 for high
  * @returns 
  */
-function createTask(iname, icolor, idescription, idueDate = `${new Date()}`, ipriority = priorityStrings["2"], icompleted = false, iid = `${Date.now()}`) {
-
-    let completed = icompleted;
-    let priority = ipriority;
-    let name = iname;
-    let color = icolor;
-    let description = idescription;
-    let id = iid;
-    let dueDate = idueDate;
+function createTask(name, color, description, dueDate = `${new Date()}`, priority = priorityStrings["2"], completed = false, id = `${Date.now()}`) {
 
     function toggleDone() {
-        completed = !completed;
+        this.completed = !this.completed;
     }
 
     function pastDue() {
@@ -33,7 +25,7 @@ function createTask(iname, icolor, idescription, idueDate = `${new Date()}`, ipr
     }
 
     function getTaskAltText() {
-        if (completed) {
+        if (this.completed) {
             return "Task marked as done";
         } else {
             return "Task not done";
@@ -42,7 +34,7 @@ function createTask(iname, icolor, idescription, idueDate = `${new Date()}`, ipr
 
     function getTaskCircleImg() {
 
-        if (completed) {
+        if (this.completed) {
             return `${completedTaskImage}`;
         } else {
             return `${taskImage}`;
@@ -58,5 +50,5 @@ function reviveTask(taskObj) {
 }
 
 function getDefaultTask() {
-    return createTask("Add tasks", "pink", "Add all your tasks");
+    return createTask("Add tasks", "#000000", "Add all your tasks");
 }
