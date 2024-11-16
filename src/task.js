@@ -12,7 +12,7 @@ export const priorityStrings = { 0: "low", 1: "medium", 2: "high" };
  * @param {*} priority an index number 0 for low, 1 for medium and 2 for high
  * @returns 
  */
-function createTask(name, color, description, dueDate = new Date(), priority = priorityStrings["2"], completed = false, id = Date.now()) {
+function createTask(name, color, description, dueDate = `${new Date()}`, priority = priorityStrings["2"], completed = false, id = `${Date.now()}`) {
 
     const markDone = () => {
         completed = true;
