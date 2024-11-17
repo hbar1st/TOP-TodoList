@@ -36,8 +36,8 @@ class AddProjectDialog {
 
     addProject(e) {
         console.log("Trying to add a project: ", e);
-        const nameEl = this.docObj.querySelector("#edit-project-modal #proj-name");
-        const color = this.docObj.querySelector("#edit-project-modal #proj-color").value;
+        const nameEl = this.docObj.querySelector("#add-project-modal #proj-name");
+        const color = this.docObj.querySelector("#add-project-modal #proj-color").value;
 
         const validityState = nameEl.validity;
         if (validityState.valid) {
