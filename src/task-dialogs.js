@@ -12,8 +12,8 @@ class AddTaskDialog {
         this.projectListEl = docObj.querySelector("#add-task-modal #project-list");
         this.addTaskDialog = docObj.querySelector("#add-task-modal");
         const addBtn = docObj.querySelector("#add-task-modal .button-panel>.add");
+        console.log(addBtn);
         addBtn.addEventListener("click", this.addTask.bind(this));
-
     }
 
     show() {

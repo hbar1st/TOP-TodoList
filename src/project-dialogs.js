@@ -19,8 +19,8 @@ class ProjectDialog {
         //<button class="add" type="submit">Add</button>
         const addBtn = this.docObj.createElement("button");
         const editBtn = this.docObj.createElement("button");
-        const addBtnEl = this.docObj.querySelector(".add");
-        const saveBtnEl = this.docObj.querySelector(".save");
+        const addBtnEl = this.docObj.querySelector("#add-project-modal .add");
+        const saveBtnEl = this.docObj.querySelector("#add-project-modal .save");
 
         if (addingMode) {
 

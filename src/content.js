@@ -25,8 +25,8 @@ class ContentPanel {
         this.projectDialog = null;
         this.editProjImg = docObj.querySelector("#edit-project");
         this.editProjImg.addEventListener("click", () => {
-           // if (!this.projectDialog) {
-                this.projectDialog = new ProjectDialog(this.docObj, this.projectList, this, false, this.navPanel);
+            // if (!this.projectDialog) {
+            this.projectDialog = new ProjectDialog(this.docObj, this.projectList, this, false, this.navPanel);
             //}
             this.projectDialog.show();
         });
@@ -100,7 +100,7 @@ class ContentPanel {
             const priorityOption3 = this.docObj.createElement("option");
             priorityOption3.setAttribute("value", "2");
             priorityOption3.innerText = priorityStrings["2"];
-            const priority = tasks[id].getPriorityStr();
+            const priority = priorityStrings[tasks[id].getPriorityStr()];
             if (priority === priorityStrings["0"]) {
                 priorityOption1.selected = true;
             } else if (priority === priorityStrings["1"]) {
