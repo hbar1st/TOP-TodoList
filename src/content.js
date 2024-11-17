@@ -134,7 +134,6 @@ class ContentPanel {
             const taskId = imgParentEl.getAttribute("data-id");
             const proj = this.projectList.getProj(this.getCurrentProjectId());
             //this.projectList.deleteTaskFrom(this.getCurrentProjectId());
-            debugger;
             proj.delTask(taskId);
             taskParentEl.removeChild(imgParentEl);
             this.projectList.updateStorage();
@@ -173,17 +172,27 @@ class ContentPanel {
         }
         this.navPanel.displayProjects();
         this.refreshDisplay();
+
+        this.currProjNameEl = this.docObj.querySelector("#content-panel>h1");
+
+        this.currProjEl = this.docObj.querySelector("#content-panel>header span");
     }
 
     displayProject = (id) => {
         const proj = this.projectList.getProj(id);
         if (proj) {
+
+            this.currProjNameEl = this.docObj.querySelector("#content-panel>h1");
+
+            this.currProjEl = this.docObj.querySelector("#content-panel>header span");
             this.currProjEl.innerText = proj.name;
             this.currProjEl.style.borderBottom = `3px solid ${proj.color}`;
             this.currProjNameEl.innerText = proj.name;
         }
         if (id != 0) { // this is not the default project so display delete image
             this.contentEl.insertBefore(this.deleteProjImg, this.currProjNameEl);
+        } else {
+            this.contentEl.removeChild(this.deleteProjImg);
         }
 
         this.displayTasks(proj);

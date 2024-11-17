@@ -36,7 +36,7 @@ class ProjectList {
         return this.projects;
     }
 
-    add(projObj) {
+    add(projObj) { //adds or replaces
         this.projects[projObj.id] = projObj;
         this.updateStorage();
     }
