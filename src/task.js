@@ -1,5 +1,8 @@
 import taskImage from "./assets/task.svg";
 import completedTaskImage from "./assets/task-completed.svg";
+import { format } from "date-fns";
+
+
 export { createTask, reviveTask, getDefaultTask };
 
 //use composition for this since it may get more features in the future
@@ -24,6 +27,13 @@ function createTask(name, color, description, dueDate = `${new Date()}`, priorit
         return false; // TODO figure out if the task is past due
     }
 
+    function hasDueDate() {
+        return (this.dueDate !== "");
+    }
+
+    function getDueDateStr() {
+        return format(new Date(this.dueDate), "yyyy-MM-dd");
+    }
     function getTaskAltText() {
         if (this.completed) {
             return "Task marked as done";
@@ -40,11 +50,12 @@ function createTask(name, color, description, dueDate = `${new Date()}`, priorit
             return `${taskImage}`;
         }
     }
-    return { name, color, description, dueDate, priority, completed, id, toggleDone, getTaskAltText, getTaskCircleImg };
+    return { name, color, description, dueDate, priority, completed, id, toggleDone, hasDueDate, getDueDateStr, getTaskAltText, getTaskCircleImg };
 }
 
 function reviveTask(taskObj) {
-    const task = createTask(taskObj.name, taskObj.color, taskObj.description, new Date(taskObj.dueDate), taskObj.priority, taskObj.completed, taskObj.id);
+    const date = (taskObj.dueDate == "") ? "" : new Date(taskObj.dueDate);
+    const task = createTask(taskObj.name, taskObj.color, taskObj.description, date, taskObj.priority, taskObj.completed, taskObj.id);
     console.log("reviving task: ", task);
     return task;
 }

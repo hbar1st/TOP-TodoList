@@ -99,14 +99,14 @@ main {
             row-gap: 30px;
         }
 
-        >ul {
+        >div {
             display: flex;
             flex-direction: column;
             gap: 10px;
             grid-row: 3;
             grid-column: 2 / -1;
 
-            >li {
+            >div {
                 border-top: .8px solid rgb(187, 199, 164);
                 display: flex;
                 gap: 10px;
@@ -114,8 +114,32 @@ main {
 
                 >img {
                     width: 28px;
+                    align-self: start;
                 }
 
+                >div {
+                    display: grid;
+                    grid-template-rows: 1fr .5fr;
+                    grid-template-columns: 1fr 1fr;
+
+                    >span:first-child {
+                        grid-column: 1 / -1;
+                        grid-row: 1;
+                    }
+
+                    >span:nth-child(2) {
+                        font-size: .7rem;
+
+                        grid-column: 1 / -1;
+                        grid-row: 2;
+
+                        padding-right: 5px;
+                        padding-left: 5px;
+
+                        border-right: 7px solid pink;
+                        border-left: 7px solid pink;
+                    }
+                }
             }
         }
     }

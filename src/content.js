@@ -1,5 +1,6 @@
 
 import deleteProjectImage from "./assets/remove-project.svg";
+
 export { ContentPanel }
 
 class ContentPanel {
@@ -10,7 +11,7 @@ class ContentPanel {
         this.contentEl = docObj.querySelector("#content-panel");
         this.currProjEl = docObj.querySelector("#content-panel>header span");
         this.currProjNameEl = docObj.querySelector("#content-panel>h1");
-        this.taskListEl = docObj.querySelector("#content-panel>ul");
+        this.taskListEl = docObj.querySelector("#content-panel>div");
 
         this.deleteProjImg = docObj.createElement("img");
         this.deleteProjImg.setAttribute("src", `${deleteProjectImage}`);
@@ -35,26 +36,33 @@ class ContentPanel {
 
     displayTasks = (projObj) => {
         // should accept some kind of date like whatever today is and get the tasks that are due on that date!??!!
-        // <li><span class="unchecked"><img src="./assets/task.svg" alt=""></span>First Task</li>
+        // <div data-id=""><div><img src="./assets/task.svg" alt=""><span>First Task<span><span>Due: 11/11/2024</span></div></div>
         console.log({ projObj });
         const tasks = projObj.getTasks();
         this.taskListEl.innerHTML = "";
         console.log({ tasks });
         for (const id in tasks) {
-            const taskEl = this.docObj.createElement("li");
             const task = tasks[id];
-            taskEl.setAttribute("data-id", task.id);
             const circleImg = task.getTaskCircleImg();
             const circleEl = this.docObj.createElement("img");
             circleEl.setAttribute("alt", task.getTaskAltText());
             circleEl.setAttribute("src", circleImg);
-            const spanEl = this.docObj.createElement("span");
-            spanEl.classList.add(`${tasks[id].completed}`);
-            spanEl.appendChild(circleEl);
-
-            taskEl.appendChild(spanEl);
-            taskEl.appendChild(this.docObj.createTextNode(`${tasks[id].name}`));
-            this.taskListEl.appendChild(taskEl);
+            const divEl = this.docObj.createElement("div");
+            divEl.setAttribute("data-id", task.id);
+            const subDivEl = this.docObj.createElement("div");
+            subDivEl.classList.add(`${tasks[id].completed}`);
+            divEl.appendChild(circleEl);
+            const nameSpanEl = this.docObj.createElement("span");
+            nameSpanEl.innerText = `${tasks[id].name}`;
+            subDivEl.appendChild(nameSpanEl);
+            if (tasks[id].hasDueDate()) {
+                const dueSpanEl = this.docObj.createElement("span");
+                dueSpanEl.innerText = `${tasks[id].getDueDateStr()}`;
+                dueSpanEl.style.borderColor = `${tasks[id].color}`;
+                subDivEl.appendChild(dueSpanEl);
+            }
+            divEl.appendChild(subDivEl);
+            this.taskListEl.appendChild(divEl);
         }
     }
 
@@ -62,9 +70,8 @@ class ContentPanel {
         console.log("what was clicked?");
         console.log(e.target);
         if (e.target instanceof HTMLImageElement) {
-            console.log('clicked on an image should toggle completeness');
             const imgParentEl = e.target.parentElement;
-            const taskId = imgParentEl.parentElement.getAttribute("data-id");
+            const taskId = imgParentEl.getAttribute("data-id");
             const proj = this.projectList.getProj(this.getCurrentProjectId());
             //proj.toggleDone(taskId);
             const task = proj.getTasks()[taskId];
