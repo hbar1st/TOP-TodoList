@@ -1,5 +1,6 @@
 
 import deleteProjectImage from "./assets/remove-project.svg";
+import { ProjectDialog } from "./project-dialogs.js";
 import { priorityStrings } from "./task";
 
 export { ContentPanel }
@@ -20,8 +21,17 @@ class ContentPanel {
         this.deleteProjImg.setAttribute("id", "delete-project");
         this.deleteProjImg.addEventListener("click", this.deleteProject);
 
-        this.docObj = docObj;
+        this.projectDialog = null;
+        this.editProjImg = docObj.querySelector("#edit-project");
+        this.editProjImg.addEventListener("click", () => {
+            if (!this.projectDialog) {
+                this.projectDialog = new ProjectDialog(this.docObj, this.projectList, this, false, this.navPanel);
+            }
+            this.projectDialog.show();
+        });
+
         this.taskListEl.addEventListener("click", this.taskClicked);
+        this.docObj = docObj;
         this.currentProject = 0;
     }
 
@@ -144,6 +154,7 @@ class ContentPanel {
         this.currentProject = id;
     }
 
+  
     getCurrentProjectId() {
         return this.currentProject;
     }

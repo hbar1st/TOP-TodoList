@@ -1,6 +1,6 @@
 import { ContentPanel } from "./content.js";
 import userImage from "./assets/person-icon.svg";
-import { AddProjectDialog } from "./project-dialogs.js";
+import { ProjectDialog } from "./project-dialogs.js";
 import { AddTaskDialog } from "./task-dialogs.js";
 
 export { NavPanel }
@@ -23,7 +23,7 @@ class NavPanel {
         this.todayTaskBtn = this.docObj.querySelector("#today-task>button");
         this.projectsListEl = this.docObj.querySelector(".projects>ul");
         this.addProjectBtn = this.docObj.querySelector("#add-project");
-        this.addProjectDialog = null;
+        this.projectDialog = null;
         this.addTaskDialog = null;
         this.addTaskBtn.addEventListener("click", () => {
             if (!this.addTaskDialog) {
@@ -32,10 +32,10 @@ class NavPanel {
             this.addTaskDialog.show();
         });
         this.addProjectBtn.addEventListener("click", () => {
-            if (!this.addProjectDialog) {
-                this.addProjectDialog = new AddProjectDialog(this.docObj, this.projectList, this);
+            if (!this.projectDialog) {
+                this.projectDialog = new ProjectDialog(this.docObj, this.projectList, this, true);
             }
-            this.addProjectDialog.show();
+            this.projectDialog.show();
         });
         this.todayTaskBtn.addEventListener("click", this.contentPanel.displayTodaysTasks);
         this.projectsListEl.addEventListener("click", this.dispatchDisplay);
