@@ -13,8 +13,7 @@ class AddProjectDialog {
         this.projectDialog = this.docObj.querySelector("#add-project-modal");
         //const headerEl = this.docObj.querySelector("#add-project-modal>h1");
 
-        this.addEventHandler = this.addProject.bind(this);
-        this.editEventHandler = this.editProject.bind(this);
+
         const addOrEditBtnParentEl = this.docObj.querySelector("#add-project-modal .button-panel");
         //<button class="add" type="submit">Add</button>
         const addBtn = this.docObj.createElement("button");
@@ -25,7 +24,7 @@ class AddProjectDialog {
         addBtn.classList.add("add");
         addBtn.textContent = "Add";
 
-        addBtn.addEventListener("click", this.addEventHandler);
+        addBtn.addEventListener("click", this.addProject.bind(this));
         addOrEditBtnParentEl.appendChild(addBtn);
 
     }
@@ -37,8 +36,9 @@ class AddProjectDialog {
 
     addProject(e) {
         console.log("Trying to add a project: ", e);
-        const nameEl = this.docObj.querySelector("#proj-name");
-        const color = this.docObj.querySelector("#proj-color").value;
+        const nameEl = this.docObj.querySelector("#edit-project-modal #proj-name");
+        const color = this.docObj.querySelector("#edit-project-modal #proj-color").value;
+
         const validityState = nameEl.validity;
         if (validityState.valid) {
             // take the data and tell the project-list object that a new project got added
@@ -63,7 +63,6 @@ class EditProjectDialog {
         this.projectDialog = this.docObj.querySelector("#edit-project-modal");
         //const headerEl = this.docObj.querySelector("#edit-project-modal>h1");
 
-        this.editEventHandler = this.editProject.bind(this);
         const addOrEditBtnParentEl = this.docObj.querySelector("#edit-project-modal .button-panel");
         //<button class="add" type="submit">Add</button>
         const editBtn = this.docObj.createElement("button");
@@ -73,8 +72,8 @@ class EditProjectDialog {
         // get the current project in this case
         this.currentProject = this.projectList.getProj(this.containerPanel.getCurrentProjectId());
 
-        const nameEl = this.docObj.querySelector("#proj-name");
-        const color = this.docObj.querySelector("#proj-color");
+        const nameEl = this.docObj.querySelector("#edit-project-modal #proj-name");
+        const color = this.docObj.querySelector("#edit-project-modal #proj-color");
         nameEl.value = this.currentProject.name;
         color.value = this.currentProject.color;
         //headerEl.textContent = "Edit Project";
@@ -82,7 +81,7 @@ class EditProjectDialog {
         editBtn.setAttribute("type", "submit");
         editBtn.classList.add("save");
         editBtn.textContent = "Save";
-        editBtn.addEventListener("click", this.editEventHandler);
+        editBtn.addEventListener("click", this.editProject.bind(this));
         addOrEditBtnParentEl.appendChild(editBtn);
 
     }
@@ -94,8 +93,8 @@ class EditProjectDialog {
 
     editProject(e) {
         console.log("Trying to edit a project: ", e);
-        const nameEl = this.docObj.querySelector("#proj-name");
-        const color = this.docObj.querySelector("#proj-color");
+        const nameEl = this.docObj.querySelector("#edit-project-modal #proj-name");
+        const color = this.docObj.querySelector("#edit-project-modal #proj-color");
         const validityState = nameEl.validity;
         if (validityState.valid) {
             // take the data and tell the project-list object that a new project got added

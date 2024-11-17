@@ -29,9 +29,9 @@ class NavPanel {
         this.addTaskBtn.addEventListener("click", () => {
             if (!this.addTaskDialog) {
                 this.addTaskDialog = new AddTaskDialog(this.docObj, this.projectList, this, this.contentPanel);
-
-                this.addTaskDialog.show();
             }
+            this.addTaskDialog.show();
+
         });
         this.addProjectBtn.addEventListener("click", () => {
             if (!this.addProjectDialog) {
