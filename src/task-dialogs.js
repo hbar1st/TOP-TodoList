@@ -43,7 +43,9 @@ class AddTaskDialog {
             //   default project id 0 about this task
             // the project object should inform the storage to update itself
             // and the project object should inform the nav to update itself
-            const newTask = createTask(nameEl.value, color, desc, dueDate, priority);
+
+            const newTask = (priority === "") ? createTask(nameEl.value, color, desc, dueDate)
+                : createTask(nameEl.value, color, desc, dueDate, priority);
             const currentProjectId = this.contentPanel.getCurrentProjectId();
             const selectedProject = this.projectList.getProj(project);
             console.log(selectedProject);

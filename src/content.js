@@ -1,5 +1,6 @@
 
 import deleteProjectImage from "./assets/remove-project.svg";
+import { priorityStrings } from "./task";
 
 export { ContentPanel }
 
@@ -62,9 +63,31 @@ class ContentPanel {
                 dueDateEl.style.borderColor = `${tasks[id].color}`;
                 subDivEl.appendChild(dueDateEl);
             }
-            const priorityEl = this.docObj.createElement("span");
-            priorityEl.innerText = `Priority: ${tasks[id].getPriorityStr()}`;
-            subDivEl.appendChild(priorityEl);
+            const priorityEl = this.docObj.createElement("select");
+            const priorityOption1 = this.docObj.createElement("option");
+            priorityOption1.setAttribute("value", "0");
+            priorityOption1.innerText = priorityStrings["0"];
+            const priorityOption2 = this.docObj.createElement("option");
+            priorityOption2.setAttribute("value", "1");
+            priorityOption2.innerText = priorityStrings["1"];
+            const priorityOption3 = this.docObj.createElement("option");
+            priorityOption3.setAttribute("value", "2");
+            priorityOption3.innerText = priorityStrings["2"];
+            const priority = tasks[id].getPriorityStr();
+            if (priority === priorityStrings["0"]) {
+                priorityOption1.selected = true;
+            } else if (priority === priorityStrings["1"]) {
+                priorityOption2.selected = true;
+            } else {
+                priorityOption3.selected = true;
+            }
+            priorityEl.appendChild(priorityOption1);
+            priorityEl.appendChild(priorityOption2);
+            priorityEl.appendChild(priorityOption3);
+            const labelEl = this.docObj.createElement("label");
+            labelEl.innerText = "Priority:";
+            labelEl.appendChild(priorityEl);
+            subDivEl.appendChild(labelEl);
             divEl.appendChild(subDivEl);
             this.taskListEl.appendChild(divEl);
         }
