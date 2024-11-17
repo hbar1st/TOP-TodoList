@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reminders List</title>
+<script defer src="main.js"></script></head>
+
+<body>
+    <main>
+        <nav>
+            <div class="user-name"></div>
+            <div class="actions">
+                <ul>
+                    <li id="add-task"><button type="button"><img src="f77d4bb43f1328fb0946.svg" alt="Add task button">Add
+                            task</button></li>
+                    <li id="today-task"><button type="button"><img src="fdf183998bd17a7cb77e.svg"
+                                alt="Review today's tasks">Today</button></li>
+                </ul>
+            </div>
+            <section class="projects">
+                <header>
+                    <img src="cfc1129f223d7b0955a8.svg" alt="My Projects">
+                    <h3>My Projects</h3>
+                    <img id="add-project" src="f355ddce814b2fe9545a.svg" alt="Add a project">
+                </header>
+                <ul>
+                </ul>
+            </section>
+        </nav>
+        <section id="content-panel">
+            <header>
+                <p><span></span> /</p><img id="edit-project" src="624b76d8904830cc62e5.svg" alt="edit project">
+            </header>
+            <!-- delete icon goes here if the project is not the default one -->
+            <h1></h1>
+            <div>
+            </div>
+        </section>
+    </main>
+    <dialog id="add-project-modal">
+        <h1>Add Project</h1>
+        <form action="" method="dialog">
+            <div>
+                <label for="proj-name">Name</label><input required autofocus type="text" name="proj-name"
+                    id="proj-name">
+                <label for="proj-color">Color</label><input type="color" name="proj-color" id="proj-color"
+                    value="#ffffff">
+            </div>
+            <div class="button-panel">
+                <button class="cancel" type="button">Cancel</button>
+                <button class="add" type="submit">Add</button>
+            </div>
+        </form>
+    </dialog>
+    <dialog id="add-task-modal">
+        <h1>Add Task</h1>
+        <form action="" method="dialog">
+            <div>
+                <input required placeholder="Task name" autofocus type="text" name="task-name" id="task-name">
+                <textarea rows="2" placeholder="Description" name="task-desc" id="task-desc"></textarea>
+                <div class="fit-row">
+                    <select name="task-priority" id="task-priority">
+                        <option value="" selected disabled>Priority</option>
+                        <option value="0">Low</option>
+                        <option value="1">Medium</option>
+                        <option value="2">High</option>
+                    </select>
+                    <label for="task-due">Due-Date</label><input type="date" name="task-due" id="task-due">
+
+                    <label for="task-color">Color</label><input type="color" name="task-color" id="task-color"
+                        value="#ffffff">
+                </div>
+                <span class="fit-row">◆
+                    <select name="projects-list" id="project-list">
+                        <option selected id="0" disabled>My Project (Hard-coded)</option>
+                    </select>
+                </span>
+            </div>
+            <div class="button-panel">
+                <button class="cancel" type="button">Cancel</button>
+                <button class="add" type="submit">Add</button>
+            </div>
+        </form>
+    </dialog>
+</body>
+
+</html>
