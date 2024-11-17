@@ -26,15 +26,15 @@ class NavPanel {
         this.projectDialog = null;
         this.addTaskDialog = null;
         this.addTaskBtn.addEventListener("click", () => {
-            if (!this.addTaskDialog) {
-                this.addTaskDialog = new AddTaskDialog(this.docObj, this.projectList, this, this.contentPanel);
-            }
+            //if (!this.addTaskDialog) {
+            this.addTaskDialog = new AddTaskDialog(this.docObj, this.projectList, this, this.contentPanel);
+            //}
             this.addTaskDialog.show();
         });
         this.addProjectBtn.addEventListener("click", () => {
-            if (!this.projectDialog) {
-                this.projectDialog = new ProjectDialog(this.docObj, this.projectList, this, true);
-            }
+            // if (!this.projectDialog) {
+            this.projectDialog = new ProjectDialog(this.docObj, this.projectList, this, true);
+            //}
             this.projectDialog.show();
         });
         this.todayTaskBtn.addEventListener("click", this.contentPanel.displayTodaysTasks);
@@ -85,6 +85,8 @@ class NavPanel {
 
     dispatchDisplay = (e) => {
         //figure out which project was clicked if any and dispatch to the contentPanel display function
-        this.contentPanel.displayProject(e.target.getAttribute("data-id"));
+        if (e.target.getAttribute("data-id")) {
+            this.contentPanel.displayProject(e.target.getAttribute("data-id"));
+        }
     }
 }

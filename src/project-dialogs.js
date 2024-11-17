@@ -10,16 +10,31 @@ class ProjectDialog {
         this.navPanel = navPanel;
         this.projectList = projectList;
         this.containerPanel = containerPanel;
-        this.projectDialog = docObj.querySelector("#add-project-modal");
-        const headerEl = docObj.querySelector("#add-project-modal>h1");
-        const addOrEditBtn = docObj.querySelector("#add-project-modal .button-panel>.add");
+        this.projectDialog = this.docObj.querySelector("#add-project-modal");
+        const headerEl = this.docObj.querySelector("#add-project-modal>h1");
 
+        this.addEventHandler = this.addProject.bind(this);
+        this.editEventHandler = this.editProject.bind(this);
+        const addOrEditBtnParentEl = this.docObj.querySelector("#add-project-modal .button-panel");
+        //<button class="add" type="submit">Add</button>
+        const addBtn = this.docObj.createElement("button");
+        const editBtn = this.docObj.createElement("button");
+        const addBtnEl = this.docObj.querySelector(".add");
+        const saveBtnEl = this.docObj.querySelector(".save");
 
         if (addingMode) {
-            headerEl.textContent = "Add Project";
-            addOrEditBtn.textContent = "Add";
 
-            addOrEditBtn.addEventListener("click", this.addProject.bind(this));
+            headerEl.textContent = "Add Project";
+
+            addBtn.setAttribute("type", "submit");
+            addBtn.classList.add("add");
+            addBtn.textContent = "Add";
+
+            addBtn.addEventListener("click", this.addEventHandler);
+            addOrEditBtnParentEl.appendChild(addBtn);
+            if (saveBtnEl) {
+                addOrEditBtnParentEl.removeChild(saveBtnEl);
+            }
         } else {
             // if not adding, then we must be in edit mode
             // get the current project in this case
@@ -30,8 +45,15 @@ class ProjectDialog {
             nameEl.value = this.currentProject.name;
             color.value = this.currentProject.color;
             headerEl.textContent = "Edit Project";
-            addOrEditBtn.textContent = "Save";
-            addOrEditBtn.addEventListener("click", this.editProject.bind(this));
+
+            editBtn.setAttribute("type", "submit");
+            editBtn.classList.add("save");
+            editBtn.textContent = "Save";
+            editBtn.addEventListener("click", this.editEventHandler);
+            addOrEditBtnParentEl.appendChild(editBtn);
+            if (addBtnEl) {
+                addBtnEl.parentElement.removeChild(addBtnEl);
+            }
         }
     }
 

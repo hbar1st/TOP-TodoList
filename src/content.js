@@ -25,9 +25,9 @@ class ContentPanel {
         this.projectDialog = null;
         this.editProjImg = docObj.querySelector("#edit-project");
         this.editProjImg.addEventListener("click", () => {
-            if (!this.projectDialog) {
+           // if (!this.projectDialog) {
                 this.projectDialog = new ProjectDialog(this.docObj, this.projectList, this, false, this.navPanel);
-            }
+            //}
             this.projectDialog.show();
         });
 
@@ -192,7 +192,10 @@ class ContentPanel {
         if (id != 0) { // this is not the default project so display delete image
             this.contentEl.insertBefore(this.deleteProjImg, this.currProjNameEl);
         } else {
-            this.contentEl.removeChild(this.deleteProjImg);
+            const deleteProjImageEl = this.docObj.querySelector("#delete-project");
+            if (deleteProjImageEl) {
+                deleteProjImageEl.parentElement.removeChild(this.deleteProjImg);
+            }
         }
 
         this.displayTasks(proj);
