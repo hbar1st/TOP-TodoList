@@ -53,4 +53,9 @@ class ProjectList {
         delete this.projects[id];
         this.storage.setItem("projects", this.projects);
     }
+    /*
+        deleteTaskFrom(projId) {
+            this.getProj(id)
+        }
+            */
 }

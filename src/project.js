@@ -19,15 +19,19 @@ function createProject(name, color, id = `${Date.now()}`, subTasks = {}) {
         subTasks[taskObj.id] = taskObj;
     }
 
-    const delTask = (taskObj) => {
-        //todo
+    const getTask = (id) => {
+        return subTasks[id];
+    }
+
+    const delTask = (taskId) => {
+        delete subTasks[getTask(taskId).id];
     }
 
     const toggleDone = (taskId) => {
         subTasks[taskId].toggleDone();
     }
 
-    return { name, color, id, subTasks, getTasks, setTasks, addTask, delTask, toggleDone };
+    return { name, color, id, subTasks, getTasks, getTask, setTasks, addTask, delTask, toggleDone };
 }
 
 function reviveProject(projObj) {

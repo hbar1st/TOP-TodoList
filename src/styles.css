@@ -108,7 +108,7 @@ main {
             grid-row: 3;
             grid-column: 2 / -1;
 
-            >div {
+            >div:not(.tooltip) {
                 border-top: .8px solid rgb(187, 199, 164);
                 display: grid;
                 grid-template-columns: repeat(2, auto) 1fr;
@@ -124,7 +124,7 @@ main {
                     justify-self: end;
                 }
 
-                >div {
+                >div:not(.tooltiptext):not(.tooltip) {
                     display: grid;
                     grid-template-rows: 1fr .5fr;
                     grid-template-columns: 7rem 1rem 7rem;
@@ -418,4 +418,28 @@ dialog {
 
 dialog::backdrop {
     background-color: rgba(187, 199, 164, .7);
+}
+
+.tooltip {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }

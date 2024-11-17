@@ -64,9 +64,18 @@ class ContentPanel {
             circleEl.setAttribute("alt", task.getTaskAltText());
             circleEl.setAttribute("src", circleImg);
 
-            const menuEl = this.docObj.createElement("img");
-            menuEl.setAttribute("src", `${menuImage}`);
-            menuEl.setAttribute("alt", "menu icon")
+            const menuEl = this.docObj.createElement("div");
+            menuEl.classList.add("tooltip");
+            const menuImg = this.docObj.createElement("img");
+            menuImg.setAttribute("src", `${menuImage}`);
+            menuImg.setAttribute("alt", "menu icon");
+            menuImg.setAttribute("id", "task-menu");
+
+            const delOptionEl = this.docObj.createElement("div");
+            delOptionEl.textContent = "delete task";
+            delOptionEl.classList.add("tooltiptext");
+            menuEl.appendChild(menuImg);
+            menuEl.appendChild(delOptionEl);
 
             const subDivEl = this.docObj.createElement("div");
             subDivEl.classList.add(`${tasks[id].completed}`);
@@ -118,21 +127,34 @@ class ContentPanel {
     taskClicked = (e) => {
         console.log("what was clicked?");
         console.log(e.target);
-        if (e.target instanceof HTMLImageElement) {
-            const imgParentEl = e.target.parentElement;
+        if (e.target.classList.contains("tooltiptext")) {
+
+            const imgParentEl = e.target.parentElement.parentElement;
+            const taskParentEl = imgParentEl.parentElement;
             const taskId = imgParentEl.getAttribute("data-id");
             const proj = this.projectList.getProj(this.getCurrentProjectId());
-            //proj.toggleDone(taskId);
-            const task = proj.getTasks()[taskId];
-            task.toggleDone();
-            const completedTaskEl = this.docObj.createElement("img");
-            imgParentEl.classList.toggle("false");
-            completedTaskEl.setAttribute("src", task.getTaskCircleImg());
-            completedTaskEl.setAttribute("alt", task.getTaskAltText());
-            imgParentEl.replaceChild(completedTaskEl, e.target);
-
-            //update the storage
+            //this.projectList.deleteTaskFrom(this.getCurrentProjectId());
+            debugger;
+            proj.delTask(taskId);
+            taskParentEl.removeChild(imgParentEl);
             this.projectList.updateStorage();
+        } else if (e.target instanceof HTMLImageElement) {
+            if (e.target.id !== "task-menu") {
+                const imgParentEl = e.target.parentElement;
+                const taskId = imgParentEl.getAttribute("data-id");
+                const proj = this.projectList.getProj(this.getCurrentProjectId());
+                //proj.toggleDone(taskId);
+                const task = proj.getTasks()[taskId];
+                task.toggleDone();
+                const completedTaskEl = this.docObj.createElement("img");
+                imgParentEl.classList.toggle("false");
+                completedTaskEl.setAttribute("src", task.getTaskCircleImg());
+                completedTaskEl.setAttribute("alt", task.getTaskAltText());
+                imgParentEl.replaceChild(completedTaskEl, e.target);
+
+                //update the storage
+                this.projectList.updateStorage();
+            }
         } else if (e.target instanceof HTMLDivElement) {
             const taskId = e.target.id;
             console.log("create a dialog to show this task:", taskId)
