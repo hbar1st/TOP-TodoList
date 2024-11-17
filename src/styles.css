@@ -245,6 +245,18 @@ nav ul {
     color: #e75a7c;
 }
 
+#add-task button:hover,
+.projects>header>img:last-child:hover {
+    cursor: cell;
+}
+
+#content-panel>div>div>img:nth-child(3),
+#content-panel>div>div>img:nth-child(1),
+#edit-project,
+#content-panel>div>div>div>span {
+    cursor: pointer;
+}
+
 nav button {
     display: flex;
     gap: 10px;

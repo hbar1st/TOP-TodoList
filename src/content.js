@@ -157,12 +157,13 @@ class ContentPanel {
         const proj = this.projectList.getProj(id);
         if (proj) {
             this.currProjEl.innerText = proj.name;
+            this.currProjEl.style.borderBottom = `3px solid ${proj.color}`;
             this.currProjNameEl.innerText = proj.name;
         }
         if (id != 0) { // this is not the default project so display delete image
             this.contentEl.insertBefore(this.deleteProjImg, this.currProjNameEl);
         }
-        this.contentEl.style.background = `linear-gradient(90deg, transparent, transparent 95%, ${proj.color} 95%, ${proj.color} 100%)`;
+
         this.displayTasks(proj);
         this.currentProject = id;
     }
