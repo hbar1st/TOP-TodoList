@@ -23,6 +23,9 @@ function createTask(name, color, description, dueDate = `${new Date()}`, priorit
         this.completed = !this.completed;
     }
 
+    function getPriorityStr() {
+        return this.priority;
+    }
     function pastDue() {
         return false; // TODO figure out if the task is past due
     }
@@ -50,7 +53,7 @@ function createTask(name, color, description, dueDate = `${new Date()}`, priorit
             return `${taskImage}`;
         }
     }
-    return { name, color, description, dueDate, priority, completed, id, toggleDone, hasDueDate, getDueDateStr, getTaskAltText, getTaskCircleImg };
+    return { name, color, description, dueDate, priority, completed, id, toggleDone, getPriorityStr, hasDueDate, getDueDateStr, getTaskAltText, getTaskCircleImg };
 }
 
 function reviveTask(taskObj) {

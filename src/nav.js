@@ -47,11 +47,7 @@ class NavPanel {
         this.userEl.innerHTML = `<img src=${userImage} alt="account icon">`;
         this.userEl.appendChild(nameEl);
 
-        this.projectList.forEach((el) => {
-            const projName = this.createNameEl(el, "li");
-            this.projectsListEl.appendChild(projName);
-        });
-
+        this.displayProjects();
         this.contentPanel.displayProject(0); // the default project is id 0;
 
         // one event handler for all cancel events (assumes all cancel buttons are laid out in div inside form inside dialog)
@@ -63,13 +59,14 @@ class NavPanel {
         });
     }
 
-    refreshProjectsDisplay() {
+    displayProjects() {
         this.projectsListEl.innerHTML = "";
         this.projectList.forEach((el) => {
             const projName = this.createNameEl(el, "li");
             this.projectsListEl.appendChild(projName);
         });
     }
+
     createNameEl(projObj, elementType, selectedAttribute) {
         const projName = this.docObj.createElement(elementType);
         projName.setAttribute("data-id", projObj.id);
@@ -78,10 +75,6 @@ class NavPanel {
             projName.selected = true;
         }
         projName.textContent = projObj.name;
-
-        const spanEl = this.docObj.createElement("span");
-        spanEl.classList.add("color-spacer");
-        projName.appendChild(spanEl);
         return projName;
     }
 

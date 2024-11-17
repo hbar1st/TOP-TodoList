@@ -56,11 +56,15 @@ class ContentPanel {
             nameSpanEl.innerText = `${tasks[id].name}`;
             subDivEl.appendChild(nameSpanEl);
             if (tasks[id].hasDueDate()) {
-                const dueSpanEl = this.docObj.createElement("span");
-                dueSpanEl.innerText = `${tasks[id].getDueDateStr()}`;
-                dueSpanEl.style.borderColor = `${tasks[id].color}`;
-                subDivEl.appendChild(dueSpanEl);
+                const dueDateEl = this.docObj.createElement("input");
+                dueDateEl.setAttribute("type", "date");
+                dueDateEl.value = `${tasks[id].getDueDateStr()}`;
+                dueDateEl.style.borderColor = `${tasks[id].color}`;
+                subDivEl.appendChild(dueDateEl);
             }
+            const priorityEl = this.docObj.createElement("span");
+            priorityEl.innerText = `Priority: ${tasks[id].getPriorityStr()}`;
+            subDivEl.appendChild(priorityEl);
             divEl.appendChild(subDivEl);
             this.taskListEl.appendChild(divEl);
         }
@@ -84,14 +88,13 @@ class ContentPanel {
 
             //update the storage
             this.projectList.updateStorage();
-        } else if (e.target instanceof HTMLLIElement) {
+        } else if (e.target instanceof HTMLDivElement) {
             const taskId = e.target.id;
             console.log("create a dialog to show this task:", taskId)
             this.projectList.updateStorage();
-        } else {
-            console.log("not the image and not the li? ", e.target.parentElement);
+        } else if (e.target instanceof HTMLSpanElement) {
+            console.log("is it the due date span that you clicked? ", e.target.parentElement);
         }
-
     }
 
     deleteProject = () => {
@@ -101,7 +104,7 @@ class ContentPanel {
         if (this.getCurrentProjectId != 0) {
             this.projectList.deleteProject(currentProjectId);
         }
-        this.navPanel.refreshProjectsDisplay();
+        this.navPanel.displayProjects();
         this.refreshDisplay();
     }
 
