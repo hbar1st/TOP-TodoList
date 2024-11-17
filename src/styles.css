@@ -82,6 +82,8 @@ main {
             grid-row: 1;
             align-self: center;
             font-size: .9rem;
+            display: flex;
+            gap: 5px;
         }
 
         >img {
