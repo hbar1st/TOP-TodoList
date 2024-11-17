@@ -43,14 +43,14 @@ class ProjectDialog {
     editProject(e) {
         console.log("Trying to edit a project: ", e);
         const nameEl = this.docObj.querySelector("#proj-name");
-        const color = this.docObj.querySelector("#proj-color").value;
+        const color = this.docObj.querySelector("#proj-color");
         const validityState = nameEl.validity;
         if (validityState.valid) {
             // take the data and tell the project-list object that a new project got added
             // the project object should inform the storage to update itself
             // and the project object should inform the nav to update itself
             this.currentProject.name = nameEl.value;
-            this.currentProject.value = color.value;
+            this.currentProject.color = color.value;
             this.navPanel.displayProjects();
             this.containerPanel.displayProject(this.currentProject.id);
             this.projectList.updateStorage();

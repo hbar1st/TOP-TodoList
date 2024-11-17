@@ -1,5 +1,6 @@
 
 import deleteProjectImage from "./assets/remove-project.svg";
+import menuImage from "./assets/menu.svg";
 import { ProjectDialog } from "./project-dialogs.js";
 import { priorityStrings } from "./task";
 
@@ -51,18 +52,25 @@ class ContentPanel {
         console.log({ projObj });
         const tasks = projObj.getTasks();
         this.taskListEl.innerHTML = "";
-        console.log({ tasks });
+
         for (const id in tasks) {
             const task = tasks[id];
+
+            const divEl = this.docObj.createElement("div");
+            divEl.setAttribute("data-id", task.id);
+
             const circleImg = task.getTaskCircleImg();
             const circleEl = this.docObj.createElement("img");
             circleEl.setAttribute("alt", task.getTaskAltText());
             circleEl.setAttribute("src", circleImg);
-            const divEl = this.docObj.createElement("div");
-            divEl.setAttribute("data-id", task.id);
+
+            const menuEl = this.docObj.createElement("img");
+            menuEl.setAttribute("src", `${menuImage}`);
+            menuEl.setAttribute("alt", "menu icon")
+
             const subDivEl = this.docObj.createElement("div");
             subDivEl.classList.add(`${tasks[id].completed}`);
-            divEl.appendChild(circleEl);
+
             const nameSpanEl = this.docObj.createElement("span");
             nameSpanEl.innerText = `${tasks[id].name}`;
             subDivEl.appendChild(nameSpanEl);
@@ -98,7 +106,11 @@ class ContentPanel {
             labelEl.innerText = "Priority:";
             labelEl.appendChild(priorityEl);
             subDivEl.appendChild(labelEl);
+
+            // this divEl is managed by flex layout
+            divEl.appendChild(circleEl);
             divEl.appendChild(subDivEl);
+            divEl.appendChild(menuEl);
             this.taskListEl.appendChild(divEl);
         }
     }
@@ -150,11 +162,12 @@ class ContentPanel {
         if (id != 0) { // this is not the default project so display delete image
             this.contentEl.insertBefore(this.deleteProjImg, this.currProjNameEl);
         }
+        this.contentEl.style.background = `linear-gradient(90deg, transparent, transparent 95%, ${proj.color} 95%, ${proj.color} 100%)`;
         this.displayTasks(proj);
         this.currentProject = id;
     }
 
-  
+
     getCurrentProjectId() {
         return this.currentProject;
     }

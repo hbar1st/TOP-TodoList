@@ -110,13 +110,18 @@ main {
 
             >div {
                 border-top: .8px solid rgb(187, 199, 164);
-                display: flex;
+                display: grid;
+                grid-template-columns: repeat(2, auto) 1fr;
                 gap: 10px;
                 padding-top: 10px;
 
                 >img {
                     width: 28px;
                     align-self: start;
+                }
+
+                >img:last-child {
+                    justify-self: end;
                 }
 
                 >div {
