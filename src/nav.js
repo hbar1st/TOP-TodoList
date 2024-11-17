@@ -1,6 +1,6 @@
 import { ContentPanel } from "./content.js";
 import userImage from "./assets/person-icon.svg";
-import { ProjectDialog } from "./project-dialogs.js";
+import { AddProjectDialog } from "./project-dialogs.js";
 import { AddTaskDialog } from "./task-dialogs.js";
 
 export { NavPanel }
@@ -23,19 +23,21 @@ class NavPanel {
         this.todayTaskBtn = this.docObj.querySelector("#today-task>button");
         this.projectsListEl = this.docObj.querySelector(".projects>ul");
         this.addProjectBtn = this.docObj.querySelector("#add-project");
-        this.projectDialog = null;
         this.addTaskDialog = null;
+        this.addProjectDialog = null;
+
         this.addTaskBtn.addEventListener("click", () => {
-            //if (!this.addTaskDialog) {
-            this.addTaskDialog = new AddTaskDialog(this.docObj, this.projectList, this, this.contentPanel);
-            //}
-            this.addTaskDialog.show();
+            if (!this.addTaskDialog) {
+                this.addTaskDialog = new AddTaskDialog(this.docObj, this.projectList, this, this.contentPanel);
+
+                this.addTaskDialog.show();
+            }
         });
         this.addProjectBtn.addEventListener("click", () => {
-            // if (!this.projectDialog) {
-            this.projectDialog = new ProjectDialog(this.docObj, this.projectList, this, true);
-            //}
-            this.projectDialog.show();
+            if (!this.addProjectDialog) {
+                this.addProjectDialog = new AddProjectDialog(this.docObj, this.projectList, this, true);
+            }
+            this.addProjectDialog.show();
         });
         this.todayTaskBtn.addEventListener("click", this.contentPanel.displayTodaysTasks);
         this.projectsListEl.addEventListener("click", this.dispatchDisplay);

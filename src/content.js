@@ -1,7 +1,7 @@
 
 import deleteProjectImage from "./assets/remove-project.svg";
-import menuImage from "./assets/menu.svg";
-import { ProjectDialog } from "./project-dialogs.js";
+import delTaskImage from "./assets/remove-task.svg";
+import { EditProjectDialog } from "./project-dialogs.js";
 import { priorityStrings } from "./task";
 
 export { ContentPanel }
@@ -25,10 +25,11 @@ class ContentPanel {
         this.projectDialog = null;
         this.editProjImg = docObj.querySelector("#edit-project");
         this.editProjImg.addEventListener("click", () => {
-            // if (!this.projectDialog) {
-            this.projectDialog = new ProjectDialog(this.docObj, this.projectList, this, false, this.navPanel);
-            //}
+            if (!this.projectDialog) {
+                this.projectDialog = new EditProjectDialog(this.docObj, this.projectList, this, false, this.navPanel);
+            }
             this.projectDialog.show();
+
         });
 
         this.taskListEl.addEventListener("click", this.taskClicked);
@@ -64,18 +65,18 @@ class ContentPanel {
             circleEl.setAttribute("alt", task.getTaskAltText());
             circleEl.setAttribute("src", circleImg);
 
-            const menuEl = this.docObj.createElement("div");
-            menuEl.classList.add("tooltip");
-            const menuImg = this.docObj.createElement("img");
-            menuImg.setAttribute("src", `${menuImage}`);
-            menuImg.setAttribute("alt", "menu icon");
-            menuImg.setAttribute("id", "task-menu");
+            const taskEl = this.docObj.createElement("div");
+            taskEl.classList.add("tooltip");
+            const taskImg = this.docObj.createElement("img");
+            taskImg.setAttribute("src", `${delTaskImage}`);
+            taskImg.setAttribute("alt", "menu icon");
+            taskImg.setAttribute("id", "task-menu");
 
             const delOptionEl = this.docObj.createElement("div");
             delOptionEl.textContent = "delete task";
             delOptionEl.classList.add("tooltiptext");
-            menuEl.appendChild(menuImg);
-            menuEl.appendChild(delOptionEl);
+            taskEl.appendChild(taskImg);
+            taskEl.appendChild(delOptionEl);
 
             const subDivEl = this.docObj.createElement("div");
             subDivEl.classList.add(`${tasks[id].completed}`);
@@ -119,7 +120,7 @@ class ContentPanel {
             // this divEl is managed by flex layout
             divEl.appendChild(circleEl);
             divEl.appendChild(subDivEl);
-            divEl.appendChild(menuEl);
+            divEl.appendChild(taskEl);
             this.taskListEl.appendChild(divEl);
         }
     }

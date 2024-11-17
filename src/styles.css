@@ -111,7 +111,7 @@ main {
             >div:not(.tooltip) {
                 border-top: .8px solid rgb(187, 199, 164);
                 display: grid;
-                grid-template-columns: repeat(2, auto) 1fr;
+                grid-template-columns: 28px auto 28px;
                 gap: 10px;
                 padding-top: 10px;
 
@@ -127,7 +127,7 @@ main {
                 >div:not(.tooltiptext):not(.tooltip) {
                     display: grid;
                     grid-template-rows: 1fr .5fr;
-                    grid-template-columns: 7rem 1rem 7rem;
+                    grid-template-columns: 7rem 1rem 7rem 1fr;
                     column-gap: 20px;
 
                     >span:first-child {
@@ -307,7 +307,8 @@ dialog#add-task-modal {
     }
 }
 
-dialog#add-project-modal {
+dialog#add-project-modal,
+dialog#edit-project-modal {
     --width-val: 223px;
 
     form {
@@ -394,13 +395,15 @@ dialog {
                 border-width: 1px;
             }
 
-            .add {
+            .add,
+            .save {
                 background-color: #e75a7ca6;
                 color: white;
                 border-color: #e75a7c;
             }
 
-            .add:hover {
+            .add:hover,
+            .save:hover {
                 background-color: #e75a7c;
             }
 
