@@ -27,8 +27,9 @@ function createProject(name, color, id = `${Date.now()}`, subTasks = {}) {
         subTasks = tasks;
     }
 
-    const addTask = (taskObj) => {
+    function addTask(taskObj) {
         subTasks[taskObj.id] = taskObj;
+        this.subTasks[taskObj.id] = taskObj;
     }
 
     const getTask = (id) => {

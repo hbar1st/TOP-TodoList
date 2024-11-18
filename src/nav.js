@@ -2,6 +2,7 @@ import { ContentPanel } from "./content.js";
 import userImage from "./assets/person-icon.svg";
 import { AddProjectDialog } from "./project-dialogs.js";
 import { AddTaskDialog } from "./task-dialogs.js";
+import { UserProfileDialog } from "./user-profile-dialog.js"
 
 export { NavPanel }
 
@@ -13,8 +14,9 @@ class NavPanel {
      * @param {*} projects an array of project objects
      * @param {*} docObj the document object
      */
-    constructor(user, projectList, docObj) {
+    constructor(user, projectList, docObj, storage) {
         this.user = user;
+        this.storage = storage;
         this.projectList = projectList;
         this.docObj = docObj;
         this.contentPanel = new ContentPanel(projectList, docObj, this);
@@ -25,6 +27,7 @@ class NavPanel {
         this.addProjectBtn = this.docObj.querySelector("#add-project");
         this.addTaskDialog = null;
         this.addProjectDialog = null;
+        this.userProfileDialog = new UserProfileDialog(this.docObj, this, this.contentPanel, this.user);
 
         this.addTaskBtn.addEventListener("click", () => {
             if (!this.addTaskDialog) {
@@ -98,5 +101,13 @@ class NavPanel {
         if (e.target.getAttribute("data-id")) {
             this.contentPanel.displayProject(e.target.getAttribute("data-id"));
         }
+    }
+
+    updateStorage() {
+        this.storage.setItem("name", this.user);
+
+        const nameEl = this.docObj.createElement("h2");
+
+        nameEl.textContent = this.user.name;
     }
 }

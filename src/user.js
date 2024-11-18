@@ -6,5 +6,5 @@ export { createUser };
 // theme preferences or other settings
 // for now though, it's just a name
 function createUser(name) {
-    return { name };
+    return { name, theme: "default" };
 }

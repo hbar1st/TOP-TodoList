@@ -24,7 +24,7 @@ const todoList = function (windowObj) {
     } else {
         projects = new ProjectList(storage);
     }
-    const navPanel = new NavPanel(userObj, projects, document);
+    const navPanel = new NavPanel(userObj, projects, document, storage);
     navPanel.initDisplay();
     // now we have to set into motion some display updates
 }
