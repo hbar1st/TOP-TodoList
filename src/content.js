@@ -1,7 +1,10 @@
 import deleteProjectImage from "./assets/remove-project.svg";
 import delTaskImage from "./assets/remove-task.svg";
+import editProjectImage from "./assets/edit-pen.svg";
+
 import { EditProjectDialog } from "./project-dialogs.js";
-import { priorityStrings } from "./task";
+import { TodayView } from "./task-dialogs.js";
+import { priorityStrings } from "./task.js";
 import { format } from "date-fns";
 import { UTCDate } from "@date-fns/utc";
 
@@ -14,6 +17,7 @@ class ContentPanel {
         this.projectList = projectList;
         this.navPanel = navPanel;
         this.contentEl = docObj.querySelector("#content-panel");
+        this.currProjHeader = docObj.querySelector("#content-panel>header");
         this.currProjEl = docObj.querySelector("#content-panel>header span");
         this.currProjNameEl = docObj.querySelector("#content-panel>h1");
         this.taskListEl = docObj.querySelector("#content-panel>div");
@@ -37,6 +41,13 @@ class ContentPanel {
         this.taskListEl.addEventListener("input", this.taskClicked);
         this.docObj = docObj;
         this.currentProject = 0;
+
+        this.editProjectImgEl = this.docObj.createElement("img");
+        this.editProjectImgEl.setAttribute("src", `${editProjectImage}`);
+        this.editProjectImgEl.setAttribute("alt", "edit project");
+        this.editProjectImgEl.setAttribute("id", "#edit-project");
+
+        this.todayView = new TodayView(this.docObj, this.projectList, this.ContentPanel, this.contentEl);
     }
 
 
@@ -47,10 +58,10 @@ class ContentPanel {
 
     displayTodaysTasks = (e) => {
         console.log("attempt to get today's tasks for display");
-        const tasks = this.projectList.getAllTasksByDate(new UTCDate());
+        this.todayView.display();
     }
 
-    displayTasks = (projObj) => {
+    displayTasks = (projObj, viewOnly) => {
         // should accept some kind of date like whatever today is and get the tasks that are due on that date!??!!
         // <div data-id=""><div><img src="./assets/task.svg" alt=""><span>First Task<span><span>Due: 11/11/2024</span></div></div>
         console.log({ projObj });
@@ -201,6 +212,12 @@ class ContentPanel {
             this.contentEl.style.background = `linear-gradient(45deg, transparent 0%, transparent 94%, ${proj.color} 94%, ${proj.color} 94.5%, transparent 94.5%, transparent 94.5%, gray 95%, ${proj.color} 95%, ${proj.color} 100%`;
             this.currProjNameEl.innerText = proj.name;
         }
+
+        const editProjectImageEl = this.docObj.querySelector("#edit-project");
+        if (!editProjectImageEl) {
+            this.currProjHeader.appendChild(this.editProjectImgEl);
+        }
+
         if (id != 0) { // this is not the default project so display delete image
             this.contentEl.insertBefore(this.deleteProjImg, this.currProjNameEl);
         } else {

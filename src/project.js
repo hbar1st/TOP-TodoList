@@ -17,7 +17,7 @@ function createProject(name, color, id = `${Date.now()}`, subTasks = {}) {
         let todaysTasks = {};
         for (const taskId in subTasks) {
             if (isSameDay(subTasks[taskId].dueDate, utcdate, { in: utc })) {
-                todaysTasks[taskId] = getTask[taskId];
+                todaysTasks[taskId] = subTasks[taskId];
             }
         }
         return todaysTasks;

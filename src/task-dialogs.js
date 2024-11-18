@@ -1,20 +1,49 @@
 import { UTCDate } from "@date-fns/utc";
 import { createTask } from "./task.js";
+import { createProject } from "./project.js";
 
 import { format } from "date-fns";
 
 export { AddTaskDialog, TodayView }
 
 class TodayView {
-    constructor(docObj, projectList, contentPanel) {
+    constructor(docObj, projectList, contentPanel, contentEl) {
         this.docObj = docObj;
         this.projectList = projectList;
         this.contentPanel = contentPanel;
+        this.contentEl = contentEl;
     }
 
-    displayAllTasks() {
+    display() {
         const today = new UTCDate();
-        console.log(this.projectList.getAllTasksByDate(today));
+        const todaysTasks = this.projectList.getAllTasksByDate(today);
+        this.displayView(today, todaysTasks);
+    }
+
+    displayView = (date, tasks) => {
+        const proj = createProject("Today", "#ffffff", date, tasks);
+        if (proj) {
+            this.currProjNameEl = this.docObj.querySelector("#content-panel>h1");
+            this.currProjEl = this.docObj.querySelector("#content-panel>header span");
+            this.currProjEl.innerText = proj.name;
+            this.currProjNameEl.innerText = proj.name;
+            this.currProjEl.style.borderBottom = "none";
+            this.contentEl.style.background = "transparent";
+        }
+        const editProjectImageEl = this.docObj.querySelector("#edit-project");
+        if (editProjectImageEl) {
+            editProjectImageEl.parentElement.removeChild(editProjectImageEl);
+        }
+        const deleteProjImageEl = this.docObj.querySelector("#delete-project");
+        if (deleteProjImageEl) {
+            deleteProjImageEl.parentElement.removeChild(deleteProjImageEl);
+        }
+
+        this.displayTasks();
+    }
+
+    displayTasks = () => {
+        console.log('each task belongs to a different project! and needs a different id!!!');
     }
 }
 

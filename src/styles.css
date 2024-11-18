@@ -240,11 +240,12 @@ nav li:not(.projects li) {
 nav ul {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
 }
 
 #add-task button {
     color: #e75a7c;
+    background-color: transparent;
 }
 
 #add-task button:hover,
@@ -271,7 +272,7 @@ nav button {
     border-radius: 3px;
     padding: 2px 8px 2px 5px;
     width: calc(100% - 30px);
-
+    background-color: transparent;
 }
 
 nav button:hover,
