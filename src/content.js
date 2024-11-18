@@ -1,4 +1,5 @@
 
+import { constructFromSymbol } from "date-fns/constants";
 import deleteProjectImage from "./assets/remove-project.svg";
 import delTaskImage from "./assets/remove-task.svg";
 import { EditProjectDialog } from "./project-dialogs.js";
@@ -34,6 +35,7 @@ class ContentPanel {
         });
 
         this.taskListEl.addEventListener("click", this.taskClicked);
+        this.taskListEl.addEventListener("input", this.taskClicked);
         this.docObj = docObj;
         this.currentProject = 0;
     }
@@ -133,20 +135,19 @@ class ContentPanel {
 
     taskClicked = (e) => {
         console.log("what was clicked?");
-        console.log(e.target);
+        console.log(e.target, e.type);
+
+        const taskId = e.target.getAttribute("data-id");
+        const proj = this.projectList.getProj(this.getCurrentProjectId());
         if (e.target.classList.contains("tooltiptext")) {
 
             const imgParentEl = e.target.parentElement.parentElement;
             const taskParentEl = imgParentEl.parentElement;
-            const taskId = imgParentEl.getAttribute("data-id");
-            const proj = this.projectList.getProj(this.getCurrentProjectId());
             proj.delTask(taskId);
             taskParentEl.removeChild(imgParentEl);
         } else if (e.target instanceof HTMLImageElement) {
             if (e.target.id !== "task-menu") {
                 const imgParentEl = e.target.parentElement;
-                const taskId = imgParentEl.getAttribute("data-id");
-                const proj = this.projectList.getProj(this.getCurrentProjectId());
                 const task = proj.getTasks()[taskId];
                 task.toggleDone();
                 const completedTaskEl = this.docObj.createElement("img");
@@ -160,15 +161,13 @@ class ContentPanel {
             const taskId = e.target.id;
             console.log("create a dialog to show this task:", taskId)
             this.projectList.updateStorage();
-        } else if (e.target instanceof HTMLInputElement) {
-            console.log("is it the due date span that you clicked? ", e.target.parentElement);
+        } else if (e.type === "input" && e.target instanceof HTMLInputElement) {
+            console.log("is it the due date span that you clicked? ", e.target.value);
+            const d = new Date(e.target.value);
+            d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+            proj.getTask(taskId).dueDate = d;
         } else if (e.target instanceof HTMLSelectElement) {
-            console.log("did you click the priority list? ", e.target.value);
-            const taskId = e.target.getAttribute("data-id");
-
-            const proj = this.projectList.getProj(this.getCurrentProjectId());
             proj.getTask(taskId).priority = e.target.value;
-
         }
         //update the storage
         this.projectList.updateStorage();
