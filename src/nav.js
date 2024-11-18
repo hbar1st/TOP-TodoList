@@ -46,7 +46,14 @@ class NavPanel {
     initDisplay() {
         const nameEl = this.docObj.createElement("h2");
         nameEl.textContent = this.user.name;
-        this.userEl.innerHTML = `<img src=${userImage} alt="account icon">`;
+        const accountImg = this.docObj.createElement("img");
+        accountImg.setAttribute("src", `${userImage}`);
+        accountImg.setAttribute("alt", "account icon");
+        accountImg.addEventListener("click", () => {
+            const userDialog = this.docObj.querySelector("#user-profile-modal");
+            userDialog.showModal();
+        });
+        this.userEl.appendChild(accountImg);
         this.userEl.appendChild(nameEl);
 
         this.displayProjects();
