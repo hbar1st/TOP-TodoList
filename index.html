@@ -39,6 +39,25 @@
             </div>
         </section>
     </main>
+    <dialog id="user-profile-modal">
+        <img src="6d70c944acda7b946797.svg" alt="account icon">
+        <h1>Your Profile Settings</h1>
+        <form action="" method="dialog">
+            <div>
+                <label for="user-name">Name</label><input required autofocus type="text" name="user-name"
+                    id="user-name">
+                <label for="theme">Your Theme</label>
+                <fieldset id="theme">
+                    <input type="radio" name="theme" id="default">
+                    <input type="radio" name="theme" id="dark">
+                </fieldset>
+            </div>
+            <div class="button-panel">
+                <button class="cancel" type="button">Cancel</button>
+                <button class="save" type="button">Save</button>
+            </div>
+        </form>
+    </dialog>
     <dialog id="add-project-modal">
         <h1>Add Project</h1>
         <form action="" method="dialog">
