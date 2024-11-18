@@ -1,4 +1,3 @@
-
 import { createProject } from "./project.js";
 export { AddProjectDialog, EditProjectDialog }
 
@@ -10,19 +9,18 @@ class ProjectDialog {
         this.containerPanel = containerPanel;
     }
 
-    show(projectDialog) {
+    showDialog(projectDialog) {
         // TODO may need to reset the color field and name field if user clicks more than once to add a project
-        projectDialog().showModal();
+        projectDialog.showModal();
     }
 
 }
 class AddProjectDialog extends ProjectDialog {
 
-    constructor(docObj, projectList, containerPanel, addingMode, navPanel) {
+    constructor(docObj, projectList, containerPanel, navPanel) {
         super(docObj, projectList, containerPanel, navPanel);
         this.projectDialog = this.docObj.querySelector("#add-project-modal");
         const addOrEditBtnParentEl = this.docObj.querySelector("#add-project-modal .button-panel");
-
 
         const addBtn = this.docObj.createElement("button");
         addBtn.setAttribute("type", "submit");
@@ -35,7 +33,7 @@ class AddProjectDialog extends ProjectDialog {
 
     show() {
         // TODO may need to reset the color field if user clicks more than once to add a project
-        this.projectDialog.showModal();
+        this.showDialog(this.projectDialog);
     }
 
     addProject(e) {
@@ -55,7 +53,7 @@ class AddProjectDialog extends ProjectDialog {
 
 class EditProjectDialog extends ProjectDialog {
 
-    constructor(docObj, projectList, containerPanel, addingMode, navPanel) {
+    constructor(docObj, projectList, containerPanel, navPanel) {
         super(docObj, projectList, containerPanel, navPanel);
 
         this.projectDialog = this.docObj.querySelector("#edit-project-modal");
@@ -79,7 +77,7 @@ class EditProjectDialog extends ProjectDialog {
 
     show() {
         // TODO may need to reset the color field if user clicks more than once to add a project
-        this.show(this.projectDialog);
+        this.showDialog(this.projectDialog);
     }
 
     editProject(e) {
@@ -88,6 +86,7 @@ class EditProjectDialog extends ProjectDialog {
         const nameEl = this.docObj.querySelector("#edit-project-modal #proj-name");
         const color = this.docObj.querySelector("#edit-project-modal #proj-color");
         const validityState = nameEl.validity;
+
         if (validityState.valid) {
             this.currentProject.name = nameEl.value;
             this.currentProject.color = color.value;

@@ -3,6 +3,8 @@ import deleteProjectImage from "./assets/remove-project.svg";
 import delTaskImage from "./assets/remove-task.svg";
 import { EditProjectDialog } from "./project-dialogs.js";
 import { priorityStrings } from "./task";
+import { format } from "date-fns";
+
 
 export { ContentPanel }
 
@@ -26,10 +28,9 @@ class ContentPanel {
         this.editProjImg = docObj.querySelector("#edit-project");
         this.editProjImg.addEventListener("click", () => {
             if (!this.projectDialog) {
-                this.projectDialog = new EditProjectDialog(this.docObj, this.projectList, this, false, this.navPanel);
+                this.projectDialog = new EditProjectDialog(this.docObj, this.projectList, this, this.navPanel);
             }
             this.projectDialog.show();
-
         });
 
         this.taskListEl.addEventListener("click", this.taskClicked);
@@ -89,6 +90,9 @@ class ContentPanel {
                 dueDateEl.setAttribute("type", "date");
                 dueDateEl.value = `${tasks[id].getDueDateStr()}`;
                 dueDateEl.style.borderColor = `${tasks[id].color}`;
+
+                const today = format(new Date(), "yyyy-MM-dd");
+                dueDateEl.setAttribute("min", today);
                 subDivEl.appendChild(dueDateEl);
             }
             const priorityEl = this.docObj.createElement("select");
@@ -134,7 +138,6 @@ class ContentPanel {
             const taskParentEl = imgParentEl.parentElement;
             const taskId = imgParentEl.getAttribute("data-id");
             const proj = this.projectList.getProj(this.getCurrentProjectId());
-            //this.projectList.deleteTaskFrom(this.getCurrentProjectId());
             proj.delTask(taskId);
             taskParentEl.removeChild(imgParentEl);
             this.projectList.updateStorage();
@@ -159,8 +162,10 @@ class ContentPanel {
             const taskId = e.target.id;
             console.log("create a dialog to show this task:", taskId)
             this.projectList.updateStorage();
-        } else if (e.target instanceof HTMLSpanElement) {
+        } else if (e.target instanceof HTMLInputElement) {
             console.log("is it the due date span that you clicked? ", e.target.parentElement);
+        } else if (e.target instanceof HTMLSelectElement) {
+            console.log("did you click the priority list?");
         }
     }
 
@@ -173,9 +178,7 @@ class ContentPanel {
         }
         this.navPanel.displayProjects();
         this.refreshDisplay();
-
         this.currProjNameEl = this.docObj.querySelector("#content-panel>h1");
-
         this.currProjEl = this.docObj.querySelector("#content-panel>header span");
     }
 

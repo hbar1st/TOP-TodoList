@@ -35,7 +35,7 @@ class NavPanel {
         });
         this.addProjectBtn.addEventListener("click", () => {
             if (!this.addProjectDialog) {
-                this.addProjectDialog = new AddProjectDialog(this.docObj, this.projectList, this, true);
+                this.addProjectDialog = new AddProjectDialog(this.docObj, this.projectList, this, this);
             }
             this.addProjectDialog.show();
         });
