@@ -2,7 +2,7 @@ import delTaskImage from "./assets/remove-task.svg";
 
 import { UTCDate } from "@date-fns/utc";
 
-import { createTask, priorityStrings } from "./task.js";
+import { createTask } from "./task.js";
 import { createProject } from "./project.js";
 
 import { format } from "date-fns";
@@ -103,8 +103,8 @@ class EditTaskDialog extends TaskDialog {
     constructor(docObj, projectList, navPanel, contentPanel) {
         super(docObj, projectList, navPanel, contentPanel, "#edit-task-modal");
 
-        const editBtn = docObj.querySelector(`${this.parentSelector} .button-panel>.edit`);
-        editBtn.addEventListener("click", this.addTask.bind(this));
+        const editBtn = docObj.querySelector(`${this.parentSelector} .button-panel>.save`);
+        editBtn.addEventListener("click", this.editTask.bind(this));
     }
 
     editTask(e) {

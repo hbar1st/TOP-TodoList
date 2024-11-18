@@ -3,6 +3,7 @@ import editProjectImage from "./assets/edit-pen.svg";
 import delTaskImage from "./assets/remove-task.svg";
 
 import { EditProjectDialog } from "./project-dialogs.js";
+import { EditTaskDialog } from "./task-dialogs.js"
 import { TodayView } from "./task-dialogs.js";
 import { priorityStrings } from "./task.js";
 import { format } from "date-fns";
@@ -52,6 +53,8 @@ class ContentPanel {
             }
             this.projectDialog.show();
         });
+
+        this.editTaskDialog = new EditTaskDialog(this.docObj, this.projectList, this.navPanel, this);
     }
 
 
@@ -107,6 +110,7 @@ class ContentPanel {
         } else if (e.target instanceof HTMLDivElement || e.target instanceof HTMLSpanElement) {
             const taskId = e.target.id;
             console.log("create a dialog to show this task:", taskId)
+            this.editTaskDialog.show();
             this.projectList.updateStorage();
         } else if (e.type === "input" && e.target instanceof HTMLInputElement) {
             console.log("is it the due date span that you clicked? ", e.target.value);

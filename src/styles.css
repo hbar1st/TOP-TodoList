@@ -289,7 +289,8 @@ body>main>nav>section>ul>li:hover,
     }
 }
 
-dialog#add-task-modal {
+dialog#add-task-modal,
+dialog#edit-task-modal {
     --width-val: 489px;
 
     form {
