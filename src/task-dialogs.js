@@ -132,6 +132,8 @@ class TodayView {
                 priorityEl.appendChild(priorityOption1);
                 priorityEl.appendChild(priorityOption2);
                 priorityEl.appendChild(priorityOption3);
+                priorityEl.setAttribute("data-id", task.id);
+                priorityEl.setAttribute("data-proj", projId);
                 const labelEl = this.docObj.createElement("label");
                 labelEl.innerText = "Priority:";
 
