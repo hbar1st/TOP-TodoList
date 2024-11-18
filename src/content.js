@@ -63,7 +63,7 @@ class ContentPanel {
     displayTodaysTasks = (e) => {
         console.log("attempt to get today's tasks for display");
         this.currentProject = null; // it has to be null when we're in a view.
-        (new TodayView(this.docObj, this.projectList, this.ContentPanel, this.contentEl, this.taskListEl)).display();
+        (new TodayView(this.docObj, this.projectList, this, this.contentEl, this.taskListEl)).display();
     }
 
     displayTasks = (projObj) => {
@@ -72,80 +72,7 @@ class ContentPanel {
 
         for (const id in tasks) {
             const task = tasks[id];
-            console.log(id, task);
-            const divEl = this.docObj.createElement("div");
-            divEl.setAttribute("data-id", task.id);
-
-            const circleImg = task.getTaskCircleImg();
-            const circleEl = this.docObj.createElement("img");
-            circleEl.setAttribute("alt", task.getTaskAltText());
-            circleEl.setAttribute("src", circleImg);
-            circleEl.setAttribute("data-id", task.id);
-
-            const taskEl = this.docObj.createElement("div");
-            taskEl.classList.add("tooltip");
-            const taskImg = this.docObj.createElement("img");
-            taskImg.setAttribute("src", `${delTaskImage}`);
-            taskImg.setAttribute("alt", "menu icon");
-            taskImg.setAttribute("id", "task-menu");
-            taskImg.setAttribute("data-id", task.id);
-
-            const delOptionEl = this.docObj.createElement("div");
-            delOptionEl.textContent = "delete task";
-            delOptionEl.classList.add("tooltiptext");
-            delOptionEl.setAttribute("data-id", task.id);
-            taskEl.appendChild(taskImg);
-            taskEl.appendChild(delOptionEl);
-
-            const subDivEl = this.docObj.createElement("div");
-            subDivEl.classList.add(`${tasks[id].completed}`);
-
-            const nameSpanEl = this.docObj.createElement("span");
-            nameSpanEl.innerText = `${tasks[id].name}`;
-            subDivEl.appendChild(nameSpanEl);
-            if (tasks[id].hasDueDate()) {
-                const dueDateEl = this.docObj.createElement("input");
-                dueDateEl.setAttribute("type", "date");
-                dueDateEl.value = `${tasks[id].getDueDateStr()}`;
-                dueDateEl.style.borderColor = `${tasks[id].color}`;
-
-                const today = format(new Date(), "yyyy-MM-dd");
-                dueDateEl.setAttribute("min", today);
-                dueDateEl.setAttribute("data-id", task.id);
-                subDivEl.appendChild(dueDateEl);
-            }
-            const priorityEl = this.docObj.createElement("select");
-            priorityEl.setAttribute("data-id", task.id);
-            const priorityOption1 = this.docObj.createElement("option");
-            priorityOption1.setAttribute("value", "0");
-            priorityOption1.innerText = priorityStrings["0"];
-            const priorityOption2 = this.docObj.createElement("option");
-            priorityOption2.setAttribute("value", "1");
-            priorityOption2.innerText = priorityStrings["1"];
-            const priorityOption3 = this.docObj.createElement("option");
-            priorityOption3.setAttribute("value", "2");
-            priorityOption3.innerText = priorityStrings["2"];
-            const priority = priorityStrings[tasks[id].getPriorityStr()];
-            if (priority === priorityStrings["0"]) {
-                priorityOption1.selected = true;
-            } else if (priority === priorityStrings["1"]) {
-                priorityOption2.selected = true;
-            } else {
-                priorityOption3.selected = true;
-            }
-            priorityEl.appendChild(priorityOption1);
-            priorityEl.appendChild(priorityOption2);
-            priorityEl.appendChild(priorityOption3);
-            const labelEl = this.docObj.createElement("label");
-            labelEl.innerText = "Priority:";
-            labelEl.appendChild(priorityEl);
-            subDivEl.appendChild(labelEl);
-
-            // this divEl is managed by flex layout
-            divEl.appendChild(circleEl);
-            divEl.appendChild(subDivEl);
-            divEl.appendChild(taskEl);
-            this.taskListEl.appendChild(divEl);
+            this.displayTasksHelper(task, this.getCurrentProjectId);
         }
     }
 
@@ -190,6 +117,92 @@ class ContentPanel {
         }
         //update the storage
         this.projectList.updateStorage();
+    }
+
+    displayTasksHelper(task, projId) {
+        const divEl = this.docObj.createElement("div");
+        divEl.setAttribute("data-id", task.id);
+        divEl.setAttribute("data-proj", projId);
+
+        const circleImg = task.getTaskCircleImg();
+        const circleEl = this.docObj.createElement("img");
+        circleEl.setAttribute("alt", task.getTaskAltText());
+        circleEl.setAttribute("src", circleImg);
+
+        circleEl.setAttribute("data-id", task.id);
+        circleEl.setAttribute("data-proj", projId);
+
+        const taskEl = this.docObj.createElement("div");
+        taskEl.classList.add("tooltip");
+        const taskImg = this.docObj.createElement("img");
+        taskImg.setAttribute("src", `${delTaskImage}`);
+        taskImg.setAttribute("alt", "menu icon");
+        taskImg.setAttribute("id", "task-menu");
+        taskImg.setAttribute("data-id", task.id);
+        taskImg.setAttribute("data-proj", projId);
+
+        const delOptionEl = this.docObj.createElement("div");
+        delOptionEl.textContent = "delete task";
+        delOptionEl.classList.add("tooltiptext");
+        delOptionEl.setAttribute("data-id", task.id);
+        delOptionEl.setAttribute("data-proj", projId);
+
+        taskEl.appendChild(taskImg);
+        taskEl.appendChild(delOptionEl);
+
+        const subDivEl = this.docObj.createElement("div");
+        subDivEl.classList.add(`${task.completed}`);
+
+        const nameSpanEl = this.docObj.createElement("span");
+        nameSpanEl.innerText = `${task.name}`;
+        subDivEl.appendChild(nameSpanEl);
+        if (task.hasDueDate()) {
+            const dueDateEl = this.docObj.createElement("input");
+            dueDateEl.setAttribute("type", "date");
+            dueDateEl.value = `${task.getDueDateStr()}`;
+            dueDateEl.style.borderColor = `${task.color}`;
+
+            const today = format(new Date(), "yyyy-MM-dd");
+            dueDateEl.setAttribute("min", today);
+            dueDateEl.setAttribute("data-id", task.id);
+            dueDateEl.setAttribute("data-proj", projId);
+            subDivEl.appendChild(dueDateEl);
+        }
+        const priorityEl = this.docObj.createElement("select");
+        priorityEl.setAttribute("data-id", task.id);
+        const priorityOption1 = this.docObj.createElement("option");
+        priorityOption1.setAttribute("value", "0");
+        priorityOption1.innerText = priorityStrings["0"];
+        const priorityOption2 = this.docObj.createElement("option");
+        priorityOption2.setAttribute("value", "1");
+        priorityOption2.innerText = priorityStrings["1"];
+        const priorityOption3 = this.docObj.createElement("option");
+        priorityOption3.setAttribute("value", "2");
+        priorityOption3.innerText = priorityStrings["2"];
+        const priority = priorityStrings[task.getPriorityStr()];
+        if (priority === priorityStrings["0"]) {
+            priorityOption1.selected = true;
+        } else if (priority === priorityStrings["1"]) {
+            priorityOption2.selected = true;
+        } else {
+            priorityOption3.selected = true;
+        }
+        priorityEl.appendChild(priorityOption1);
+        priorityEl.appendChild(priorityOption2);
+        priorityEl.appendChild(priorityOption3);
+        priorityEl.setAttribute("data-id", task.id);
+        priorityEl.setAttribute("data-proj", projId);
+        const labelEl = this.docObj.createElement("label");
+        labelEl.innerText = "Priority:";
+
+        labelEl.appendChild(priorityEl);
+        subDivEl.appendChild(labelEl);
+
+        // this divEl is managed by flex layout
+        divEl.appendChild(circleEl);
+        divEl.appendChild(subDivEl);
+        divEl.appendChild(taskEl);
+        this.taskListEl.appendChild(divEl);
     }
 
     deleteProject = () => {
