@@ -47,7 +47,6 @@ class ContentPanel {
         this.editProjectImgEl.setAttribute("alt", "edit project");
         this.editProjectImgEl.setAttribute("id", "#edit-project");
 
-        this.todayView = new TodayView(this.docObj, this.projectList, this.ContentPanel, this.contentEl, this.taskListEl);
     }
 
 
@@ -59,7 +58,7 @@ class ContentPanel {
     displayTodaysTasks = (e) => {
         console.log("attempt to get today's tasks for display");
         this.currentProject = null; // it has to be null when we're in a view.
-        this.todayView.display();
+        (new TodayView(this.docObj, this.projectList, this.ContentPanel, this.contentEl, this.taskListEl)).display();
     }
 
     displayTasks = (projObj) => {
@@ -154,11 +153,11 @@ class ContentPanel {
         const proj = this.projectList.getProj(taskCurrentProjectId ?? e.target.getAttribute("data-proj"));
 
         if (e.target.classList.contains("tooltiptext")) {
-
             const imgParentEl = e.target.parentElement.parentElement;
             const taskParentEl = imgParentEl.parentElement;
             proj.delTask(taskId);
             taskParentEl.removeChild(imgParentEl);
+            this.projectList.updateStorage();
         } else if (e.target instanceof HTMLImageElement) {
             if (e.target.id !== "task-menu") {
                 const imgParentEl = e.target.parentElement;

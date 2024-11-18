@@ -35,8 +35,9 @@ function createProject(name, color, id = `${Date.now()}`, subTasks = {}) {
         return subTasks[id];
     }
 
-    const delTask = (taskId) => {
-        delete subTasks[(getTask(taskId))[id]];
+    function delTask(taskId) {
+        delete subTasks[taskId];
+        delete this.subTasks[taskId];
     }
 
     const toggleDone = (taskId) => {
