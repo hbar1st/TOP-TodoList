@@ -8,6 +8,7 @@ import { TodayView } from "./task-dialogs.js";
 import { priorityStrings } from "./task.js";
 import { format } from "date-fns";
 import { UTCDate } from "@date-fns/utc";
+import { el } from "date-fns/locale";
 
 
 export { ContentPanel }
@@ -80,6 +81,22 @@ class ContentPanel {
         }
     }
 
+    showTaskDisabled(taskId, taskRootEl, flag) {
+        const allTaskElements = this.docObj.querySelectorAll(`[data-id="${taskId}"]`);
+        if (flag) {
+            taskRootEl.style.textDecoration = "line-through";
+        } else {
+            taskRootEl.style.textDecoration = "none";
+        }
+        for (const el in allTaskElements) {
+            if (allTaskElements[el] instanceof Element) {
+                allTaskElements[el].disabled = flag
+            } else {
+                console.log("not an element: ", allTaskElements[el])
+            }
+        }
+    }
+
     taskClicked = (e) => {
         console.log("you just clicked on : ", e.target, e.type);
 
@@ -106,6 +123,7 @@ class ContentPanel {
                 completedTaskEl.setAttribute("data-id", taskId);
                 completedTaskEl.setAttribute("data-proj", proj.id);
                 imgParentEl.replaceChild(completedTaskEl, e.target);
+                this.showTaskDisabled(taskId, imgParentEl, task.completed);
 
             }
         } else if (e.target instanceof HTMLDivElement || e.target instanceof HTMLSpanElement) {
@@ -167,7 +185,6 @@ class ContentPanel {
         const nameSpanEl = this.docObj.createElement("span");
         nameSpanEl.innerText = `${task.name}`;
         nameSpanEl.setAttribute("data-id", task.id);
-
         nameSpanEl.setAttribute("data-proj", projId);
 
         subDivEl.appendChild(nameSpanEl);
@@ -218,6 +235,8 @@ class ContentPanel {
         divEl.appendChild(subDivEl);
         divEl.appendChild(taskEl);
         this.taskListEl.appendChild(divEl);
+
+        this.showTaskDisabled(task.id, divEl, task.completed)
     }
 
     deleteProject = () => {
