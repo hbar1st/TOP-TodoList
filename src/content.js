@@ -46,7 +46,12 @@ class ContentPanel {
         this.editProjectImgEl.setAttribute("src", `${editProjectImage}`);
         this.editProjectImgEl.setAttribute("alt", "edit project");
         this.editProjectImgEl.setAttribute("id", "#edit-project");
-
+        this.editProjectImgEl.addEventListener("click", () => {
+            if (!this.projectDialog) {
+                this.projectDialog = new EditProjectDialog(this.docObj, this.projectList, this, this.navPanel);
+            }
+            this.projectDialog.show();
+        });
     }
 
 
