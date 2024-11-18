@@ -83,6 +83,7 @@ class NavPanel {
     addProject(projObj) {
         const projName = this.createNameEl(projObj, "li");
         this.projectsListEl.appendChild(projName);
+        this.contentPanel.displayProject(projObj.id);
     }
 
     dispatchDisplay = (e) => {

@@ -61,6 +61,14 @@ main {
         display: flex;
         flex-direction: column;
         gap: 30px;
+
+
+        >div>img:hover {
+            box-sizing: content-box;
+            border: 2px solid white;
+            box-shadow: 1px 1px 2px black;
+        }
+
     }
 
     >section#content-panel {
@@ -449,4 +457,8 @@ dialog::backdrop {
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
+}
+
+#delete-project:hover {
+    transform: scale(1.2, 1.2);
 }
