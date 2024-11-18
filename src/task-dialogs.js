@@ -84,7 +84,7 @@ class TaskDialog {
         this.dueDateEl.setAttribute("min", today);
     }
 
-    show() {
+    showDialog() {
         // TODO may need to reset the various fields before showing in case it was used earlier in the session?
         this.projectListEl.innerHTML = ""; //clear out the html list
         const projects = this.projectList.getProjects();
@@ -96,6 +96,33 @@ class TaskDialog {
         // ask the contentPanel which project is selected and make it the default one shown
         this.taskDialog.showModal();
     }
+
+
+    getNameEl() {
+        return this.docObj.querySelector(`${this.parentSelector} #task-name`);
+    }
+
+    getColorEl() {
+        return this.docObj.querySelector(`${this.parentSelector} #task-color`);
+    }
+
+    getDescEl() {
+        return this.docObj.querySelector(`${this.parentSelector} #task-desc`);
+    }
+    getPriorityEl() {
+        return this.docObj.querySelector(`${this.parentSelector} #task-priority`);
+    }
+    getDueDateEl() {
+        return this.docObj.querySelector(`${this.parentSelector} #task-due`);
+    }
+
+    reset() {
+        this.getNameEl().value = "";
+        this.getColorEl().value = "#ffffff"; //white
+        this.getDescEl().value = "";
+        this.getPriorityEl().value = "1";
+        this.getDueDateEl().value = "";
+    }
 }
 
 class EditTaskDialog extends TaskDialog {
@@ -105,6 +132,10 @@ class EditTaskDialog extends TaskDialog {
 
         const editBtn = docObj.querySelector(`${this.parentSelector} .button-panel>.save`);
         editBtn.addEventListener("click", this.editTask.bind(this));
+    }
+
+    show() {
+        this.showDialog();
     }
 
     editTask(e) {
@@ -144,6 +175,11 @@ class AddTaskDialog extends TaskDialog {
 
         const addBtn = docObj.querySelector(`${this.parentSelector} .button-panel>.add`);
         addBtn.addEventListener("click", this.addTask.bind(this));
+    }
+
+    show() {
+        this.reset();
+        this.showDialog();
     }
 
     addTask(e) {
