@@ -51,7 +51,8 @@ class ProjectList {
 
     getAllTasksByDate(utcdate) {
         return Object.values(this.projects).reduce((acc, el) => {
-            return { ...acc, ...el.getTasksByDate(utcdate) };
+            acc[el.id] = el.getTasksByDate(utcdate);
+            return acc;
         }, {});
     }
 
@@ -59,9 +60,4 @@ class ProjectList {
         delete this.projects[id];
         this.storage.setItem("projects", this.projects);
     }
-    /*
-        deleteTaskFrom(projId) {
-            this.getProj(id)
-        }
-            */
 }

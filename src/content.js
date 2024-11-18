@@ -1,6 +1,6 @@
 import deleteProjectImage from "./assets/remove-project.svg";
-import delTaskImage from "./assets/remove-task.svg";
 import editProjectImage from "./assets/edit-pen.svg";
+import delTaskImage from "./assets/remove-task.svg";
 
 import { EditProjectDialog } from "./project-dialogs.js";
 import { TodayView } from "./task-dialogs.js";
@@ -47,7 +47,7 @@ class ContentPanel {
         this.editProjectImgEl.setAttribute("alt", "edit project");
         this.editProjectImgEl.setAttribute("id", "#edit-project");
 
-        this.todayView = new TodayView(this.docObj, this.projectList, this.ContentPanel, this.contentEl);
+        this.todayView = new TodayView(this.docObj, this.projectList, this.ContentPanel, this.contentEl, this.taskListEl);
     }
 
 
@@ -58,19 +58,17 @@ class ContentPanel {
 
     displayTodaysTasks = (e) => {
         console.log("attempt to get today's tasks for display");
+        this.currentProject = null; // it has to be null when we're in a view.
         this.todayView.display();
     }
 
-    displayTasks = (projObj, viewOnly) => {
-        // should accept some kind of date like whatever today is and get the tasks that are due on that date!??!!
-        // <div data-id=""><div><img src="./assets/task.svg" alt=""><span>First Task<span><span>Due: 11/11/2024</span></div></div>
-        console.log({ projObj });
+    displayTasks = (projObj) => {
         const tasks = projObj.getTasks();
         this.taskListEl.innerHTML = "";
 
         for (const id in tasks) {
             const task = tasks[id];
-
+            console.log(id, task);
             const divEl = this.docObj.createElement("div");
             divEl.setAttribute("data-id", task.id);
 
@@ -78,6 +76,7 @@ class ContentPanel {
             const circleEl = this.docObj.createElement("img");
             circleEl.setAttribute("alt", task.getTaskAltText());
             circleEl.setAttribute("src", circleImg);
+            circleEl.setAttribute("data-id", task.id);
 
             const taskEl = this.docObj.createElement("div");
             taskEl.classList.add("tooltip");
@@ -147,11 +146,13 @@ class ContentPanel {
     }
 
     taskClicked = (e) => {
-        console.log("what was clicked?");
-        console.log(e.target, e.type);
+        console.log("you just clicked on : ", e.target, e.type);
 
-        const taskId = e.target.getAttribute("data-id");
-        const proj = this.projectList.getProj(this.getCurrentProjectId());
+        const taskId = e.target.getAttribute("data-id") ?? e.target.parentElement.getAttribute("data-id");
+        const taskCurrentProjectId = this.getCurrentProjectId();
+
+        const proj = this.projectList.getProj(taskCurrentProjectId ?? e.target.getAttribute("data-proj"));
+
         if (e.target.classList.contains("tooltiptext")) {
 
             const imgParentEl = e.target.parentElement.parentElement;
@@ -167,6 +168,8 @@ class ContentPanel {
                 imgParentEl.classList.toggle("false");
                 completedTaskEl.setAttribute("src", task.getTaskCircleImg());
                 completedTaskEl.setAttribute("alt", task.getTaskAltText());
+                completedTaskEl.setAttribute("data-id", taskId);
+                completedTaskEl.setAttribute("data-proj", proj.id);
                 imgParentEl.replaceChild(completedTaskEl, e.target);
 
             }
@@ -178,8 +181,6 @@ class ContentPanel {
             console.log("is it the due date span that you clicked? ", e.target.value);
             const d = new UTCDate(e.target.value);
             proj.getTask(taskId).dueDate = d;
-            /*d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
-            proj.getTask(taskId).dueDate = d;*/
         } else if (e.target instanceof HTMLSelectElement) {
             proj.getTask(taskId).priority = e.target.value;
         }
