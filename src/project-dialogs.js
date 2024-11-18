@@ -30,7 +30,9 @@ class ProjectDialog {
 class AddProjectDialog extends ProjectDialog {
 
     constructor(docObj, projectList, containerPanel, navPanel) {
+
         super(docObj, projectList, containerPanel, navPanel);
+
         this.projectDialog = this.docObj.querySelector("#add-project-modal");
         const addOrEditBtnParentEl = this.docObj.querySelector("#add-project-modal .button-panel");
 

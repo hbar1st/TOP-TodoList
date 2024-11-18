@@ -104,7 +104,7 @@ class ContentPanel {
                 imgParentEl.replaceChild(completedTaskEl, e.target);
 
             }
-        } else if (e.target instanceof HTMLDivElement) {
+        } else if (e.target instanceof HTMLDivElement || e.target instanceof HTMLSpanElement) {
             const taskId = e.target.id;
             console.log("create a dialog to show this task:", taskId)
             this.projectList.updateStorage();

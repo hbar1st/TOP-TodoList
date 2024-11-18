@@ -8,7 +8,7 @@ import { createProject } from "./project.js";
 import { format } from "date-fns";
 
 
-export { AddTaskDialog, TodayView }
+export { AddTaskDialog, EditTaskDialog, TodayView }
 
 class TodayView {
     constructor(docObj, projectList, contentPanel, contentEl, taskListEl) {
@@ -22,9 +22,9 @@ class TodayView {
     display() {
         const today = new UTCDate();
         const todaysTasksByProj = this.projectList.getAllTasksByDate(today);
-        const allTasks = Object.values(todaysTasksByProj).reduce((acc, el) => {
+        /*const allTasks = Object.values(todaysTasksByProj).reduce((acc, el) => {
             return { ...acc, ...el.tasks };
-        }, {});
+        }, {});*/
         this.displayView();
         this.displayTasks(todaysTasksByProj);
     }
@@ -60,7 +60,7 @@ class TodayView {
         for (const projId in tasksByProj) {
             for (const id in tasksByProj[projId]) {
                 const task = tasksByProj[projId][id];
-                
+
                 this.contentPanel.displayTasksHelper(task, projId)
             }
         }
@@ -68,21 +68,20 @@ class TodayView {
 }
 
 
-class AddTaskDialog {
+class TaskDialog {
 
-    constructor(docObj, projectList, navPanel, contentPanel) {
+    constructor(docObj, projectList, navPanel, contentPanel, parentSelector) {
         this.docObj = docObj;
         this.projectList = projectList;
         this.navPanel = navPanel;
         this.contentPanel = contentPanel;
-        this.projectListEl = docObj.querySelector("#add-task-modal #project-list");
-        this.addTaskDialog = docObj.querySelector("#add-task-modal");
-        const addBtn = docObj.querySelector("#add-task-modal .button-panel>.add");
-        this.dueDateEl = this.docObj.querySelector("#task-due")
+        this.parentSelector = parentSelector;
+
+        this.projectListEl = docObj.querySelector(`${parentSelector} #project-list`);
+        this.taskDialog = docObj.querySelector(`${parentSelector}`);
+        this.dueDateEl = this.docObj.querySelector(`${parentSelector} #task-due`)
         const today = format(new Date(), "yyyy-MM-dd");
         this.dueDateEl.setAttribute("min", today);
-        console.log(addBtn);
-        addBtn.addEventListener("click", this.addTask.bind(this));
     }
 
     show() {
@@ -95,29 +94,72 @@ class AddTaskDialog {
             this.projectListEl.appendChild(projEl);
         }
         // ask the contentPanel which project is selected and make it the default one shown
-        this.addTaskDialog.showModal();
+        this.taskDialog.showModal();
+    }
+}
+
+class EditTaskDialog extends TaskDialog {
+
+    constructor(docObj, projectList, navPanel, contentPanel) {
+        super(docObj, projectList, navPanel, contentPanel, "#edit-task-modal");
+
+        const editBtn = docObj.querySelector(`${this.parentSelector} .button-panel>.edit`);
+        editBtn.addEventListener("click", this.addTask.bind(this));
+    }
+
+    editTask(e) {
+        const taskIdEl = this.docObj.querySelector(`{this.parentSelector} #id`); // this is a hidden element only in the edit panel?
+        const taskProjIdEl = this.docObj.querySelector(`{this.parentSelector} #proj-id`); // this is another hidden element for edits with the proj id
+        const nameEl = this.docObj.querySelector(`${this.parentSelector} #task-name`);
+        const color = this.docObj.querySelector(`${this.parentSelector} task-color`).value;
+        const priority = this.docObj.querySelector(`${this.parentSelector} #task-priority`).value;
+        const desc = this.docObj.querySelector(`${this.parentSelector} #task-desc`).value;
+        const dueDate = this.dueDateEl.value;
+        const project = this.docObj.querySelector(`${this.parentSelector} #project-list`).value;
+        const validityState = nameEl.validity;
+        if (validityState.valid) {
+            const taskObj = this.projectList.getProj(taskProjIdEl).getTask(taskIdEl);
+            const newTask = (priority === "") ? createTask(nameEl.value, color, desc, dueDate)
+                : createTask(nameEl.value, color, desc, dueDate, priority);
+
+            const currentProjectId = this.contentPanel.getCurrentProjectId();
+            const oldProject = this.projectList.getProj(taskProjIdEl);
+
+            const selectedProject = this.projectList.getProj(project);
+
+            if (currentProjectId !== selectedProject.id) {
+                selectedProject.addTask(newTask);
+                oldProject.delTask(taskObj);
+            }
+            this.contentPanel.displayProject(selectedProject.id);
+            this.projectList.updateStorage();
+        }
+    }
+}
+
+class AddTaskDialog extends TaskDialog {
+
+    constructor(docObj, projectList, navPanel, contentPanel) {
+        super(docObj, projectList, navPanel, contentPanel, "#add-task-modal");
+
+        const addBtn = docObj.querySelector(`${this.parentSelector} .button-panel>.add`);
+        addBtn.addEventListener("click", this.addTask.bind(this));
     }
 
     addTask(e) {
-        console.log(e);
-        const nameEl = this.docObj.querySelector("#task-name");
-        const color = this.docObj.querySelector("#task-color").value;
-        const priority = this.docObj.querySelector("#task-priority").value;
-        const desc = this.docObj.querySelector("#task-desc").value;
+        const nameEl = this.docObj.querySelector(`${this.parentSelector} #task-name`);
+        const color = this.docObj.querySelector(`${this.parentSelector} #task-color`).value;
+        const priority = this.docObj.querySelector(`${this.parentSelector} #task-priority`).value;
+        const desc = this.docObj.querySelector(`${this.parentSelector} #task-desc`).value;
         const dueDate = this.dueDateEl.value;
-        const project = this.docObj.querySelector("#project-list").value;
+        const project = this.docObj.querySelector(`${this.parentSelector} #project-list`).value;
         const validityState = nameEl.validity;
         if (validityState.valid) {
-            // if user selected a project, tell that project about this task otherwise tell the
-            //   default project id 0 about this task
-            // the project object should inform the storage to update itself
-            // and the project object should inform the nav to update itself
-
             const newTask = (priority === "") ? createTask(nameEl.value, color, desc, dueDate)
                 : createTask(nameEl.value, color, desc, dueDate, priority);
             const currentProjectId = this.contentPanel.getCurrentProjectId();
             const selectedProject = this.projectList.getProj(project);
-            console.log(selectedProject);
+
             const selectedProjectId = selectedProject.id;
 
             if (currentProjectId === selectedProjectId) {
