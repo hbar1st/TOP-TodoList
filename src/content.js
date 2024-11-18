@@ -41,7 +41,7 @@ class ContentPanel {
         this.taskListEl.addEventListener("click", this.taskClicked);
         this.taskListEl.addEventListener("input", this.taskClicked);
         this.docObj = docObj;
-        this.currentProject = 0;
+        this.currentProjectId = 0;
 
         this.editProjectImgEl = this.docObj.createElement("img");
         this.editProjectImgEl.setAttribute("src", `${editProjectImage}`);
@@ -59,13 +59,13 @@ class ContentPanel {
 
 
     refreshDisplay = () => {
-        this.currentProject = 0; // zero is the default project id.
+        this.currentProjectId = 0; // zero is the default project id.
         this.displayProject(0);
     }
 
     displayTodaysTasks = (e) => {
         console.log("attempt to get today's tasks for display");
-        this.currentProject = null; // it has to be null when we're in a view.
+        this.currentProjectId = null; // it has to be null when we're in a view.
         (new TodayView(this.docObj, this.projectList, this, this.contentEl, this.taskListEl)).display();
     }
 
@@ -75,7 +75,8 @@ class ContentPanel {
 
         for (const id in tasks) {
             const task = tasks[id];
-            this.displayTasksHelper(task, this.getCurrentProjectId);
+
+            this.displayTasksHelper(task, this.getCurrentProjectId());
         }
     }
 
@@ -108,9 +109,10 @@ class ContentPanel {
 
             }
         } else if (e.target instanceof HTMLDivElement || e.target instanceof HTMLSpanElement) {
-            const taskId = e.target.id;
-            console.log("create a dialog to show this task:", taskId)
-            this.editTaskDialog.show();
+            const taskId = e.target.getAttribute("data-id") ?? e.target.parentElement.getAttribute("data=id");
+            const projId = e.target.getAttribute("data-proj") ?? e.target.parentElement.getAttribute("data-proj");
+            console.log("create a dialog to show this task, project:", taskId, projId)
+            this.editTaskDialog.show(this.projectList.getProj(projId).getTask(taskId), this.projectList.getProj(projId));
             this.projectList.updateStorage();
         } else if (e.type === "input" && e.target instanceof HTMLInputElement) {
             console.log("is it the due date span that you clicked? ", e.target.value);
@@ -124,6 +126,7 @@ class ContentPanel {
     }
 
     displayTasksHelper(task, projId) {
+        console.log(projId);
         const divEl = this.docObj.createElement("div");
         divEl.setAttribute("data-id", task.id);
         divEl.setAttribute("data-proj", projId);
@@ -156,9 +159,14 @@ class ContentPanel {
 
         const subDivEl = this.docObj.createElement("div");
         subDivEl.classList.add(`${task.completed}`);
-
+        subDivEl.setAttribute("data-id", task.id);
+        subDivEl.setAttribute("data-proj", projId);
         const nameSpanEl = this.docObj.createElement("span");
         nameSpanEl.innerText = `${task.name}`;
+        nameSpanEl.setAttribute("data-id", task.id);
+
+        nameSpanEl.setAttribute("data-proj", projId);
+
         subDivEl.appendChild(nameSpanEl);
         if (task.hasDueDate()) {
             const dueDateEl = this.docObj.createElement("input");
@@ -212,7 +220,6 @@ class ContentPanel {
     deleteProject = () => {
         //set the new current project to the default project
         let currentProjectId = this.getCurrentProjectId();
-        console.log("delete the current project: ", this.getCurrentProjectId())
         if (this.getCurrentProjectId != 0) {
             this.projectList.deleteProject(currentProjectId);
         }
@@ -250,12 +257,12 @@ class ContentPanel {
         }
 
         this.displayTasks(proj);
-        this.currentProject = id;
+        this.currentProjectId = id;
     }
 
 
     getCurrentProjectId() {
-        return this.currentProject;
+        return this.currentProjectId;
     }
 
 }

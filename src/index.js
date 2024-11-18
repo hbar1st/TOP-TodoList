@@ -8,16 +8,11 @@ const todoList = function (windowObj) {
     const storage = new WebStorage(windowObj);
     let userObj = storage.getItem("name");
     const body = document.querySelector("body");
-    body.style.visibility = "hidden";
     if (userObj === null) {
-        // Greet new user!
-        const name = windowObj.prompt("Hey there stranger! You've reached Hana's To Do List App and to get started, I'll need to know what to call you:", "stranger");
-        if (!name) { //user clicked cancel
-            return;
-        }
         // save this person's profile and display the app?
-        userObj = createUser(name);
+        userObj = createUser("user");
         storage.setItem("name", userObj);
+
     }
 
     // load existing user's todo lists
@@ -29,7 +24,6 @@ const todoList = function (windowObj) {
     } else {
         projects = new ProjectList(storage);
     }
-    body.style.visibility = "visible";
     const navPanel = new NavPanel(userObj, projects, document);
     navPanel.initDisplay();
     // now we have to set into motion some display updates

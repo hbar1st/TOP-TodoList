@@ -61,7 +61,7 @@ class TodayView {
             for (const id in tasksByProj[projId]) {
                 const task = tasksByProj[projId][id];
 
-                this.contentPanel.displayTasksHelper(task, projId)
+                this.contentPanel.displayTasksHelper(task, projId.id)
             }
         }
     }
@@ -77,8 +77,9 @@ class TaskDialog {
         this.contentPanel = contentPanel;
         this.parentSelector = parentSelector;
 
-        this.projectListEl = docObj.querySelector(`${parentSelector} #project-list`);
         this.taskDialog = docObj.querySelector(`${parentSelector}`);
+        this.taskDialogDiv = docObj.querySelector(`${parentSelector}>form>div:first-child`)
+        this.projectListEl = docObj.querySelector(`${parentSelector} #project-list`);
         this.dueDateEl = this.docObj.querySelector(`${parentSelector} #task-due`)
         const today = format(new Date(), "yyyy-MM-dd");
         this.dueDateEl.setAttribute("min", today);
@@ -123,6 +124,7 @@ class TaskDialog {
         this.getPriorityEl().value = "1";
         this.getDueDateEl().value = "";
     }
+
 }
 
 class EditTaskDialog extends TaskDialog {
@@ -134,15 +136,33 @@ class EditTaskDialog extends TaskDialog {
         editBtn.addEventListener("click", this.editTask.bind(this));
     }
 
-    show() {
+    show(taskObj, projObj) {
+        this.loadFields(taskObj, projObj);
         this.showDialog();
     }
 
+    loadFields(taskObj, projObj) { //loads the current task's values into the fields
+        this.getNameEl().value = taskObj.name;
+        this.getColorEl().value = taskObj.color;
+        this.getDescEl().value = taskObj.desc ?? "";
+        this.getPriorityEl().value = taskObj.priority;
+        this.getDueDateEl().value = taskObj.dueDate;
+
+        //create 2 hidden fields with the task id and the project id
+        const idSpan = this.docObj.createElement("span");
+        idSpan.setAttribute("hidden", "true");
+        idSpan.setAttribute("id", "hidden-span");
+        idSpan.setAttribute("data-id", taskObj.id);
+        idSpan.setAttribute("data-proj", projObj.id);
+        this.taskDialogDiv.appendChild(idSpan);
+    }
+
     editTask(e) {
-        const taskIdEl = this.docObj.querySelector(`{this.parentSelector} #id`); // this is a hidden element only in the edit panel?
-        const taskProjIdEl = this.docObj.querySelector(`{this.parentSelector} #proj-id`); // this is another hidden element for edits with the proj id
+        const taskIdEl = this.docObj.querySelector(`${this.parentSelector} #hidden-span`).getAttribute("data-id");
+        const taskProjIdEl = this.docObj.querySelector(`${this.parentSelector} #hidden-span`).getAttribute("data-proj");
+        console.log("trying to edit a task (taskid, projid): ", taskIdEl, taskProjIdEl);
         const nameEl = this.docObj.querySelector(`${this.parentSelector} #task-name`);
-        const color = this.docObj.querySelector(`${this.parentSelector} task-color`).value;
+        const color = this.docObj.querySelector(`${this.parentSelector} #task-color`).value;
         const priority = this.docObj.querySelector(`${this.parentSelector} #task-priority`).value;
         const desc = this.docObj.querySelector(`${this.parentSelector} #task-desc`).value;
         const dueDate = this.dueDateEl.value;
@@ -150,16 +170,16 @@ class EditTaskDialog extends TaskDialog {
         const validityState = nameEl.validity;
         if (validityState.valid) {
             const taskObj = this.projectList.getProj(taskProjIdEl).getTask(taskIdEl);
-            const newTask = (priority === "") ? createTask(nameEl.value, color, desc, dueDate)
-                : createTask(nameEl.value, color, desc, dueDate, priority);
+            const newTask = (priority === "") ? createTask(nameEl.value, color, desc, dueDate, false, taskIdEl)
+                : createTask(nameEl.value, color, desc, dueDate, priority, false, taskIdEl);
 
             const currentProjectId = this.contentPanel.getCurrentProjectId();
-            const oldProject = this.projectList.getProj(taskProjIdEl);
 
             const selectedProject = this.projectList.getProj(project);
 
             if (currentProjectId !== selectedProject.id) {
                 selectedProject.addTask(newTask);
+                const oldProject = this.projectList.getProj(taskProjIdEl);
                 oldProject.delTask(taskObj);
             }
             this.contentPanel.displayProject(selectedProject.id);
