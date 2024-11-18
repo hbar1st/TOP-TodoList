@@ -1,4 +1,7 @@
 import { createTask } from "./task.js";
+
+import { format } from "date-fns";
+
 export { AddTaskDialog }
 
 
@@ -12,6 +15,9 @@ class AddTaskDialog {
         this.projectListEl = docObj.querySelector("#add-task-modal #project-list");
         this.addTaskDialog = docObj.querySelector("#add-task-modal");
         const addBtn = docObj.querySelector("#add-task-modal .button-panel>.add");
+        this.dueDateEl = this.docObj.querySelector("#task-due")
+        const today = format(new Date(), "yyyy-MM-dd");
+        this.dueDateEl.setAttribute("min", today);
         console.log(addBtn);
         addBtn.addEventListener("click", this.addTask.bind(this));
     }
@@ -35,7 +41,7 @@ class AddTaskDialog {
         const color = this.docObj.querySelector("#task-color").value;
         const priority = this.docObj.querySelector("#task-priority").value;
         const desc = this.docObj.querySelector("#task-desc").value;
-        const dueDate = this.docObj.querySelector("#task-due").value;
+        const dueDate = this.dueDateEl.value;
         const project = this.docObj.querySelector("#project-list").value;
         const validityState = nameEl.validity;
         if (validityState.valid) {

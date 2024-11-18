@@ -140,13 +140,11 @@ class ContentPanel {
             const proj = this.projectList.getProj(this.getCurrentProjectId());
             proj.delTask(taskId);
             taskParentEl.removeChild(imgParentEl);
-            this.projectList.updateStorage();
         } else if (e.target instanceof HTMLImageElement) {
             if (e.target.id !== "task-menu") {
                 const imgParentEl = e.target.parentElement;
                 const taskId = imgParentEl.getAttribute("data-id");
                 const proj = this.projectList.getProj(this.getCurrentProjectId());
-                //proj.toggleDone(taskId);
                 const task = proj.getTasks()[taskId];
                 task.toggleDone();
                 const completedTaskEl = this.docObj.createElement("img");
@@ -155,8 +153,6 @@ class ContentPanel {
                 completedTaskEl.setAttribute("alt", task.getTaskAltText());
                 imgParentEl.replaceChild(completedTaskEl, e.target);
 
-                //update the storage
-                this.projectList.updateStorage();
             }
         } else if (e.target instanceof HTMLDivElement) {
             const taskId = e.target.id;
@@ -166,7 +162,10 @@ class ContentPanel {
             console.log("is it the due date span that you clicked? ", e.target.parentElement);
         } else if (e.target instanceof HTMLSelectElement) {
             console.log("did you click the priority list?");
+            
         }
+        //update the storage
+        this.projectList.updateStorage();
     }
 
     deleteProject = () => {

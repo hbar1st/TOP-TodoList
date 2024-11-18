@@ -64,6 +64,8 @@ main {
     }
 
     >section#content-panel {
+
+        overflow: scroll;
         grid-area: content;
 
         padding: 15px;

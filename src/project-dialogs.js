@@ -24,7 +24,7 @@ class ProjectDialog {
 
     reset(selector) {
         this.getNameEl(selector).value = "";
-        this.getColorEl(selector).value = "#000000";
+        this.getColorEl(selector).value = "#ffffff"; //white
     }
 }
 class AddProjectDialog extends ProjectDialog {
