@@ -1,4 +1,6 @@
 import { reviveTask } from "./task";
+import { isSameDay } from "date-fns";
+import { utc } from "@date-fns/utc";
 
 export { createProject, reviveProject, getDefaultProject };
 
@@ -9,6 +11,16 @@ function createProject(name, color, id = `${Date.now()}`, subTasks = {}) {
 
     const getTasks = () => {
         return subTasks;
+    }
+
+    const getTasksByDate = (utcdate) => {
+        let todaysTasks = {};
+        for (const taskId in subTasks) {
+            if (isSameDay(subTasks[taskId].dueDate, utcdate, { in: utc })) {
+                todaysTasks[taskId] = getTask[taskId];
+            }
+        }
+        return todaysTasks;
     }
 
     const setTasks = (tasks) => {
@@ -24,14 +36,14 @@ function createProject(name, color, id = `${Date.now()}`, subTasks = {}) {
     }
 
     const delTask = (taskId) => {
-        delete subTasks[getTask(taskId).id];
+        delete subTasks[(getTask(taskId))[id]];
     }
 
     const toggleDone = (taskId) => {
         subTasks[taskId].toggleDone();
     }
 
-    return { name, color, id, subTasks, getTasks, getTask, setTasks, addTask, delTask, toggleDone };
+    return { name, color, id, subTasks, getTasks, getTask, setTasks, addTask, delTask, toggleDone, getTasksByDate };
 }
 
 function reviveProject(projObj) {

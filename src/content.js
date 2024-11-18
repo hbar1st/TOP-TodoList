@@ -1,10 +1,9 @@
-
-import { constructFromSymbol } from "date-fns/constants";
 import deleteProjectImage from "./assets/remove-project.svg";
 import delTaskImage from "./assets/remove-task.svg";
 import { EditProjectDialog } from "./project-dialogs.js";
 import { priorityStrings } from "./task";
 import { format } from "date-fns";
+import { UTCDate } from "@date-fns/utc";
 
 
 export { ContentPanel }
@@ -47,7 +46,8 @@ class ContentPanel {
     }
 
     displayTodaysTasks = (e) => {
-        console.log(e.target);
+        console.log("attempt to get today's tasks for display");
+        const tasks = this.projectList.getAllTasksByDate(new UTCDate());
     }
 
     displayTasks = (projObj) => {
@@ -74,10 +74,12 @@ class ContentPanel {
             taskImg.setAttribute("src", `${delTaskImage}`);
             taskImg.setAttribute("alt", "menu icon");
             taskImg.setAttribute("id", "task-menu");
+            taskImg.setAttribute("data-id", task.id);
 
             const delOptionEl = this.docObj.createElement("div");
             delOptionEl.textContent = "delete task";
             delOptionEl.classList.add("tooltiptext");
+            delOptionEl.setAttribute("data-id", task.id);
             taskEl.appendChild(taskImg);
             taskEl.appendChild(delOptionEl);
 
@@ -163,9 +165,10 @@ class ContentPanel {
             this.projectList.updateStorage();
         } else if (e.type === "input" && e.target instanceof HTMLInputElement) {
             console.log("is it the due date span that you clicked? ", e.target.value);
-            const d = new Date(e.target.value);
-            d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+            const d = new UTCDate(e.target.value);
             proj.getTask(taskId).dueDate = d;
+            /*d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
+            proj.getTask(taskId).dueDate = d;*/
         } else if (e.target instanceof HTMLSelectElement) {
             proj.getTask(taskId).priority = e.target.value;
         }

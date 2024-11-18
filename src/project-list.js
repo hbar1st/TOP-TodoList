@@ -49,6 +49,12 @@ class ProjectList {
         return this.projects[id];
     }
 
+    getAllTasksByDate(utcdate) {
+        return Object.values(this.projects).reduce((acc, el) => {
+            return { ...acc, ...el.getTasksByDate(utcdate) };
+        }, {});
+    }
+
     deleteProject(id) {
         delete this.projects[id];
         this.storage.setItem("projects", this.projects);

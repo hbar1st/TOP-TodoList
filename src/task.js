@@ -1,5 +1,6 @@
 import taskImage from "./assets/task.svg";
 import completedTaskImage from "./assets/task-completed.svg";
+import { UTCDate } from "@date-fns/utc";
 import { format } from "date-fns";
 
 
@@ -17,7 +18,7 @@ export const priorityStrings = { 0: "low", 1: "medium", 2: "high" };
  * @param {*} priority an index number 0 for low, 1 for medium and 2 for high
  * @returns 
  */
-function createTask(name, color, description, dueDate = `${new Date()}`, priority = priorityStrings["2"], completed = false, id = `${Date.now()}`) {
+function createTask(name, color, description, dueDate = `${new UTCDate()}`, priority = priorityStrings["2"], completed = false, id = `${Date.now()}`) {
 
     function toggleDone() {
         this.completed = !this.completed;
@@ -35,8 +36,9 @@ function createTask(name, color, description, dueDate = `${new Date()}`, priorit
     }
 
     function getDueDateStr() {
-        return format(new Date(this.dueDate), "yyyy-MM-dd");
+        return format(new UTCDate(this.dueDate), "yyyy-MM-dd");
     }
+
     function getTaskAltText() {
         if (this.completed) {
             return "Task marked as done";
@@ -57,7 +59,7 @@ function createTask(name, color, description, dueDate = `${new Date()}`, priorit
 }
 
 function reviveTask(taskObj) {
-    const date = (taskObj.dueDate == "") ? "" : new Date(taskObj.dueDate);
+    const date = (taskObj.dueDate == "") ? "" : new UTCDate(taskObj.dueDate);
     const task = createTask(taskObj.name, taskObj.color, taskObj.description, date, taskObj.priority, taskObj.completed, taskObj.id);
     console.log("reviving task: ", task);
     return task;

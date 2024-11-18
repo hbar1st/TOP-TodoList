@@ -1,9 +1,22 @@
+import { UTCDate } from "@date-fns/utc";
 import { createTask } from "./task.js";
 
 import { format } from "date-fns";
 
-export { AddTaskDialog }
+export { AddTaskDialog, TodayView }
 
+class TodayView {
+    constructor(docObj, projectList, contentPanel) {
+        this.docObj = docObj;
+        this.projectList = projectList;
+        this.contentPanel = contentPanel;
+    }
+
+    displayAllTasks() {
+        const today = new UTCDate();
+        console.log(this.projectList.getAllTasksByDate(today));
+    }
+}
 
 class AddTaskDialog {
 
