@@ -93,9 +93,11 @@ class ContentPanel {
 
                 const today = format(new Date(), "yyyy-MM-dd");
                 dueDateEl.setAttribute("min", today);
+                dueDateEl.setAttribute("data-id", task.id);
                 subDivEl.appendChild(dueDateEl);
             }
             const priorityEl = this.docObj.createElement("select");
+            priorityEl.setAttribute("data-id", task.id);
             const priorityOption1 = this.docObj.createElement("option");
             priorityOption1.setAttribute("value", "0");
             priorityOption1.innerText = priorityStrings["0"];
@@ -161,8 +163,12 @@ class ContentPanel {
         } else if (e.target instanceof HTMLInputElement) {
             console.log("is it the due date span that you clicked? ", e.target.parentElement);
         } else if (e.target instanceof HTMLSelectElement) {
-            console.log("did you click the priority list?");
-            
+            console.log("did you click the priority list? ", e.target.value);
+            const taskId = e.target.getAttribute("data-id");
+
+            const proj = this.projectList.getProj(this.getCurrentProjectId());
+            proj.getTask(taskId).priority = e.target.value;
+
         }
         //update the storage
         this.projectList.updateStorage();
@@ -190,6 +196,7 @@ class ContentPanel {
             this.currProjEl = this.docObj.querySelector("#content-panel>header span");
             this.currProjEl.innerText = proj.name;
             this.currProjEl.style.borderBottom = `3px solid ${proj.color}`;
+            this.contentEl.style.background = `linear-gradient(45deg, transparent 0%, transparent 94%, ${proj.color} 94%, ${proj.color} 94.5%, transparent 94.5%, transparent 94.5%, gray 95%, ${proj.color} 95%, ${proj.color} 100%`;
             this.currProjNameEl.innerText = proj.name;
         }
         if (id != 0) { // this is not the default project so display delete image
