@@ -61,7 +61,7 @@ class TodayView {
             for (const id in tasksByProj[projId]) {
                 const task = tasksByProj[projId][id];
 
-                this.contentPanel.displayTasksHelper(task, projId.id)
+                this.contentPanel.displayTasksHelper(task, projId, true)
             }
         }
     }
@@ -177,11 +177,9 @@ class EditTaskDialog extends TaskDialog {
 
             const selectedProject = this.projectList.getProj(project);
 
-            if (currentProjectId !== selectedProject.id) {
-                selectedProject.addTask(newTask);
-                const oldProject = this.projectList.getProj(taskProjIdEl);
-                oldProject.delTask(taskObj);
-            }
+            const oldProject = this.projectList.getProj(taskProjIdEl);
+            oldProject.delTask(taskObj);
+            selectedProject.addTask(newTask);
             this.contentPanel.displayProject(selectedProject.id);
             this.projectList.updateStorage();
         }

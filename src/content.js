@@ -125,11 +125,13 @@ class ContentPanel {
         this.projectList.updateStorage();
     }
 
-    displayTasksHelper(task, projId) {
-        console.log(projId);
+    displayTasksHelper(task, projId, isInViewPane) {
+        const projObj = this.projectList.getProj(projId);
         const divEl = this.docObj.createElement("div");
         divEl.setAttribute("data-id", task.id);
         divEl.setAttribute("data-proj", projId);
+        divEl.style.background = isInViewPane ? `linear-gradient(20deg, transparent, transparent 95%, ${projObj.color} 95%, ${projObj.color} 100%)`
+            : "transparent";
 
         const circleImg = task.getTaskCircleImg();
         const circleEl = this.docObj.createElement("img");
