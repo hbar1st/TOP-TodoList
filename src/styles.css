@@ -208,7 +208,7 @@ main {
         position: relative;
         left: .4rem;
         padding-right: 5px;
-        max-width: calc(100% - 3rem);
+        max-width: calc(100% - 22px);
         width: auto;
 
         ::marker {

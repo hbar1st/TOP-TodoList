@@ -27,6 +27,7 @@ function createTask(name, color, description, dueDate = `${new UTCDate()}`, prio
     function getPriorityStr() {
         return this.priority;
     }
+    
     function pastDue() {
         return false; // TODO figure out if the task is past due
     }

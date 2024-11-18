@@ -144,7 +144,7 @@ class EditTaskDialog extends TaskDialog {
     loadFields(taskObj, projObj) { //loads the current task's values into the fields
         this.getNameEl().value = taskObj.name;
         this.getColorEl().value = taskObj.color;
-        this.getDescEl().value = taskObj.desc ?? "";
+        this.getDescEl().value = taskObj.description ?? "";
         this.getPriorityEl().value = taskObj.priority;
         this.getDueDateEl().value = taskObj.dueDate;
 
@@ -161,6 +161,7 @@ class EditTaskDialog extends TaskDialog {
         const taskIdEl = this.docObj.querySelector(`${this.parentSelector} #hidden-span`).getAttribute("data-id");
         const taskProjIdEl = this.docObj.querySelector(`${this.parentSelector} #hidden-span`).getAttribute("data-proj");
         console.log("trying to edit a task (taskid, projid): ", taskIdEl, taskProjIdEl);
+
         const nameEl = this.docObj.querySelector(`${this.parentSelector} #task-name`);
         const color = this.docObj.querySelector(`${this.parentSelector} #task-color`).value;
         const priority = this.docObj.querySelector(`${this.parentSelector} #task-priority`).value;
@@ -173,15 +174,13 @@ class EditTaskDialog extends TaskDialog {
             const newTask = (priority === "") ? createTask(nameEl.value, color, desc, dueDate, false, taskIdEl)
                 : createTask(nameEl.value, color, desc, dueDate, priority, false, taskIdEl);
 
-            const currentProjectId = this.contentPanel.getCurrentProjectId();
-
             const selectedProject = this.projectList.getProj(project);
 
             const oldProject = this.projectList.getProj(taskProjIdEl);
             oldProject.delTask(taskObj);
             selectedProject.addTask(newTask);
-            this.contentPanel.displayProject(selectedProject.id);
             this.projectList.updateStorage();
+            this.contentPanel.displayProject(selectedProject.id);
         }
     }
 }

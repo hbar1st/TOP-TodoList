@@ -111,9 +111,10 @@ class ContentPanel {
         } else if (e.target instanceof HTMLDivElement || e.target instanceof HTMLSpanElement) {
             const taskId = e.target.getAttribute("data-id") ?? e.target.parentElement.getAttribute("data=id");
             const projId = e.target.getAttribute("data-proj") ?? e.target.parentElement.getAttribute("data-proj");
-            console.log("create a dialog to show this task, project:", taskId, projId)
-            this.editTaskDialog.show(this.projectList.getProj(projId).getTask(taskId), this.projectList.getProj(projId));
-            this.projectList.updateStorage();
+            if (taskId && projId) {
+                this.editTaskDialog.show(this.projectList.getProj(projId).getTask(taskId), this.projectList.getProj(projId));
+                this.projectList.updateStorage();
+            }
         } else if (e.type === "input" && e.target instanceof HTMLInputElement) {
             console.log("is it the due date span that you clicked? ", e.target.value);
             const d = new UTCDate(e.target.value);
