@@ -1,7 +1,8 @@
 import taskImage from "./assets/task.svg";
 import completedTaskImage from "./assets/task-completed.svg";
 import { format } from "date-fns/format";
-import { isAfter, parseJSON } from "date-fns";
+import { isAfter } from "date-fns";
+import { UTCDate } from "@date-fns/utc";
 
 export { createTask, reviveTask, getDefaultTask };
 
@@ -30,7 +31,7 @@ function createTask(name, color, description, dueDate = `${(new Date()).toUTCStr
     }
 
     function isPastDue() {
-        if (getDueDateShort()) {
+        if (this.getDueDateStr()) {
             const today = format(new Date(), "yyyy-MM-dd");
             const dueDate = this.getDueDateShort();
             console.log("compare today: ", today, " with due date: ", dueDate);
@@ -50,10 +51,10 @@ function createTask(name, color, description, dueDate = `${(new Date()).toUTCStr
     }
 
     function getDueDateShort() {
-        return this?.dueDate ? format(new Date(this.getDueDateStr()), "yyyy-MM-dd") : "";
+        return this?.dueDate ? format(new UTCDate(this.getDueDateStr()), "yyyy-MM-dd") : "";
     }
     function getDueDateStr() {
-        return this.dueDate; //stored internally as utc string //format(new Date(this.dueDate), "yyyy-MM-dd"); // use local time for strings
+        return this.dueDate; //stored internally as utc string 
     }
 
     function setDueDateStr(str) {

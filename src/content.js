@@ -65,7 +65,6 @@ class ContentPanel {
     }
 
     displayTodaysTasks = (e) => {
-        console.log("attempt to get today's tasks for display");
         this.currentProjectId = null; // it has to be null when we're in a view.
         (new TodayView(this.docObj, this.projectList, this, this.contentEl, this.taskListEl)).display();
     }
@@ -138,7 +137,6 @@ class ContentPanel {
                 this.projectList.updateStorage();
             }
         } else if (e.type === "input" && e.target instanceof HTMLInputElement) {
-            console.log("is it the due date span that you clicked? ", e.target.value);
             proj.getTask(taskId).setDueDateStr(e.target.value); //store in UTC
         } else if (e.target instanceof HTMLSelectElement) {
             proj.getTask(taskId).priority = e.target.value;
@@ -198,8 +196,9 @@ class ContentPanel {
         if (task.hasDueDate()) {
             const dueDateEl = this.docObj.createElement("input");
             dueDateEl.setAttribute("type", "date");
-            //console.log("setting the dueDateEl value to whatever task.getDueDateStr gives? ", task.getDueDateStr(), " but it should be ", task.dueDate);
+            console.log("setting the dueDateEl value to whatever task.getDueDateShort gives? ", task.getDueDateShort(), " but it should be ", task.getDueDateStr());
             dueDateEl.value = task.getDueDateShort(); //`${task.getDueDateStr()}`;
+            console.log(new Date(task.getDueDateStr()));
             dueDateEl.style.borderColor = `${task.color}`;
 
             const today = format(new Date(), "yyyy-MM-dd"); //use local time for the UI
