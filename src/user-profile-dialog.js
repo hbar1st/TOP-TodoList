@@ -18,7 +18,7 @@ class UserProfileDialog {
         this.darkThemeBtn.addEventListener("click", this.switchTheme.bind(this))
     }
 
-    updateProfile(e) {
+    updateProfile() {
         const userNameEl = this.docObj.querySelector("#user-name");
         this.user.name = userNameEl.value;
         const userDialog = this.docObj.querySelector("#user-profile-modal");
@@ -26,11 +26,16 @@ class UserProfileDialog {
         userDialog.close();
     }
 
+    loadProfile() {
+        const userNameEl = this.docObj.querySelector("#user-name");
+        userNameEl.value = this.user.name;
+    }
+
     switchTheme(e) {
         const bodyEl = this.docObj.querySelector("body");
         const mainEl = this.docObj.querySelector("main");
-        if (e.target.id === "dark") {
-            console.log(e.target.id);
+        const theme = (e && e.target.id) ?? this.user.theme;
+        if (theme === "dark") {
             bodyEl.style.background =
                 "repeating-conic-gradient(rgb(57, 1, 14) 0%,rgb(214, 219, 210) 15%,rgb(57, 1, 14) 33%)";
             mainEl.style.backgroundColor = "rgb(255 249 243)";
@@ -40,6 +45,6 @@ class UserProfileDialog {
                 "repeating-conic-gradient(rgb(231, 90, 124) 0%,rgb(214, 219, 210) 15%,rgb(231, 90, 124) 33%)";
             mainEl.style.backgroundColor = "rgb(255 246 243)";
         }
-        this.user.theme = e.target.id;
+        this.user.theme = theme;
     }
 }

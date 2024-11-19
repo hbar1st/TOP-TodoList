@@ -69,6 +69,8 @@ class NavPanel {
                 e.target.parentElement.parentElement.parentElement.close();
             })
         });
+        this.userProfileDialog.loadProfile();
+        this.userProfileDialog.switchTheme(null, this.user.theme);
     }
 
     displayProjects() {
