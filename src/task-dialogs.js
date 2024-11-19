@@ -177,7 +177,7 @@ class EditTaskDialog extends TaskDialog {
             const selectedProject = this.projectList.getProj(project);
 
             const oldProject = this.projectList.getProj(taskProjIdEl);
-            oldProject.delTask(taskObj);
+            oldProject.delTask(taskObj.id);
             selectedProject.addTask(newTask);
             this.projectList.updateStorage();
             this.contentPanel.displayProject(selectedProject.id);
