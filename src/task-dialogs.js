@@ -142,8 +142,9 @@ class EditTaskDialog extends TaskDialog {
         this.getDescEl().value = taskObj.description ?? "";
         this.getPriorityEl().value = taskObj.priority;
         console.log("in loadFields I'm setting the due date element's value to : " + taskObj.getDueDateShort() + " but maybe it should be : " + taskObj.getDueDateStr());
-        this.getDueDateEl().value = taskObj.getDueDateShort(); //TODO: is this working yet?
-
+        if (taskObj.getDueDateShort() !== "") {
+            this.getDueDateEl().value = taskObj.getDueDateShort(); //TODO: is this working yet?
+        }
         //create 2 hidden fields with the task id and the project id
         const idSpan = this.docObj.createElement("span");
         idSpan.setAttribute("hidden", "true");
@@ -163,7 +164,7 @@ class EditTaskDialog extends TaskDialog {
         const priority = this.docObj.querySelector(`${this.parentSelector} #task-priority`).value;
         const desc = this.docObj.querySelector(`${this.parentSelector} #task-desc`).value;
 
-        const dueDate = (new Date(this.dueDateEl.value)).toUTCString();
+        const dueDate = this.dueDateEl.value ? (new Date(this.dueDateEl.value)).toUTCString() : "";
         const project = this.docObj.querySelector(`${this.parentSelector} #project-list`).value;
         const validityState = nameEl.validity;
         if (validityState.valid) {
@@ -201,7 +202,7 @@ class AddTaskDialog extends TaskDialog {
         const color = this.docObj.querySelector(`${this.parentSelector} #task-color`).value;
         const priority = this.docObj.querySelector(`${this.parentSelector} #task-priority`).value;
         const desc = this.docObj.querySelector(`${this.parentSelector} #task-desc`).value;
-        const dueDate = (new Date(this.dueDateEl.value)).toUTCString();
+        const dueDate = this.dueDateEl.value ? (new Date(this.dueDateEl.value)).toUTCString() : "";
         const project = this.docObj.querySelector(`${this.parentSelector} #project-list`).value;
         const validityState = nameEl.validity;
         if (validityState.valid) {

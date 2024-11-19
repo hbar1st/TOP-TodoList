@@ -31,7 +31,7 @@ function createTask(name, color, description, dueDate = `${(new Date()).toUTCStr
     }
 
     function isPastDue() {
-        if (this.getDueDateStr()) {
+        if (this.getDueDateStr() && this.getDueDateStr() !== "Invalid Date") {
             const today = format(new Date(), "yyyy-MM-dd");
             const dueDate = this.getDueDateShort();
             console.log("compare today: ", today, " with due date: ", dueDate);
@@ -51,7 +51,7 @@ function createTask(name, color, description, dueDate = `${(new Date()).toUTCStr
     }
 
     function getDueDateShort() {
-        return this?.dueDate ? format(new UTCDate(this.getDueDateStr()), "yyyy-MM-dd") : "";
+        return dueDate ? format(new UTCDate(dueDate), "yyyy-MM-dd") : "";
     }
     function getDueDateStr() {
         return this.dueDate; //stored internally as utc string 
