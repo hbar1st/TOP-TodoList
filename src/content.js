@@ -138,6 +138,10 @@ class ContentPanel {
             }
         } else if (e.type === "input" && e.target instanceof HTMLInputElement) {
             proj.getTask(taskId).setDueDateStr(e.target.value); //store in UTC
+            console.log("I did a quick edit on the due date to :", e.target.value);
+            if (this.getCurrentProjectId() === null) {
+                this.refreshDisplay(); //refresh if we are in a view like the Today view since dates can affect this view
+            }
         } else if (e.target instanceof HTMLSelectElement) {
             proj.getTask(taskId).priority = e.target.value;
         }
