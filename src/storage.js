@@ -53,7 +53,8 @@ class WebStorage {
             return this.storage[key];
         } else {
             const ret = this.storage.getItem(key);
-            return ret ? JSON.parse(ret) : ret;
+            const obj = ret ? JSON.parse(ret) : ret;
+            return obj;
         }
     }
 

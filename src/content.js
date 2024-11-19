@@ -6,8 +6,7 @@ import { EditProjectDialog } from "./project-dialogs.js";
 import { EditTaskDialog } from "./task-dialogs.js"
 import { TodayView } from "./task-dialogs.js";
 import { priorityStrings } from "./task.js";
-import { format } from "date-fns";
-import { UTCDate } from "@date-fns/utc";
+import { format } from "date-fns/format";
 import { el } from "date-fns/locale";
 
 
@@ -52,7 +51,7 @@ class ContentPanel {
             if (!this.projectDialog) {
                 this.projectDialog = new EditProjectDialog(this.docObj, this.projectList, this, this.navPanel);
             }
-            debugger;
+
             this.projectDialog.show();
         });
 
@@ -77,7 +76,6 @@ class ContentPanel {
 
         for (const id in tasks) {
             const task = tasks[id];
-
             this.displayTasksHelper(task, this.getCurrentProjectId());
         }
     }
@@ -141,8 +139,7 @@ class ContentPanel {
             }
         } else if (e.type === "input" && e.target instanceof HTMLInputElement) {
             console.log("is it the due date span that you clicked? ", e.target.value);
-            const d = new UTCDate(e.target.value);
-            proj.getTask(taskId).dueDate = d; //store in UTC
+            proj.getTask(taskId).setDueDateStr(e.target.value); //store in UTC
         } else if (e.target instanceof HTMLSelectElement) {
             proj.getTask(taskId).priority = e.target.value;
         }
@@ -201,11 +198,12 @@ class ContentPanel {
         if (task.hasDueDate()) {
             const dueDateEl = this.docObj.createElement("input");
             dueDateEl.setAttribute("type", "date");
-            dueDateEl.value = `${task.getDueDateStr()}`;
+            //console.log("setting the dueDateEl value to whatever task.getDueDateStr gives? ", task.getDueDateStr(), " but it should be ", task.dueDate);
+            dueDateEl.value = task.getDueDateShort(); //`${task.getDueDateStr()}`;
             dueDateEl.style.borderColor = `${task.color}`;
 
             const today = format(new Date(), "yyyy-MM-dd"); //use local time for the UI
-            dueDateEl.setAttribute("min", today);
+            if (!task.hasDueDate()) dueDateEl.setAttribute("min", today);
             dueDateEl.setAttribute("data-id", task.id);
             dueDateEl.setAttribute("data-proj", projId);
             subDivEl.appendChild(dueDateEl);
@@ -288,8 +286,8 @@ class ContentPanel {
             }
         }
 
+        this.currentProjectId = id; //this has to happen before we display the tasks!!!
         this.displayTasks(proj);
-        this.currentProjectId = id;
     }
 
 

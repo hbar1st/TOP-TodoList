@@ -1,10 +1,7 @@
 import taskImage from "./assets/task.svg";
 import completedTaskImage from "./assets/task-completed.svg";
-import { UTCDate, utc } from "@date-fns/utc";
-
-
-import { format, isAfter } from "date-fns";
-
+import { format } from "date-fns/format";
+import { isAfter, parseJSON } from "date-fns";
 
 export { createTask, reviveTask, getDefaultTask };
 
@@ -22,7 +19,7 @@ export const priorityStrings = { 0: "low", 1: "medium", 2: "high" };
  * @param {*} id 
  * @returns 
  */
-function createTask(name, color, description, dueDate = `${new UTCDate()}`, priority = "2", completed = false, id = `${Date.now()}`) {
+function createTask(name, color, description, dueDate = `${(new Date()).toUTCString()}`, priority = "2", completed = false, id = `${Date.now()}`) {
 
     function toggleDone() {
         this.completed = !this.completed;
@@ -33,19 +30,39 @@ function createTask(name, color, description, dueDate = `${new UTCDate()}`, prio
     }
 
     function isPastDue() {
-        const today = format(new UTCDate(), "yyyy-MM-dd");
-        // return isAfter(new UTCDate(this.dueDate), today);
-        const utcDueDate = format(new UTCDate(this.dueDate), "yyyy-MM-dd");
-        console.log("compare utc today: ", today, " with utc due date: ", utcDueDate);
-        return isAfter(today, utcDueDate);
+        if (getDueDateShort()) {
+            const today = format(new Date(), "yyyy-MM-dd");
+            const dueDate = this.getDueDateShort();
+            console.log("compare today: ", today, " with due date: ", dueDate);
+            return isAfter(today, dueDate);
+        } else {
+            return false;
+        }
     }
 
     function hasDueDate() {
         return (this.dueDate !== "");
     }
 
+    function setDueDate(dateObj) {
+        this.dueDate = (new dateStr).toUTCString();
+        dueDate = this.dueDate;
+    }
+
+    function getDueDateShort() {
+        return this?.dueDate ? format(new Date(this.getDueDateStr()), "yyyy-MM-dd") : "";
+    }
     function getDueDateStr() {
-        return format(new Date(this.dueDate), "yyyy-MM-dd"); // use local time for strings
+        return this.dueDate; //stored internally as utc string //format(new Date(this.dueDate), "yyyy-MM-dd"); // use local time for strings
+    }
+
+    function setDueDateStr(str) {
+        if (str) {
+            this.dueDate = (new Date(str)).toUTCString();   //use local format    
+        } else {
+            this.dueDate = "";
+        }
+        dueDate = this.dueDate;
     }
 
     function getTaskAltText() {
@@ -64,13 +81,15 @@ function createTask(name, color, description, dueDate = `${new UTCDate()}`, prio
             return `${taskImage}`;
         }
     }
-    return { name, color, description, dueDate, priority, completed, id, toggleDone, isPastDue, getPriorityStr, hasDueDate, getDueDateStr, getTaskAltText, getTaskCircleImg };
+    return { name, color, description, dueDate, priority, completed, id, toggleDone, isPastDue, getPriorityStr, getDueDateShort, setDueDate, setDueDateStr, hasDueDate, getDueDateStr, getTaskAltText, getTaskCircleImg };
 }
 
 function reviveTask(taskObj) {
-    const date = (taskObj.dueDate == "") ? "" : new UTCDate(taskObj.dueDate);
+    //const date = (taskObj.dueDate == "") ? "" : new Date(taskObj.dueDate); //my old way of reviving the date
+    const date = (taskObj.dueDate === "") ? "" : (new Date(taskObj.dueDate)).toUTCString(); //parseJSON(taskObj.dueDate).toUTCString(); //TODO REFACTOR THIS!!!
+    console.log("reviveTask is setting date to : ", date, " but originally it was: ",);
     const task = createTask(taskObj.name, taskObj.color, taskObj.description, date, taskObj.priority, taskObj.completed, taskObj.id);
-    console.log("reviving task: ", task);
+    console.log("reviving duedate from: ", taskObj.dueDate, " to ", task.dueDate);
     return task;
 }
 

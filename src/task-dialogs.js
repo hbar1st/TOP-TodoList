@@ -1,11 +1,10 @@
 import delTaskImage from "./assets/remove-task.svg";
 
-import { UTCDate } from "@date-fns/utc";
 
 import { createTask } from "./task.js";
 import { createProject } from "./project.js";
 
-import { format } from "date-fns";
+import { format } from "date-fns/format";
 
 
 export { AddTaskDialog, EditTaskDialog, TodayView }
@@ -20,7 +19,7 @@ class TodayView {
     }
 
     display() {
-        const today = new UTCDate();
+        const today = new Date();
         const todaysTasksByProj = this.projectList.getAllTasksByDate(today);
 
         this.displayView();
@@ -80,7 +79,6 @@ class TaskDialog {
         this.projectListEl = docObj.querySelector(`${parentSelector} #project-list`);
         this.dueDateEl = this.docObj.querySelector(`${parentSelector} #task-due`)
         const today = format(new Date(), "yyyy-MM-dd");
-        this.dueDateEl.setAttribute("min", today); //use local tie externally
     }
 
     showDialog() {
@@ -143,7 +141,8 @@ class EditTaskDialog extends TaskDialog {
         this.getColorEl().value = taskObj.color;
         this.getDescEl().value = taskObj.description ?? "";
         this.getPriorityEl().value = taskObj.priority;
-        this.getDueDateEl().value = new Date(taskObj.dueDate); //local time display
+        console.log("in loadFields I'm setting the due date element's value to : " + taskObj.getDueDateShort() + " but maybe it should be : " + taskObj.dueDate);
+        this.getDueDateEl().value = taskObj.getDueDateShort(); //TODO: is this working yet?
 
         //create 2 hidden fields with the task id and the project id
         const idSpan = this.docObj.createElement("span");
@@ -163,7 +162,8 @@ class EditTaskDialog extends TaskDialog {
         const color = this.docObj.querySelector(`${this.parentSelector} #task-color`).value;
         const priority = this.docObj.querySelector(`${this.parentSelector} #task-priority`).value;
         const desc = this.docObj.querySelector(`${this.parentSelector} #task-desc`).value;
-        const dueDate = new UTCDate(this.dueDateEl.value);
+
+        const dueDate = (new Date(this.dueDateEl.value)).toUTCString();
         const project = this.docObj.querySelector(`${this.parentSelector} #project-list`).value;
         const validityState = nameEl.validity;
         if (validityState.valid) {
@@ -201,7 +201,7 @@ class AddTaskDialog extends TaskDialog {
         const color = this.docObj.querySelector(`${this.parentSelector} #task-color`).value;
         const priority = this.docObj.querySelector(`${this.parentSelector} #task-priority`).value;
         const desc = this.docObj.querySelector(`${this.parentSelector} #task-desc`).value;
-        const dueDate = new UTCDate(this.dueDateEl.value);
+        const dueDate = (new Date(this.dueDateEl.value)).toUTCString();
         const project = this.docObj.querySelector(`${this.parentSelector} #project-list`).value;
         const validityState = nameEl.validity;
         if (validityState.valid) {
