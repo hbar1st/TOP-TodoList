@@ -52,6 +52,7 @@ class ContentPanel {
             if (!this.projectDialog) {
                 this.projectDialog = new EditProjectDialog(this.docObj, this.projectList, this, this.navPanel);
             }
+            debugger;
             this.projectDialog.show();
         });
 
@@ -123,6 +124,11 @@ class ContentPanel {
                 completedTaskEl.setAttribute("data-id", taskId);
                 completedTaskEl.setAttribute("data-proj", proj.id);
                 imgParentEl.replaceChild(completedTaskEl, e.target);
+                if (task.isPastDue()) {
+                    completedTaskEl.classList.add("past-due")
+                } else {
+                    completedTaskEl.classList.remove("past-due");
+                }
                 this.showTaskDisabled(taskId, imgParentEl, task.completed);
 
             }
@@ -136,7 +142,7 @@ class ContentPanel {
         } else if (e.type === "input" && e.target instanceof HTMLInputElement) {
             console.log("is it the due date span that you clicked? ", e.target.value);
             const d = new UTCDate(e.target.value);
-            proj.getTask(taskId).dueDate = d;
+            proj.getTask(taskId).dueDate = d; //store in UTC
         } else if (e.target instanceof HTMLSelectElement) {
             proj.getTask(taskId).priority = e.target.value;
         }
@@ -159,7 +165,11 @@ class ContentPanel {
 
         circleEl.setAttribute("data-id", task.id);
         circleEl.setAttribute("data-proj", projId);
-
+        if (task.isPastDue()) {
+            circleEl.classList.add("past-due")
+        } else {
+            circleEl.classList.remove("past-due");
+        }
         const taskEl = this.docObj.createElement("div");
         taskEl.classList.add("tooltip");
         const taskImg = this.docObj.createElement("img");
@@ -194,7 +204,7 @@ class ContentPanel {
             dueDateEl.value = `${task.getDueDateStr()}`;
             dueDateEl.style.borderColor = `${task.color}`;
 
-            const today = format(new Date(), "yyyy-MM-dd");
+            const today = format(new Date(), "yyyy-MM-dd"); //use local time for the UI
             dueDateEl.setAttribute("min", today);
             dueDateEl.setAttribute("data-id", task.id);
             dueDateEl.setAttribute("data-proj", projId);

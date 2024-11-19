@@ -42,7 +42,6 @@ class WebStorage {
         } catch (e) {
             if (e instanceof DOMException &&
                 e.name == "QuotaExceededError") {
-                // TODO: throw a new type of error but have to write code to extend Error first
                 return false;
             }
         }

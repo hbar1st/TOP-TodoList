@@ -1,6 +1,6 @@
 import { reviveTask } from "./task";
 import { isSameDay } from "date-fns";
-import { utc } from "@date-fns/utc";
+import { utc, UTCDate } from "@date-fns/utc";
 
 export { createProject, reviveProject, getDefaultProject };
 
@@ -16,7 +16,7 @@ function createProject(name, color, id = `${Date.now()}`, subTasks = {}) {
     const getTasksByDate = (utcdate) => {
         let todaysTasks = {};
         for (const taskId in subTasks) {
-            if (isSameDay(subTasks[taskId].dueDate, utcdate, { in: utc })) {
+            if (isSameDay(new UTCDate(subTasks[taskId].dueDate), utcdate, { in: utc })) {
                 todaysTasks[taskId] = subTasks[taskId];
             }
         }

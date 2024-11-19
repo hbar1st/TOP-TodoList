@@ -1,7 +1,9 @@
 import taskImage from "./assets/task.svg";
 import completedTaskImage from "./assets/task-completed.svg";
-import { UTCDate } from "@date-fns/utc";
-import { format } from "date-fns";
+import { UTCDate, utc } from "@date-fns/utc";
+
+
+import { format, isAfter } from "date-fns";
 
 
 export { createTask, reviveTask, getDefaultTask };
@@ -16,6 +18,8 @@ export const priorityStrings = { 0: "low", 1: "medium", 2: "high" };
  * @param {*} description 
  * @param {*} dueDate 
  * @param {*} priority an index number 0 for low, 1 for medium and 2 for high
+ * @param {*} completed 
+ * @param {*} id 
  * @returns 
  */
 function createTask(name, color, description, dueDate = `${new UTCDate()}`, priority = "2", completed = false, id = `${Date.now()}`) {
@@ -27,9 +31,13 @@ function createTask(name, color, description, dueDate = `${new UTCDate()}`, prio
     function getPriorityStr() {
         return this.priority;
     }
-    
-    function pastDue() {
-        return false; // TODO figure out if the task is past due
+
+    function isPastDue() {
+        const today = format(new UTCDate(), "yyyy-MM-dd");
+        // return isAfter(new UTCDate(this.dueDate), today);
+        const utcDueDate = format(new UTCDate(this.dueDate), "yyyy-MM-dd");
+        console.log("compare utc today: ", today, " with utc due date: ", utcDueDate);
+        return isAfter(today, utcDueDate);
     }
 
     function hasDueDate() {
@@ -37,7 +45,7 @@ function createTask(name, color, description, dueDate = `${new UTCDate()}`, prio
     }
 
     function getDueDateStr() {
-        return format(new UTCDate(this.dueDate), "yyyy-MM-dd");
+        return format(new Date(this.dueDate), "yyyy-MM-dd"); // use local time for strings
     }
 
     function getTaskAltText() {
@@ -56,7 +64,7 @@ function createTask(name, color, description, dueDate = `${new UTCDate()}`, prio
             return `${taskImage}`;
         }
     }
-    return { name, color, description, dueDate, priority, completed, id, toggleDone, getPriorityStr, hasDueDate, getDueDateStr, getTaskAltText, getTaskCircleImg };
+    return { name, color, description, dueDate, priority, completed, id, toggleDone, isPastDue, getPriorityStr, hasDueDate, getDueDateStr, getTaskAltText, getTaskCircleImg };
 }
 
 function reviveTask(taskObj) {
