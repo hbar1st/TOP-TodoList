@@ -10,7 +10,6 @@ class ProjectDialog {
     }
 
     showDialog(projectDialog) {
-        // TODO may need to reset the color field and name field if user clicks more than once to add a project
         projectDialog.showModal();
     }
 
@@ -47,13 +46,11 @@ class AddProjectDialog extends ProjectDialog {
     }
 
     show() {
-        // TODO may need to reset the color field if user clicks more than once to add a project
         this.reset(this.mySelector);
         this.showDialog(this.projectDialog);
     }
 
     addProject(e) {
-        console.log("Trying to add a project: ", e);
         const nameEl = this.getNameEl(this.mySelector);
         const colorEl = this.getColorEl(this.mySelector);
 
@@ -91,13 +88,10 @@ class EditProjectDialog extends ProjectDialog {
     }
 
     show() {
-        // TODO may need to reset the color field if user clicks more than once to add a project
         this.showDialog(this.projectDialog);
     }
 
     editProject(e) {
-        console.log("Trying to edit a project: ", e);
-
         const nameEl = this.docObj.querySelector("#edit-project-modal #proj-name");
         const color = this.docObj.querySelector("#edit-project-modal #proj-color");
         const validityState = nameEl.validity;

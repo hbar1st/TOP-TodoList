@@ -50,8 +50,6 @@ class TodayView {
     }
 
     displayTasks = (tasksByProj) => {
-        //TODO what happens if you delete a task from the Today view???
-        console.log('each task belongs to a different project! and needs a different id!!!');
         this.taskListEl.innerHTML = "";
 
         for (const projId in tasksByProj) {
@@ -141,9 +139,8 @@ class EditTaskDialog extends TaskDialog {
         this.getColorEl().value = taskObj.color;
         this.getDescEl().value = taskObj.description ?? "";
         this.getPriorityEl().value = taskObj.priority;
-        console.log("in loadFields I'm setting the due date element's value to : " + taskObj.getDueDateShort() + " but maybe it should be : " + taskObj.getDueDateStr());
-        if (taskObj.getDueDateShort() !== "") {
-            this.getDueDateEl().value = taskObj.getDueDateShort(); //TODO: is this working yet?
+       if (taskObj.getDueDateShort() !== "") {
+            this.getDueDateEl().value = taskObj.getDueDateShort(); 
         }
         //create 2 hidden fields with the task id and the project id
         const idSpan = this.docObj.createElement("span");
@@ -157,8 +154,6 @@ class EditTaskDialog extends TaskDialog {
     editTask(e) {
         const taskIdEl = this.docObj.querySelector(`${this.parentSelector} #hidden-span`).getAttribute("data-id");
         const taskProjIdEl = this.docObj.querySelector(`${this.parentSelector} #hidden-span`).getAttribute("data-proj");
-        console.log("trying to edit a task (taskid, projid): ", taskIdEl, taskProjIdEl);
-
         const nameEl = this.docObj.querySelector(`${this.parentSelector} #task-name`);
         const color = this.docObj.querySelector(`${this.parentSelector} #task-color`).value;
         const priority = this.docObj.querySelector(`${this.parentSelector} #task-priority`).value;

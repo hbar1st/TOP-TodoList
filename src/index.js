@@ -8,10 +8,8 @@ const todoList = function (windowObj) {
     const storage = new WebStorage(windowObj);
     let userObj = storage.getItem("name");
     if (userObj === null) {
-        // save this person's profile and display the app?
         userObj = createUser("user");
         storage.setItem("name", userObj);
-
     }
 
     // load existing user's todo lists
@@ -28,17 +26,3 @@ const todoList = function (windowObj) {
 }
 
 todoList(window); //let's go
-
-//it can also have its own due date (and if any sub-task has a later todo, we'd need to highlight that somehow)
-
-//user can change color (but not if project has color)
-
-//users can select from a list of projects to assign a task to (or re-assign to another project)
-//user can do bulk actions? (delete? or mark complete?)
-
-//user can change the due date of the project
-//which may affect any sub-tasks that are out of range 
-
-//user can change their name
-
-// i need a way to migrate a todo from one project to another

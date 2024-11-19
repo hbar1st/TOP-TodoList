@@ -89,15 +89,11 @@ class ContentPanel {
         for (const el in allTaskElements) {
             if (allTaskElements[el] instanceof Element) {
                 allTaskElements[el].disabled = flag
-            } else {
-                console.log("not an element: ", allTaskElements[el])
-            }
+            } 
         }
     }
 
     taskClicked = (e) => {
-        console.log("you just clicked on : ", e.target, e.type);
-
         const taskId = e.target.getAttribute("data-id") ?? e.target.parentElement.getAttribute("data-id");
         const taskCurrentProjectId = this.getCurrentProjectId();
 
@@ -138,7 +134,6 @@ class ContentPanel {
             }
         } else if (e.type === "input" && e.target instanceof HTMLInputElement) {
             proj.getTask(taskId).setDueDateStr(e.target.value); //store in UTC
-            console.log("I did a quick edit on the due date to :", e.target.value);
             if (this.getCurrentProjectId() === null) {
                 this.refreshDisplay(); //refresh if we are in a view like the Today view since dates can affect this view
             }
@@ -200,9 +195,7 @@ class ContentPanel {
         if (task.hasDueDate()) {
             const dueDateEl = this.docObj.createElement("input");
             dueDateEl.setAttribute("type", "date");
-            console.log("setting the dueDateEl value to whatever task.getDueDateShort gives? ", task.getDueDateShort(), " but it should be ", task.getDueDateStr());
-            dueDateEl.value = task.getDueDateShort(); //`${task.getDueDateStr()}`;
-            console.log(new Date(task.getDueDateStr()));
+            dueDateEl.value = task.getDueDateShort(); 
             dueDateEl.style.borderColor = `${task.color}`;
 
             const today = format(new Date(), "yyyy-MM-dd"); //use local time for the UI

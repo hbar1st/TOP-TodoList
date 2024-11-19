@@ -20,7 +20,7 @@ class NavPanel {
         this.projectList = projectList;
         this.docObj = docObj;
         this.contentPanel = new ContentPanel(projectList, docObj, this);
-        this.userEl = this.docObj.querySelector(".user-name");
+        this.userEl = this.docObj.querySelector(".user-name-area");
         this.addTaskBtn = this.docObj.querySelector("#add-task>button");
         this.todayTaskBtn = this.docObj.querySelector("#today-task>button");
         this.projectsListEl = this.docObj.querySelector(".projects>ul");
@@ -46,14 +46,21 @@ class NavPanel {
         this.projectsListEl.addEventListener("click", this.dispatchDisplay);
     }
 
+    updateProfileName(name) {
+        const nameEl = this.docObj.querySelector("#nav-user-name");
+        nameEl.innerText = name;
+    }
+
     initDisplay() {
         const nameEl = this.docObj.createElement("h2");
+        nameEl.setAttribute("id", "nav-user-name");
         nameEl.textContent = this.user.name;
         const accountImg = this.docObj.createElement("img");
         accountImg.setAttribute("src", `${userImage}`);
         accountImg.setAttribute("alt", "account icon");
         accountImg.addEventListener("click", () => {
             const userDialog = this.docObj.querySelector("#user-profile-modal");
+            this.userProfileDialog.loadProfile();
             userDialog.showModal();
         });
         this.userEl.appendChild(accountImg);

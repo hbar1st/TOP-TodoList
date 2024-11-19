@@ -34,7 +34,6 @@ function createTask(name, color, description, dueDate = `${(new Date()).toUTCStr
         if (this.getDueDateStr() && this.getDueDateStr() !== "Invalid Date") {
             const today = format(new Date(), "yyyy-MM-dd");
             const dueDate = this.getDueDateShort();
-            console.log("compare today: ", today, " with due date: ", dueDate);
             return isAfter(today, dueDate);
         } else {
             return false;
@@ -86,11 +85,8 @@ function createTask(name, color, description, dueDate = `${(new Date()).toUTCStr
 }
 
 function reviveTask(taskObj) {
-    //const date = (taskObj.dueDate == "") ? "" : new Date(taskObj.dueDate); //my old way of reviving the date
-    const date = (taskObj.dueDate === "") ? "" : (new Date(taskObj.dueDate)).toUTCString(); //parseJSON(taskObj.dueDate).toUTCString(); //TODO REFACTOR THIS!!!
-    console.log("reviveTask is setting date to : ", date, " but originally it was: ",);
+    const date = (taskObj.dueDate === "") ? "" : (new Date(taskObj.dueDate)).toUTCString(); //TODO REFACTOR THIS!!!
     const task = createTask(taskObj.name, taskObj.color, taskObj.description, date, taskObj.priority, taskObj.completed, taskObj.id);
-    console.log("reviving duedate from: ", taskObj.dueDate, " to ", task.dueDate);
     return task;
 }
 

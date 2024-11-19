@@ -19,16 +19,17 @@ class UserProfileDialog {
     }
 
     updateProfile() {
-        const userNameEl = this.docObj.querySelector("#user-name");
-        this.user.name = userNameEl.value;
+        const userNameInputEl = this.docObj.querySelector("#user-name");
+        this.user.name = userNameInputEl.value;
         const userDialog = this.docObj.querySelector("#user-profile-modal");
+        this.navPanel.updateProfileName(userNameInputEl.value);
         this.navPanel.updateStorage();
         userDialog.close();
     }
 
     loadProfile() {
-        const userNameEl = this.docObj.querySelector("#user-name");
-        userNameEl.value = this.user.name;
+        const userNameInputEl = this.docObj.querySelector("#user-name");
+        userNameInputEl.value = this.user.name;
     }
 
     switchTheme(e) {

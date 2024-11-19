@@ -55,7 +55,6 @@ function reviveProject(projObj) {
         tasks[taskKey] = reviveTask(projObj.subTasks[taskKey]);
     }
     const proj = createProject(projObj.name, projObj.color, Number(projObj.id), tasks);
-    console.log("reviving: ", proj);
     return proj;
 }
 

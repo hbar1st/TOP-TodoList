@@ -10,9 +10,7 @@ class ProjectList {
         this.projects = {};
         this.storage = storage;
         if (projectStrings) {
-            console.log({ projectStrings });
             for (const projKey in projectStrings) {
-                console.log(projectStrings[projKey]);
                 this.projects[projKey] = reviveProject(projectStrings[projKey]);
             }
         } else {

@@ -227,7 +227,7 @@ main {
 
 }
 
-.user-name,
+.user-name-area,
 .projects>ul {
     display: flex;
     gap: 5px;
